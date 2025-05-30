@@ -17,7 +17,6 @@ import json
 from urllib.parse import urlencode
 from django.core.paginator import Paginator
 from django.core.exceptions import PermissionDenied
-from django_ratelimit.decorators import ratelimit
 from django.views.decorators.csrf import csrf_protect
 from axes.helpers import get_client_ip_address
 from django.utils.timezone import now
