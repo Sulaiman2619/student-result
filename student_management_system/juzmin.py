@@ -135,7 +135,7 @@ JAZZMIN_SETTINGS = {
     "changeform_format_overrides": {"auth.user": "collapsible", "auth.group": "vertical_tabs"},
     # Add a language dropdown into the admin
     "language_chooser": True,
-    "icons": {
+  "icons": {
         "students.Student": "fas fa-user-graduate",  # ไอคอนสำหรับโมเดลนักเรียน
         "students.Father": "fas fa-male",           # ไอคอนสำหรับบิดา
         "students.Mother": "fas fa-female",         # ไอคอนสำหรับมารดา
