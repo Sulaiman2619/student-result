@@ -12,12 +12,11 @@ services:
     env_file:
       - .env
 
-    postgrest:
-      image: postgrest/postgrest
-      container_name: postgrest
-      ports:
-        - "3000:3000"
-      volumes:
-        - ./postgrest.conf:/etc/postgrest.conf
-      user: "0"  # 👈 เพิ่มบรรทัดนี้เพื่อใช้ root
-
+  postgrest:
+    image: postgrest/postgrest
+    container_name: postgrest
+    ports:
+      - "3000:3000"
+    volumes:
+      - ./postgrest.conf:/etc/postgrest.conf
+    user: "0"  # ✅ เพิ่มเพื่อแก้ปัญหา UID 1000
