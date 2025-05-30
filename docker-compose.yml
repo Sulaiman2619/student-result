@@ -20,12 +20,13 @@ services:
     networks:
       - default
 
-  nginx:
+   nginx:
     image: nginx:alpine
     container_name: nginx
     volumes:
       - ./nginx.conf:/etc/nginx/conf.d/default.conf
       - ./media:/app/media           # ให้ nginx เห็น media folder
+      - ./staticfiles:/app/staticfiles  # ✅ เพิ่มบรรทัดนี้
     ports:
       - "80:80"
     depends_on:
