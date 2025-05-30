@@ -1,0 +1,49 @@
+{% load static tailwind_tags %}
+{% tailwind_css %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" href="{% static 'images/logo.ico' %}" type="image/x-icon">
+    <title>ขัดข้องภายในระบบ</title>
+        <style>
+            @keyframes fade-in {
+              0% { opacity: 0; transform: scale(0.95); }
+              100% { opacity: 1; transform: scale(1); }
+            }
+            @keyframes shake {
+              0%, 100% { transform: rotate(0deg); }
+              25% { transform: rotate(2deg); }
+              50% { transform: rotate(-2deg); }
+              75% { transform: rotate(2deg); }
+            }
+            .animate-fade-in {
+              animation: fade-in 0.6s ease-out;
+            }
+            .animate-shake {
+              animation: shake 1.2s ease-in-out infinite;
+            }
+            </style>
+</head>
+<body>
+    <div class="min-h-screen flex items-center justify-center bg-gradient-to-br from-gray-100 to-gray-300 px-4">
+        <div class="max-w-lg w-full text-center bg-white shadow-xl rounded-2xl p-10 border border-gray-300 animate-fade-in">
+            <!-- Emoji Animated -->
+            <div class="text-[6rem] animate-shake">🛠️</div>
+    
+            <h1 class="text-6xl font-extrabold text-gray-700 mt-4">500</h1>
+            <h2 class="text-2xl font-semibold text-gray-800 mt-2">ขัดข้องภายในระบบ</h2>
+            <p class="text-gray-600 mt-3">ระบบเกิดข้อผิดพลาด กรุณาลองใหม่ภายหลัง</p>
+    
+            <a href="{% url 'home' %}" class="mt-6 inline-block bg-gray-700 text-white px-6 py-3 rounded-lg shadow hover:bg-black transition-transform transform hover:scale-105 duration-300">
+                ← กลับหน้าหลัก
+            </a>
+        </div>
+    </div>
+    
+
+    
+</body>
+</html>

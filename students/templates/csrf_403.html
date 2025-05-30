@@ -1,0 +1,48 @@
+{% load static tailwind_tags %}
+{% tailwind_css %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" href="{% static 'images/logo.ico' %}" type="image/x-icon">
+    <title>CSRF Verification Failed</title>
+    <style>
+        @keyframes fade-in {
+          0% { opacity: 0; transform: scale(0.95); }
+          100% { opacity: 1; transform: scale(1); }
+        }
+        @keyframes wiggle {
+          0%, 100% { transform: rotate(-2deg); }
+          50% { transform: rotate(2deg); }
+        }
+        .animate-fade-in {
+          animation: fade-in 0.6s ease-out;
+        }
+        .animate-wiggle {
+          animation: wiggle 1.5s ease-in-out infinite;
+        }
+        </style>
+</head>
+<body>
+    <div class="min-h-screen flex items-center justify-center bg-gradient-to-br from-orange-50 to-orange-100 px-4">
+        <div class="max-w-lg w-full text-center bg-white shadow-xl rounded-2xl p-10 border border-orange-300 animate-fade-in">
+            <!-- Emoji Animated -->
+            <div class="text-[5rem] animate-wiggle text-orange-500">🧪</div>
+    
+            <h1 class="text-3xl md:text-4xl font-extrabold text-orange-600 mt-4">CSRF Verification Failed</h1>
+            <p class="text-gray-700 mt-4">
+                ระบบไม่สามารถยืนยันความถูกต้องของคำร้องขอได้<br>
+                กรุณากลับไปหน้าก่อนหน้า แล้วลองใหม่อีกครั้ง
+            </p>
+    
+            <a href="{% url 'home' %}" class="mt-6 inline-block bg-orange-500 text-white px-6 py-3 rounded-lg shadow hover:bg-orange-600 transition-transform transform hover:scale-105 duration-300">
+                ← กลับหน้าหลัก
+            </a>
+        </div>
+    </div>
+    
+   
+</body>
+</html>
