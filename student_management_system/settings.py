@@ -74,6 +74,8 @@ INSTALLED_APPS = [
     "students",
     'tailwind',
     'theme',
+    'import_export',
+    'axes',
 ]
 
 REST_FRAMEWORK = {
@@ -166,16 +168,18 @@ AUTHENTICATION_BACKENDS = [
 
 LANGUAGE_CODE = "th"
 
-TIME_ZONE = "UTC"
+TIME_ZONE = "Asia/Bangkok"  # เปลี่ยนจาก UTC เป็นเวลาประเทศไทย
 
 USE_I18N = True
 
-USE_TZ = True
+USE_L10N = True  # ควรเปิดเพื่อให้ใช้รูปแบบวันที่/เวลาแบบท้องถิ่น
+
+USE_TZ = True  # ใช้เวลาแบบ timezone-aware
+
 
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/4.2/howto/static-files/
-import os
 # Static files
 STATIC_URL = '/static/'
 STATICFILES_DIRS = [os.path.join(BASE_DIR, 'static')]
@@ -186,6 +190,17 @@ STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')  # <--- จุดสำค�
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
+# AXES CONFIG
+AXES_FAILURE_LIMIT = 10
+AXES_COOLOFF_TIME = 5  # นาที
+AXES_RESET_ON_SUCCESS = True
+
+AXES_ONLY_USER_FAILURES = False
+AXES_LOCK_OUT_BY_COMBINATION_USER_AND_IP = False
+AXES_USE_USER_AGENT = False
+AXES_LOCKOUT_URL = None
+
+AXES_LOCKOUT_CALLABLE = 'students.utils.axes_custom_lockout_response'  # ถ้ามี
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.2/ref/settings/#default-auto-field
