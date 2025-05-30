@@ -218,7 +218,7 @@ def Home(request):
     elif user_type in ['teacher', 'superuser']:
         
         # Get student statistics
-        students = Student.objects.filter(delete_status='not_deleted')
+        students = Student.objects.all()
         male_students = students.filter(gender='ชาย').count()
         female_students = students.filter(gender='หญิง').count()
         orphans = students.filter(special_status='เด็กกำพร้า').count()
