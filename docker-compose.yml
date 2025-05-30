@@ -7,13 +7,27 @@ services:
     command: >
       sh -c "python manage.py makemigrations &&
              python manage.py migrate &&
-             python manage.py runserver 0.0.0.0:8000"
+             gunicorn ticonsports.wsgi:application --bind 0.0.0.0:8000"
     volumes:
       - .:/app
-    ports:
-      - "8000:8000"
+      - ./media:/app/media    # ให้ Django มี media path ด้วย
+    expose:
+      - "8000"
     env_file:
       - .env
+    networks:
+      - default
+
+  nginx:
+    image: nginx:alpine
+    container_name: nginx
+    volumes:
+      - ./nginx.conf:/etc/nginx/conf.d/default.conf
+      - ./media:/app/media           # ให้ nginx เห็น media folder
+    ports:
+      - "80:80"
+    depends_on:
+      - web
     networks:
       - default
 
