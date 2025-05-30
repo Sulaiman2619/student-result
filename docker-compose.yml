@@ -5,9 +5,9 @@ services:
     build: .
     container_name: django_app
     command: >
-      sh -c "python manage.py makemigrations &&
-             python manage.py migrate &&
-             gunicorn ticonsports.wsgi:application --bind 0.0.0.0:8000"
+        sh -c "python manage.py makemigrations &&
+        python manage.py migrate &&
+        gunicorn student_management_system.wsgi:application --bind 0.0.0.0:8000"
     volumes:
       - .:/app
       - ./media:/app/media    # ให้ Django มี media path ด้วย
