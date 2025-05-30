@@ -27,7 +27,7 @@ urlpatterns = [
     path('in_profile/', Input_Profile, name='in_profile'),  # For creating a new profile
     path('in_profile/<int:student_id>/', Input_Profile, name='in_profile_edit'),  # For editing an existing profile
     
-    path('logout/', logout_view, name='logout'),  # Logout route
+    path('logout/', logout_view, name='logout'),  # ต้องมีแบบนี้
     # path('', student_list, name='student_list'),  # Student list page
     # path('register/', register_student, name='register'),  # Register student page
     # path('delete_student/<int:student_id>/', delete_student, name='delete_student'),

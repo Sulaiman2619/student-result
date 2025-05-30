@@ -228,7 +228,7 @@
   const confirmButton = document.getElementById('confirmLogout');
   if (confirmButton) {
       confirmButton.addEventListener('click', function () {
-          window.location.href = "{% url 'logout' %}"; // เปลี่ยนเส้นทางไปยัง URL ออกจากระบบ
+      window.location.href = "{% url 'logout' %}";
       });
   }
 
