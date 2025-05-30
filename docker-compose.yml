@@ -19,4 +19,3 @@ services:
       - "3000:3000"
     volumes:
       - ./postgrest.conf:/etc/postgrest.conf
-    user: "root"
