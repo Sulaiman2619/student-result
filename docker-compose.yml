@@ -4,7 +4,7 @@ services:
   web:
     build: .
     container_name: django_app
-    command: python manage.py runserver 0.0.0.0:8000
+    command: sh -c "python manage.py makemigrations && python manage.py migrate && python manage.py runserver 0.0.0.0:8000"
     volumes:
       - .:/app
     ports:
@@ -19,4 +19,3 @@ services:
       - "3000:3000"
     volumes:
       - ./postgrest.conf:/etc/postgrest.conf
-    user: "0"  # ✅ เพิ่มเพื่อแก้ปัญหา UID 1000
