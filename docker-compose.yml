@@ -12,11 +12,11 @@ services:
     env_file:
       - .env
 
-    postgrest:
-      image: postgrest/postgrest
-      container_name: postgrest
-      ports:
-        - "3000:3000"
-      volumes:
-        - ./postgrest.conf:/etc/postgrest.conf
-      user: "root"  # ✅ เพิ่มบรรทัดนี้
+  postgrest:
+    image: postgrest/postgrest
+    container_name: postgrest
+    ports:
+      - "3000:3000"
+    volumes:
+      - ./postgrest.conf:/etc/postgrest.conf
+    user: "root"
