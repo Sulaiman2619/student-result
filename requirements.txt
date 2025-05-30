@@ -1,0 +1,14 @@
+django == 5.1.2
+django-compressor == 4.5.1
+django-tailwind == 3.8.0
+django-jazzmin == 3.0.1
+reportlab
+pandas
+django_browser_reload
+Pillow
+openpyxl
+django-autocomplete-light
+django-tailwind[reload]
+djangorestframework
+djangorestframework-simplejwt
+
