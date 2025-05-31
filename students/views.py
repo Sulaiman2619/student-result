@@ -17,6 +17,7 @@ import json
 from urllib.parse import urlencode
 from django.core.paginator import Paginator
 from django.core.exceptions import PermissionDenied
+from django_ratelimit.decorators import ratelimit
 from django.views.decorators.csrf import csrf_protect
 from axes.helpers import get_client_ip_address
 from django.utils.timezone import now
@@ -217,7 +218,7 @@ def Home(request):
     elif user_type in ['teacher', 'superuser']:
         
         # Get student statistics
-        students = Student.objects.all()
+        students = Student.objects.filter(delete_status='not_deleted')
         male_students = students.filter(gender='ชาย').count()
         female_students = students.filter(gender='หญิง').count()
         orphans = students.filter(special_status='เด็กกำพร้า').count()

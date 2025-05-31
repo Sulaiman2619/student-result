@@ -12,7 +12,6 @@
     {% load static %}
     {% tailwind_css %}
     <link rel="stylesheet" href="{% static 'css/base.css' %}">
-        <link rel="icon" href="{% static 'images/logo.ico' %}" type="image/x-icon">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
 
     <!-- Modal Styling -->
@@ -32,17 +31,9 @@
       }
     </style>
   </head>
-
-  <body class="bg-gray-50 tracking-norma font-prompt">
-    <!-- Main Content -->
-    <div class="w-full mx-auto pb-16 md:pb-0">
-      {% block content %}
-      <section class="flex items-center justify-center h-screen">
-        <h1 class="text-5xl">Django + Tailwind = ❤️</h1>
-      </section>
-      {% endblock %}
-    </div>
-
+{% block content %}
+  <body class="font-prompt min-h-screen">
+  {% endblock %}
 <!-- Navbar -->
 <div class="fixed right-20 top-1/2 transform -translate-y-1/2 z-10">
   <!-- ปุ่มสำหรับเปิดเมนู -->
@@ -229,7 +220,7 @@
   const confirmButton = document.getElementById('confirmLogout');
   if (confirmButton) {
       confirmButton.addEventListener('click', function () {
-      window.location.href = "{% url 'logout' %}";
+          window.location.href = "{% url 'logout' %}"; // เปลี่ยนเส้นทางไปยัง URL ออกจากระบบ
       });
   }
 
