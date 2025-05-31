@@ -198,7 +198,7 @@ class Teacher(models.Model):
         default='กำลังสอน',
         verbose_name=_("สถานะ")
     )
-    password = models.CharField(max_length=8, editable=False, verbose_name=_("Password"))
+    password = models.CharField(max_length=8, verbose_name=_("Password"))
 
     def save(self, *args, **kwargs):
         if not self.id:
