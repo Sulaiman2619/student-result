@@ -35,13 +35,16 @@
   <body class="font-prompt min-h-screen">
   {% endblock %}
 <!-- Navbar -->
-<div class="fixed right-20 top-1/2 transform -translate-y-1/2 z-10">
-  <!-- ปุ่มสำหรับเปิดเมนู -->
-  <button id="menu-btn" class="hidden w-12 h-12 bg-gray-800 text-white rounded-full lg:flex items-center justify-center shadow-lg hover:bg-green-500 focus:outline-none">
-    <svg class="w-6 h-6" fill="none"  stroke="currentColor" viewBox="0 0 24 24">
+<div class="fixed right-24 top-1/2 transform -translate-y-1/2 z-10">
+  <!-- ปุ่มเมนู (อยู่ตำแหน่งคงที่ตลอด) -->
+<div class="hidden lg:fixed lg:block lg:-right-14 top-1/2 transform -translate-y-1/2 z-30">
+  <button id="menu-btn" class="w-12 h-12 bg-gray-800 text-white rounded-full flex items-center justify-center shadow-lg hover:bg-green-500 focus:outline-none">
+    <!-- ไอคอน -->
+    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
       <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
     </svg>
   </button>
+</div>
 
   <div id="menu-items" class="hidden flex-col space-y-4 mt-4 items-start">
     <a id="home-link" href="{% url 'home' %}" class="menu-item hidden lg:flex items-center space-x-2 w-40 h-12 bg-gray-800 text-white rounded-full shadow-lg hover:text-green-500 px-3">
