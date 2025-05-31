@@ -23,13 +23,15 @@ services:
   nginx:
     image: nginx:alpine
     container_name: nginx
+    ports:
+      - "80:80"
+      - "443:443"  # ✅ เปิดพอร์ต SSL ด้วย
     volumes:
       - ./nginx.conf:/etc/nginx/conf.d/default.conf
       - ./media:/app/media
       - ./staticfiles:/app/staticfiles
-
-    ports:
-      - "80:80"
+      - ./certs/cloudflare.crt:/etc/ssl/certs/cloudflare.crt     # ✅ ใส่ cert
+      - ./certs/cloudflare.key:/etc/ssl/private/cloudflare.key   # ✅ ใส่ key
     depends_on:
       - web
     networks:
