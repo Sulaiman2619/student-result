@@ -104,7 +104,7 @@ class TeacherAdmin(admin.ModelAdmin):
         'password',  # Password as a read-only field
     ]
 
-    readonly_fields = ('password',)  # Prevent editing password manually
+    # readonly_fields = ('password',)  # Prevent editing password manually
 
     def name_info(self, obj):
         return f"{obj.first_name} {obj.last_name}"
