@@ -1,0 +1,14 @@
+.login-logo img, .login-logo > img {
+    height: 100px !important;
+    max-height: none !important;
+    width: auto !important;
+}
+
+
+/* ลบพื้นหลังและเงาจากโลโก้ในหน้า login */
+.brand-image  {
+    background: transparent !important;
+    box-shadow: none !important;
+    border-radius: 0 !important;
+    height: 300px !important;
+}
