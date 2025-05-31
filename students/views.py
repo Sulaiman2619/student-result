@@ -4,7 +4,7 @@ from .models import *
 from django.db.models import Q
 from django.urls import reverse
 from django.contrib.auth import authenticate, login, logout
-from django.http import JsonResponse, HttpResponse, HttpResponseRedirect,Http404
+from django.http import JsonResponse, HttpResponse, HttpResponseRedirect,Http404,HttpResponseForbidden
 from reportlab.lib.pagesizes import A4, landscape
 from reportlab.pdfbase import pdfmetrics
 from reportlab.pdfbase.ttfonts import TTFont
@@ -24,6 +24,7 @@ from axes.handlers.proxy import AxesProxyHandler
 from axes.models import AccessAttempt
 from django.conf import settings
 from datetime import timedelta
+from django.template import loader
 
 
 pdfmetrics.registerFont(TTFont('THSarabunNew', 'static/fonts/THSarabunNew.ttf'))
