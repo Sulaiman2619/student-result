@@ -55,7 +55,7 @@ SECRET_KEY = config('SECRET_KEY')
 DEBUG = False
 
 ALLOWED_HOSTS = ['212.85.26.223','http://kurusampanstgr80.com' ,
-'kurusampanstgr80.com','https://kurusampanstgr80.com', 'https://www.kurusampanstgr80.com']
+'kurusampanstgr80.com','https://kurusampanstgr80.com', 'https://www.kurusampanstgr80.com','www.kurusampanstgr80.com']
 # ALLOWED_HOSTS = ['*']
 
 
