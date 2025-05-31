@@ -1,4 +1,4 @@
-{% include 'navbar.html' %}
+{% extends 'base.html' %}
 {% load custom_filters %}
 <!DOCTYPE html>
 <html lang="en">
@@ -8,7 +8,9 @@
         <script src="https://cdnjs.cloudflare.com/ajax/libs/lucide/0.263.1/lucide.min.js" defer></script>
         {% load static %}
         <link rel="stylesheet" href="{% static 'css/font.css' %}">
+        {% block title %}
         <title>กรอกคะแนนนักเรียน</title>
+        {% endblock %}
         <style>
             /* Custom Scrollbar Styles */
             .custom-scrollbar {
@@ -46,6 +48,7 @@
             }
         </style>
     </head>
+    {% block content %}
 <body class="font-prompt">
     <div class="min-h-screen bg-gradient-to-b from-green-100 to-green-900 font-prompt">
         <!-- Header -->
@@ -146,4 +149,6 @@
         </div>
     </div>
 </body>
+    {% endblock %}
+
 </html>

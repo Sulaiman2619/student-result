@@ -7,7 +7,9 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="icon" href="{% static 'images/logo.ico' %}" type="image/x-icon">
+    {% block title %}
     <title>CSRF Verification Failed</title>
+    {% endblock %}
     <style>
         @keyframes fade-in {
           0% { opacity: 0; transform: scale(0.95); }

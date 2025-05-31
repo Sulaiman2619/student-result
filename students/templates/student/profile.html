@@ -1,4 +1,4 @@
-{% include 'navbar.html' %}
+{% extends 'base.html' %}
 
 <!DOCTYPE html>
 <html lang="en">
@@ -9,9 +9,12 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
 
     <link rel="stylesheet" href="{% static 'css/font.css' %}">
+    {% block title %}
     <title>ประวัตินักเรียน</title>
+    {% endblock %}
 </head>
 
+{% block content %}
 <body class="font-prompt">
     <div class="bg-green-800">
         <h1 class="text-4xl md:text-6xl text-white d py-4 md:py-8 text-center shadow-md shadow-green-900">
@@ -308,4 +311,5 @@
         </div>
     </div>
 </body>
+{% endblock %}
 </html>

@@ -1,4 +1,4 @@
-{% include 'navbar.html' %}
+{% extends 'base.html' %}
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -7,7 +7,9 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/lucide/0.263.1/lucide.min.js" defer></script>
     {% load static %}
     <link rel="stylesheet" href="{% static 'css/font.css' %}">
+    {% block title %}
     <title>รายงานนักเรียนพิเศษ</title>
+    {% endblock %}
     <style>
         /* Custom Scrollbar Styles */
         @font-face {
@@ -96,6 +98,7 @@
         }
     </script>
 </head>
+{% block content %}
 <body>
     <div class="min-h-screen bg-gradient-to-b from-green-200 to-green-900 font-prompt"> 
         <!-- Header -->
@@ -490,4 +493,6 @@
         }
     </script>
 </body>
+{% endblock %}
+
 </html>
