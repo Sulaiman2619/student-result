@@ -210,6 +210,9 @@ AXES_LOCKOUT_CALLABLE = 'students.utils.axes_custom_lockout_response'  # ถ้�
 
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
+CSRF_FAILURE_VIEW = 'students.views.custom_csrf_failure'
+
+
 JAZZMIN_SETTINGS = JAZZMIN_SETTINGS
 
 JAZZMIN_SETTINGS["show_ui_builder"] = True
