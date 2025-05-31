@@ -35,9 +35,9 @@
   <body class="font-prompt min-h-screen">
   {% endblock %}
 <!-- Navbar -->
-<div class="fixed right-24 top-1/2 transform -translate-y-1/2 z-10">
+<div class="fixed right-20 top-1/2 transform -translate-y-1/2 z-10">
   <!-- ปุ่มเมนู (อยู่ตำแหน่งคงที่ตลอด) -->
-<div class="hidden lg:fixed lg:block lg:-right-14 top-1/2 transform -translate-y-1/2 z-30">
+<div class="hidden lg:fixed lg:block lg:-right-16 top-1/2 transform -translate-y-1/2 z-30">
   <button id="menu-btn" class="w-12 h-12 bg-gray-800 text-white rounded-full flex items-center justify-center shadow-lg hover:bg-green-500 focus:outline-none">
     <!-- ไอคอน -->
     <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -174,9 +174,10 @@
 
 
 <!-- ปุ่มเลื่อนกลับขึ้นด้านบน -->
-<button id="scroll-to-top" class="fixed right-2 lg:right-4 top-[600px] lg:top-1/2 transform  lg:translate-y-[35px] bg-gray-800 px-3 py-3 rounded-full shadow-lg hidden hover:bg-blue-700 transition-all">
-  <img class="w-6 h-6 filter-white" src="{% static 'images/arrow-up.png' %}" alt="">
+<button id="scroll-to-top" class="fixed right-2 lg:right-4 top-[600px] lg:top-1/2 transform lg:translate-y-[35px] bg-gray-800 px-3 py-3 rounded-full shadow-lg hidden hover:bg-blue-700 transition-all">
+  <img class="w-6 h-6 invert brightness-0" src="{% static 'images/arrow-up.png' %}" alt="">
 </button>
+
 
 
 <!-- Loading Overlay -->
