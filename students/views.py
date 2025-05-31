@@ -1187,6 +1187,6 @@ def test_500_view(request):
     1 / 0  # ทำให้เกิด ZeroDivisionError เพื่อ simulate server error
 
 def custom_csrf_failure(request, reason=""):
-    template = loader.get_template('403_csrf.html')
+    template = loader.get_template('csrf_403.html')
     context = {"reason": reason}
     return HttpResponseForbidden(template.render(context, request))
