@@ -10,6 +10,7 @@
     <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
     <!-- Flatpickr Thai Language Pack -->
     <script src="https://cdn.jsdelivr.net/npm/flatpickr/dist/l10n/th.js"></script>
+    
     {% load static %}
 
     <link rel="stylesheet" href="{% static 'css/font.css' %}">
@@ -809,44 +810,31 @@
 
         </script>
 
-        <script>
-    function initBEFlatpickr(selector) {
-        flatpickr(selector, {
-            dateFormat: "d/m/Y",
-            altInput: true,
-            altFormat: "d/m/Y",
-            locale: "th",
-            onReady: function (selectedDates, dateStr, instance) {
-                const originalFormatDate = instance.formatDate;
-                instance.formatDate = function (dateObj, formatStr) {
-                    const yearBE = dateObj.getFullYear() + 543;
-                    const date = ("0" + dateObj.getDate()).slice(-2);
-                    const month = ("0" + (dateObj.getMonth() + 1)).slice(-2);
-                    return `${date}/${month}/${yearBE}`;
-                };
-                if (instance.altInput.value) {
-                    instance.altInput.value = instance.formatDate(selectedDates[0], "d/m/Y");
+         <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            flatpickr("#student-dob", {
+                locale: "th",
+                allowInput: true,
+                dateFormat: "d/m/Y",
+                onReady: function (selectedDates, dateStr, instance) {
+                    instance.formatDate = function (dateObj) {
+                        const y = dateObj.getFullYear() + 543;
+                        const m = ("0" + (dateObj.getMonth() + 1)).slice(-2);
+                        const d = ("0" + dateObj.getDate()).slice(-2);
+                        return `${d}/${m}/${y}`;
+                    };
+                    if (selectedDates[0]) {
+                        instance.input.value = instance.formatDate(selectedDates[0]);
+                    }
+                },
+                onChange: function (selectedDates, dateStr, instance) {
+                    if (selectedDates[0]) {
+                        instance.input.value = instance.formatDate(selectedDates[0]);
+                    }
                 }
-            },
-            onChange: function (selectedDates, dateStr, instance) {
-                if (selectedDates.length > 0) {
-                    const dateObj = selectedDates[0];
-                    const yearBE = dateObj.getFullYear() + 543;
-                    const date = ("0" + dateObj.getDate()).slice(-2);
-                    const month = ("0" + (dateObj.getMonth() + 1)).slice(-2);
-                    instance.altInput.value = `${date}/${month}/${yearBE}`;
-                }
-            }
+            });
         });
-    }
-
-    document.addEventListener('DOMContentLoaded', function () {
-        initBEFlatpickr("#student-dob");
-        initBEFlatpickr("#father-dob");
-        initBEFlatpickr("#mother-dob");
-        initBEFlatpickr("#guardian-dob");
-    });
-</script>
+    </script>
 
         
         {% endblock %}
