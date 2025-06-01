@@ -690,7 +690,7 @@ def student_marks_view(request):
                 if marks:
                     try:
                         marks = int(marks)
-                        student_subject_marks[subject.subject.id] = marks
+                        student_subject_marks[str(subject.subject.id)] = marks
                         total_marks += subject.subject.total_marks
                         obtained_marks += marks
 
