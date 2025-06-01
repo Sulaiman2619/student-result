@@ -540,7 +540,7 @@ def download_students_pdf(students):
     )
 
     # Logo
-    logo_path = "static/images/logopdf.png"
+    logo_path = "static/images/logo.ico"
     logo = Image(logo_path, width=1 * inch, height=1 * inch)
 
     # School Title
@@ -919,7 +919,7 @@ def download_result_pdf(students, category_1_data, category_2_data, academic_yea
     sub_title_style = ParagraphStyle(name='SubTitle', fontName='THSarabunNew', fontSize=16, alignment=1)
     normal_style = ParagraphStyle(name='Normal', fontName='THSarabunNew', fontSize=16, alignment=0)
 
-    logo_path = "static/images/logopdf.png"
+    logo_path = "static/images/logo.ico"
     logo = Image(logo_path, width=80, height=80)
     logo.hAlign = 'CENTER'
 
@@ -1102,7 +1102,7 @@ def download_result_pdfs(students, semester_1_data, semester_2_data, academic_ye
     )
 
     # Add logo
-    logo_path = "static/images/logopdf.png"
+    logo_path = "static/images/logo.ico"
     logo = Image(logo_path, width=80, height=80)  # Adjust size as needed
     logo.hAlign = 'CENTER'
 
