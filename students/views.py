@@ -26,6 +26,7 @@ from django.conf import settings
 from datetime import timedelta
 from django.template import loader
 
+
 pdfmetrics.registerFont(TTFont('THSarabunNew', 'static/fonts/THSarabunNew.ttf'))
 
 def convert_to_thai_year(academic_year):
@@ -166,8 +167,10 @@ def login_view(request):
                     'error_message': 'ไม่สามารถเข้าสู่ระบบได้',  # "Unable to log in"
                 })
         else:
-            logout(request)
-            error_message = 'ไอดีผู้ใช้หรือรหัสผ่านไม่ถูกต้อง'
+            # Authentication failed
+            return render(request, 'auth/login.html', {
+                'error_message': 'ไอดีผู้ใช้หรือรหัสผ่านไม่ถูกต้อง',  # "Incorrect user ID or password"
+            })
 
     return render(request, 'auth/login.html', {
         'error_message': error_message,
@@ -401,7 +404,6 @@ def Profile(request, student_id=None):
 
     return render(request, 'student/profile.html', context)
 
-
 def Student_Rp(request):
     # Check if 'user_type' is in the session
     user_type = request.session.get('user_type')
@@ -538,7 +540,7 @@ def download_students_pdf(students):
     )
 
     # Logo
-    logo_path = "static/images/logo.ico"
+    logo_path = "static/images/logopdf.png"
     logo = Image(logo_path, width=1 * inch, height=1 * inch)
 
     # School Title
@@ -690,7 +692,7 @@ def student_marks_view(request):
                 if marks:
                     try:
                         marks = int(marks)
-                        student_subject_marks[str(subject.subject.id)] = marks
+                        student_subject_marks[subject.subject.name] = marks
                         total_marks += subject.subject.total_marks
                         obtained_marks += marks
 
@@ -917,7 +919,7 @@ def download_result_pdf(students, category_1_data, category_2_data, academic_yea
     sub_title_style = ParagraphStyle(name='SubTitle', fontName='THSarabunNew', fontSize=16, alignment=1)
     normal_style = ParagraphStyle(name='Normal', fontName='THSarabunNew', fontSize=16, alignment=0)
 
-    logo_path = "static/images/logo.ico"
+    logo_path = "static/images/logopdf.png"
     logo = Image(logo_path, width=80, height=80)
     logo.hAlign = 'CENTER'
 
@@ -1100,7 +1102,7 @@ def download_result_pdfs(students, semester_1_data, semester_2_data, academic_ye
     )
 
     # Add logo
-    logo_path = "static/images/logo.ico"
+    logo_path = "static/images/logopdf.png"
     logo = Image(logo_path, width=80, height=80)  # Adjust size as needed
     logo.hAlign = 'CENTER'
 
@@ -1194,6 +1196,6 @@ def test_500_view(request):
     1 / 0  # ทำให้เกิด ZeroDivisionError เพื่อ simulate server error
 
 def custom_csrf_failure(request, reason=""):
-    template = loader.get_template('csrf_403.html')
-    context = {"reason": reason}
-    return HttpResponseForbidden(template.render(context, request))
+    return render(request, 'csrf_403.html', status=403)
+
+

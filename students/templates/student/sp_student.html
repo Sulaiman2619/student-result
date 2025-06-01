@@ -8,7 +8,7 @@
     {% load static %}
     <link rel="stylesheet" href="{% static 'css/font.css' %}">
     {% block title %}
-    <title>รายงานนักเรียนพิเศษ</title>
+    <title>รายงานนักเรียน</title>
     {% endblock %}
     <style>
         /* Custom Scrollbar Styles */
@@ -108,7 +108,7 @@
             </h1>
         </div>
         
-        <div class="max-w-7xl mx-auto p-4 md:my-12">
+        <div class="max-w-7xl mx-auto p-4 md:my-12 pb-20 lg:pb-12">
             <!-- Filters & Stats Container -->
             <div class="flex flex-col lg:flex-row lg:justify-between gap-6 mb-8">
                 <!-- Search and Filters -->
@@ -210,7 +210,7 @@
             </div> Button -->
 
             <!-- Mobile Table View with Actions -->
-            <div class="lg:hidden space-y-4">
+            <div class="lg:hidden space-y-16 pb-28">
                 {% for student in students %}
                 <div class="bg-white rounded-lg shadow-sm p-4 space-y-3 relative top-6">
                     <!-- Profile Image -->
@@ -243,7 +243,7 @@
                     </div>
 
                     <!-- Card Content -->
-                    <div class="pt-14"> <!-- เพิ่ม Padding ด้านบนเพื่อรองรับโปรไฟล์ -->
+                    <div class="pt-14 "> 
                         <div class="flex justify-between items-center border-b pb-2">
                             <span class="">ลำดับ:</span>
                             <span>{{ forloop.counter }}</span>
@@ -334,7 +334,7 @@
                                         <th class="px-2 py-3 text-center text-gray-600 border-b w-16">ลำดับ</th>
                                         <th class="px-2 py-3 text-center text-gray-600 border-b w-10"></th>
                                         <th class="px-2 py-3 text-center text-gray-600 border-b w-32">รหัสนักเรียน</th>
-                                        <th class="px-2 py-3 text-left pl-8 text-gray-600 border-b w-48">ชื่อ-สกุล</th>
+                                        <th class="px-2 py-3 text-left pl-12 text-gray-600 border-b w-48">ชื่อ-สกุล</th>
                                         <th class="px-2 py-3 text-center text-gray-600 border-b w-48">โรงเรียน</th>
                                         <th class="px-2 py-3 text-center text-gray-600 border-b w-32">สถานะ</th>
                                         <th class="px-2 py-3 text-center text-gray-600 border-b w-40">จัดการ</th>
@@ -361,7 +361,7 @@
                                         >
                                         </td>
                                         <td class="px-2 py-2 text-center">{{ student.id }}</td>
-                                        <td class="px-2 py-2 text-left">
+                                        <td class="px-2 py-2 text-left pl-12">
                                            {{ student.first_name }} {{ student.last_name }}
                                         </td>
                                         <td class="px-2 py-2 text-center">{{ student.current_study.school.name }}</td>

@@ -189,7 +189,7 @@ class Teacher(models.Model):
         default='กำลังสอน',
         verbose_name=_("สถานะ")
     )
-    password = models.CharField(max_length=8, editable=False, verbose_name=_("Password"))
+    password = models.CharField(max_length=8, verbose_name=_("Password"))
 
     def save(self, *args, **kwargs):
         if not self.id:
@@ -421,7 +421,7 @@ class StudentHistory(models.Model):
     grade_percentage = models.DecimalField(max_digits=5, decimal_places=2, blank=True, null=True, verbose_name=_("เปอร์เซ็นต์คะแนน"))
     subject_marks = models.JSONField(blank=True, null=True, verbose_name=_("คะแนนตามวิชา"))
     #grade_percentage = models.DecimalField(max_digits=5, decimal_places=2, blank=True, null=True, verbose_name=_("เปอร์เซ็นต์คะแนน"))
-    pass_or_fail = models.CharField(max_length=10, blank=True, null=True, verbose_name=_("ผ่าน/ไม่ผ่าน"))
+    pass_or_fail = models.CharField(max_length=4, blank=True, null=True, verbose_name=_("ผ่าน/ไม่ผ่าน"))
     def calculate_grades(self):
         """Calculate grades based on subject marks and compute grade percentage."""
         if self.subject_marks:
@@ -475,51 +475,50 @@ class StudentHistory(models.Model):
         return subject_data"""
     
     def get_subject_data(self, category=None):
-        from .models import Subject
+        """
+        Generate subject details with grades and statuses, optionally filtered by category.
+        
+        Args:
+            category (int): The category to filter subjects by. If None, include all categories.
+
+        Returns:
+            list: A list of dictionaries containing subject details.
+        """
+        from .models import Subject  # Ensure Subject is imported
 
         subject_data = []
-
         if self.subject_marks:
-            for key, marks_obtained in self.subject_marks.items():
+            for subject_name, marks_obtained in self.subject_marks.items():
                 try:
-                    # ลองดึงจาก id ก่อน (กรณี key เป็นตัวเลข)
-                    try:
-                        subject = Subject.objects.get(id=int(key))
-                    except (ValueError, Subject.DoesNotExist):
-                        # ถ้าไม่ใช่ตัวเลขหรือหา id ไม่เจอ ลองใช้ชื่อวิชาแทน
-                        subject = Subject.objects.get(name=key)
-
-                    # กรองตาม category ถ้าระบุ
+                    subject = Subject.objects.get(name=subject_name)
+                    
+                    # If a category is provided, filter subjects by category
                     if category and subject.category != category:
                         continue
 
-                    total_marks = subject.total_marks or 100
-                    percentage = (marks_obtained / total_marks) * 100
+                    total_marks = subject.total_marks
+                    percentage = (marks_obtained / total_marks) * 100 if total_marks else 0
                     grade = self.calculate_grade(percentage)
                     status = "ผ่าน" if percentage >= 50 else "ไม่ผ่าน"
-
                     subject_data.append({
-                        "name": subject.name,
+                        "name": subject_name,
                         "marks": marks_obtained,
                         "total_marks": total_marks,
                         "percentage": percentage,
                         "grade": grade,
                         "status": status,
                     })
-
                 except Subject.DoesNotExist:
-                    # ถ้าไม่พบวิชาเลย
+                    # Handle missing subjects gracefully
                     subject_data.append({
-                        "name": key,
+                        "name": subject_name,
                         "marks": marks_obtained,
                         "total_marks": "N/A",
                         "percentage": "N/A",
                         "grade": "N/A",
                         "status": "N/A",
                     })
-
         return subject_data
-
 
 
     @staticmethod
