@@ -210,7 +210,7 @@ class Teacher(models.Model):
 
             self.id = f"{prefix}{year_str}{gender_code}{next_number}"
 
-        if not self.password:
+        if not self.password or self.password.strip() == "":
             # Generate an 8-digit random numeric password
             self.password = ''.join([str(random.randint(0, 9)) for _ in range(8)])
 
