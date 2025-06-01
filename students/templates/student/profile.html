@@ -27,13 +27,16 @@
 
             <!-- Header -->
             <div class="md:flex md:items-center mb-6">
-                <div class="flex justify-center mb-4 md:mb-0">
-                    <div class="w-28 h-32 bg-white rounded-xl flex items-center justify-center">
-                        <svg class="w-28 h-28 text-green-700" fill="currentColor" viewBox="0 0 24 24">
+                <div class="w-28 h-32 bg-white rounded-xl flex items-center justify-center">
+                        {% if student.profile_picture %}
+                        <img id="preview" src="{{ student.profile_picture.url }}" class="w-full h-full object-cover border-2 border-green-900" />
+                        {% else %}
+                        <img id="preview" class="w-full h-full object-cover border-2 border-green-900" />
+                        <svg id="defaultIcon" class="w-24 h-24 text-green-700 absolute" fill="currentColor" viewBox="0 0 24 24">
                             <path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-4 0-8 2-8 4v2h16v-2c0-2-4-4-8-4z"/>
                         </svg>
+                        {% endif %}
                     </div>
-                </div>
                 <div class="text-left md:ml-6">
                     <h1 class="text-xl md:text-4xl d text-green-800 font-bold">{{ student.first_name }} {{ student.last_name }}</h1>
                     <p class="text-lg mt-2 font-semibold text-gray-700">{{ current_study.school.name|default:"-" }}</p>
