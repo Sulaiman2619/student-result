@@ -43,8 +43,9 @@
         }
     </style>
 </head>
-{% block content %}
 <body>
+    {% block content %}
+
     <div class="min-h-screen bg-gradient-to-b from-green-100 to-green-900 font-prompt">
         <!-- Header -->
         <div class="bg-green-800">
@@ -197,7 +198,7 @@
             });
         });
     </script>
-    
+    {% endblock %}
+
 </body>
-{% endblock %}
 </html>
