@@ -421,7 +421,7 @@ class StudentHistory(models.Model):
     grade_percentage = models.DecimalField(max_digits=5, decimal_places=2, blank=True, null=True, verbose_name=_("เปอร์เซ็นต์คะแนน"))
     subject_marks = models.JSONField(blank=True, null=True, verbose_name=_("คะแนนตามวิชา"))
     #grade_percentage = models.DecimalField(max_digits=5, decimal_places=2, blank=True, null=True, verbose_name=_("เปอร์เซ็นต์คะแนน"))
-    pass_or_fail = models.CharField(max_length=4, blank=True, null=True, verbose_name=_("ผ่าน/ไม่ผ่าน"))
+    pass_or_fail = models.CharField(max_length=10, blank=True, null=True, verbose_name=_("ผ่าน/ไม่ผ่าน"))
     def calculate_grades(self):
         """Calculate grades based on subject marks and compute grade percentage."""
         if self.subject_marks:
