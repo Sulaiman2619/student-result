@@ -475,13 +475,24 @@ class StudentHistory(models.Model):
         return subject_data"""
     
     def get_subject_data(self, category=None):
-        from .models import Subject  # นำเข้าหากยังไม่มี
+        """
+        Generate subject details with grades and statuses, optionally filtered by category.
+        
+        Args:
+            category (int): The category to filter subjects by. If None, include all categories.
+
+        Returns:
+            list: A list of dictionaries containing subject details.
+        """
+        from .models import Subject  # Ensure Subject is imported
 
         subject_data = []
         if self.subject_marks:
             for subject_id, marks_obtained in self.subject_marks.items():
                 try:
-                    subject = Subject.objects.get(id=int(subject_id))  # ใช้ id แทนชื่อ
+                    subject = Subject.objects.get(id=subject_id)
+                    
+                    # If a category is provided, filter subjects by category
                     if category and subject.category != category:
                         continue
 
@@ -489,9 +500,8 @@ class StudentHistory(models.Model):
                     percentage = (marks_obtained / total_marks) * 100 if total_marks else 0
                     grade = self.calculate_grade(percentage)
                     status = "ผ่าน" if percentage >= 50 else "ไม่ผ่าน"
-
                     subject_data.append({
-                        "name": subject.name,
+                        "name": subject_name,
                         "marks": marks_obtained,
                         "total_marks": total_marks,
                         "percentage": percentage,
@@ -499,8 +509,9 @@ class StudentHistory(models.Model):
                         "status": status,
                     })
                 except Subject.DoesNotExist:
+                    # Handle missing subjects gracefully
                     subject_data.append({
-                        "name": f"(ไม่พบวิชา ID {subject_id})",
+                        "name": subject_name,
                         "marks": marks_obtained,
                         "total_marks": "N/A",
                         "percentage": "N/A",
