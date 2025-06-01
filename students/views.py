@@ -452,6 +452,7 @@ def Student_Rp(request):
         return download_students_pdf(students)
 
     # Pagination
+    students = students.order_by('id')  # หรือ 'first_name', 'current_study__level__name' ตามที่ต้องการ
     paginator = Paginator(students, items_per_page)
     page_number = request.GET.get('page', 1)
     page_obj = paginator.get_page(page_number)
