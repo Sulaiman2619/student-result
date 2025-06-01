@@ -98,8 +98,9 @@
         }
     </script>
 </head>
-{% block content %}
 <body>
+    {% block content %}
+
     <div class="min-h-screen bg-gradient-to-b from-green-200 to-green-900 font-prompt"> 
         <!-- Header -->
         <div class="bg-green-900">
@@ -424,6 +425,8 @@
             </div>
         </div>
     </div>
+    {% endblock %}
+
     <script>
         document.addEventListener('DOMContentLoaded', () => {
             const animateValue = (element, start, end, duration) => {
@@ -492,6 +495,5 @@
         }
     </script>
 </body>
-{% endblock %}
 
 </html>
