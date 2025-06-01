@@ -165,6 +165,7 @@ JAZZMIN_SETTINGS = {
         "students.StudentHistory",
         "students.CurrentSemester",
         "students.School",
+        "students.Subject",
     ],
     "hide_models": [
         "students.Address",
