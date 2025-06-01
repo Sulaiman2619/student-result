@@ -690,7 +690,7 @@ def student_marks_view(request):
                 if marks:
                     try:
                         marks = int(marks)
-                        student_subject_marks[str(subject.subject.id)] = marks
+                        student_subject_marks[subject.subject.name] = marks
                         total_marks += subject.subject.total_marks
                         obtained_marks += marks
 
@@ -759,6 +759,7 @@ def student_marks_view(request):
     }
 
     return render(request, 'inputdata/ingr_student.html', context)
+
 
 #grade output
 def GR_Student(request):
@@ -1001,14 +1002,10 @@ def student_Resultss(request, student_id):
     current_study = CurrentStudy.objects.filter(student=student).first()
     current_semester = CurrentSemester.objects.first()
 
-    academic_years = StudentHistory.objects.filter(student_id=student.id)\
-    .values_list('academic_year', flat=True).distinct().order_by('-academic_year')
-
-    academic_years = [str(y).strip() for y in academic_years]
-
-    selected_academic_year = request.GET.get('academic_year') or \
-                            (academic_years[0] if academic_years else (current_semester.year if current_semester else None))
-
+    # Fetch academic years and subjects
+    academic_years = StudentHistory.objects.filter(student_id=student.id).values_list('academic_year', flat=True).distinct().order_by('-academic_year')
+    # Determine the selected academic year
+    selected_academic_year = request.GET.get('academic_year') or (academic_years.first() if academic_years else (current_semester.year if current_semester else None))
     # Fetch the relevant records
     subjects_sem1_instance = StudentHistory.objects.filter(student_id=student.id, semester=1, academic_year=selected_academic_year).first()
     subjects_sem2_instance = StudentHistory.objects.filter(student_id=student.id, semester=2, academic_year=selected_academic_year).first()
