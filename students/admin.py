@@ -199,14 +199,14 @@ class SubjectAdmin(admin.ModelAdmin):
 
 @admin.register(SubjectToStudy)
 class SubjectToStudyAdmin(admin.ModelAdmin):
-    list_display = ('subject', 'level', 'semester')
-    list_filter = ('semester', 'level')
+    list_display = ('subject', 'level', 'category')
+    list_filter = ('category', 'level')
 
 @admin.register(StudentHistory)
 class StudentHistoryAdmin(admin.ModelAdmin):
-    list_display = ('student_name', 'level_name', 'semester', 'academic_year', 'total_marks', 'obtained_marks','grade_percentage', 'pass_or_fail')
+    list_display = ('student_name', 'level_name', 'category', 'academic_year', 'total_marks', 'obtained_marks','grade_percentage', 'pass_or_fail')
     search_fields = ['student_name']
-    list_filter = ['level_name', 'semester']
+    list_filter = ['level_name', 'category']
 
 
 @admin.register(School)
@@ -261,7 +261,7 @@ class CurrentSemesterAdmin(admin.ModelAdmin):
     exclude = ('year',)
 
     # Display fields in the admin list view
-    list_display = ('semester', 'year')
+    list_display = ('category', 'year')
     
     # Ordering of records in the list view
     ordering = ['year']

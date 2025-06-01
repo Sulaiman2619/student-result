@@ -49,17 +49,16 @@ def create_default_levels(sender, **kwargs):
 def create_default_subject_to_study(sender, **kwargs):
     subjects = Subject.objects.all()
     levels = Level.objects.all()
-    semesters = [1, 2]  # เทอม 1, เทอม 2
+    categories = [1, 2]  # 1 = ภาคทฤษฎี, 2 = ภาคปฏิบัติ
 
-    # Loop through all subjects, levels, and semesters and create SubjectToStudy
+    # Loop through all subjects, levels, and categories and create SubjectToStudy
     for subject in subjects:
         for level in levels:
-            for semester in semesters:
-                # Check if the record already exists, if not, create it
+            for category in categories:
                 SubjectToStudy.objects.get_or_create(
                     subject=subject,
                     level=level,
-                    semester=semester
+                    category=category
                 )
 
     print("Default SubjectToStudy records created.")

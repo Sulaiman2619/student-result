@@ -98,13 +98,13 @@
                             {% endfor %}
                         </select>
                     </div>
-                    <!-- Semester Filter -->
+                  
                     <div class="lg:col-span-2">
-                        <select name="semester" class="w-full bg-white px-4 py-3 rounded-lg border border-gray-300 focus:outline-none focus:border-green-500 focus:ring-2 focus:ring-green-200 appearance-none cursor-pointer hover:shadow-md">
-                            <option value="" disabled {% if not request.GET.semester %}selected{% endif %}>ภาคการศึกษา</option>
-                            <option value="1" {% if request.GET.semester == '1' %}selected{% endif %}>เทอม 1</option>
-                            <option value="2" {% if request.GET.semester == '2' %}selected{% endif %}>เทอม 2</option>
-                        </select>
+                    <select name="category" class="w-full bg-white px-4 py-3 rounded-lg border border-gray-300 focus:outline-none focus:border-green-500 focus:ring-2 focus:ring-green-200 appearance-none cursor-pointer hover:shadow-md"">
+                        <option value="" disabled {% if not request.GET.category %}selected{% endif %}>ประเภทภาคเรียน</option>
+                        <option value="1" {% if request.GET.category == '1' %}selected{% endif %}>ภาคทฤษฎี</option>
+                        <option value="2" {% if request.GET.category == '2' %}selected{% endif %}>ภาคปฏิบัติ</option>
+                    </select>
                     </div>
                     <button type="submit" class="lg:col-span-2 w-full bg-green-800 text-white px-4 py-2 rounded-lg hover:bg-green-700 transition-colors duration-300 text-xl">
                         ยืนยัน
@@ -120,7 +120,7 @@
                 <input type="hidden" name="level" value="{{ request.GET.level }}">
                 <input type="hidden" name="school" value="{{ request.GET.school }}">
                 <input type="hidden" name="academic_year" value="{{ request.GET.academic_year }}">
-                <input type="hidden" name="semester" value="{{ request.GET.semester }}">
+                <input type="hidden" name="category" value="{{ category_selected }}">
                 
                 <div class="overflow-x-auto bg-white rounded-lg shadow custom-scrollbar mt-4">
                     <div class="min-w-max">

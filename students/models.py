@@ -224,10 +224,10 @@ class Teacher(models.Model):
         verbose_name_plural = _("ครู")
 
 class CurrentSemester(models.Model):
-    semester = models.IntegerField(
-        choices=[(1, 'เทอม 1')],
+    category = models.IntegerField(
+        choices=[(1, 'ภาคทฤษฎี'), (2, 'ภาคปฏิบัติ')],
         default=1,
-        verbose_name=_("ภาคการศึกษา")
+        verbose_name=_("ประเภทวิชา")
     )
     year = models.PositiveIntegerField(default=timezone.now().year, verbose_name=_("ปีการศึกษา"))
     
@@ -241,10 +241,10 @@ class CurrentSemester(models.Model):
         # Check for updates on existing instance
         if self.pk:
             old_instance = CurrentSemester.objects.get(pk=self.pk)
-            logger.info(f"Old Semester: {old_instance.semester}, New Semester: {self.semester}")
+            logger.info(f"Old Semester: {old_instance.category}, New Semester: {self.category}")
             logger.info(f"Old Year: {old_instance.year}, New Year: {self.year}")
 
-            if old_instance.semester != self.semester or old_instance.year != self.year:
+            if old_instance.category != self.category or old_instance.year != self.year:
                 logger.info("Semester or Year has changed. Deleting all StudentMarkForSubject records.")
                 StudentMarkForSubject.objects.all().delete()
 
@@ -273,7 +273,7 @@ class CurrentStudy(models.Model):
     
     def __str__(self):
         level_name = self.level.name if self.level else "No Level"
-        semester_info = f"Semester {self.current_semester.semester}, Year {self.current_semester.year}" if self.current_semester else "No Semester"
+        semester_info = f"Semester {self.current_semester.category}, Year {self.current_semester.year}" if self.current_semester else "No Semester"
         school_name = self.school.name if self.school else "No School"
 
         return f"{self.student.first_name} {self.student.last_name} - {level_name} - {semester_info}"
@@ -390,10 +390,10 @@ class Subject(models.Model):
 class SubjectToStudy(models.Model):
     subject = models.ForeignKey(Subject, on_delete=models.CASCADE, verbose_name=_("วิชา"))
     level = models.ForeignKey('Level', on_delete=models.CASCADE, verbose_name=_("ระดับชั้น"))
-    semester = models.IntegerField(
-        choices=[(1, 'เทอม 1'), (2, 'เทอม 2')],
+    category = models.IntegerField(
+        choices=[(1, 'ภาคทฤษฎี'), (2, 'ภาคปฏิบัติ')],
         default=1,
-        verbose_name=_("ภาคการศึกษา")
+        verbose_name=_("ประเภทวิชา")
     )
 
     class Meta:
@@ -405,10 +405,10 @@ class StudentMarkForSubject(models.Model):
     student = models.ForeignKey(Student, on_delete=models.CASCADE, verbose_name=_("นักเรียน"))
     subject_to_study = models.ForeignKey(SubjectToStudy, on_delete=models.CASCADE, verbose_name=_("วิชาที่เรียน"))
     marks_obtained = models.IntegerField(blank=True, null=True, default=0, verbose_name=_("คะแนนที่ได้"))
-    semester = models.IntegerField(
-        choices=[(1, 'เทอม 1'), (2, 'เทอม 2')],
+    category = models.IntegerField(
+        choices=[(1, 'ภาคทฤษฎี'), (2, 'ภาคปฏิบัติ')],
         default=1,
-        verbose_name=_("ภาคการศึกษา")
+        verbose_name=_("ประเภทวิชา")
     )
     class Meta:
         verbose_name = _("คะแนนนักเรียนสำหรับวิชา")
@@ -419,10 +419,10 @@ class StudentHistory(models.Model):
     student_name = models.CharField(blank=True, null=True,max_length=255, verbose_name=_("ชื่อนักเรียน"))
     school_name = models.CharField(blank=True, null=True,max_length=255, verbose_name=_("ชื่อโรงเรียน"))
     level_name = models.CharField(blank=True, null=True,max_length=50, verbose_name=_("ระดับชั้น"))
-    semester = models.IntegerField(
-        choices=[(1, 'เทอม 1'), (2, 'เทอม 2')],
+    category = models.IntegerField(
+        choices=[(1, 'ภาคทฤษฎี'), (2, 'ภาคปฏิบัติ')],
         default=1,
-        verbose_name=_("ภาคการศึกษา")
+        verbose_name=_("ประเภทวิชา")
     )
     academic_year = models.CharField(blank=True, null=True,max_length=4, verbose_name=_("ปีการศึกษา"))
     total_marks = models.IntegerField(blank=True, null=True, default=0, verbose_name=_("คะแนนเต็ม"))

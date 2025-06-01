@@ -34,19 +34,19 @@
                         {% endfor %}
                     </select>
 
-                    <!-- เทอม -->
+                    <!-- ภาค -->
                     <select
-                        name="semester"
+                        name="category"
                         onchange="this.form.submit()"
                         class="w-36 bg-white py-1 rounded-lg border border-green-800 focus:outline-none duration-300 focus:border-green-500 focus:ring-2 focus:ring-green-200 appearance-none cursor-pointer hover:shadow-md">
-                        <option value="" {% if not selected_semester or selected_semester == "" %}selected{% endif %}>ทุกเทอม</option>
-                        <option value="1" {% if selected_semester == '1' or selected_semester == 1 %}selected{% endif %}>เทอม 1</option>
-                        <option value="2" {% if selected_semester == '2' or selected_semester == 2 %}selected{% endif %}>เทอม 2</option>
+                        <option value="" {% if not selected_category %}selected{% endif %}>รวมทุกภาค</option>
+                        <option value="1" {% if selected_category == '1' %}selected{% endif %}>ภาคทฤษฎี</option>
+                        <option value="2" {% if selected_category == '2' %}selected{% endif %}>ภาคปฏิบัติ</option>
                     </select>
                 </form>
                     <form method="get">
                         <input type="hidden" name="academic_year" value="{{ selected_academic_year }}">
-                        <input type="hidden" name="semester" value="{{ selected_semester }}">
+                        <input type="hidden" name="category" value="{{ selected_category }}">
                         <button name="download_pdf" class="bg-green-800 text-white px-4 md:px-8 py-1 rounded-lg">บันทึกเป็น PDF</button>
                     </form>
                 </div>
@@ -99,117 +99,110 @@
             </div>
 
              <!-- Table Section -->
-            {% if not selected_semester %}
-                {% if semester_1_cat1 %}
-                    <div class="bg-green-700 text-white text-lg md:text-2xl font-bold p-2 mt-6 px-4 rounded-t-md">
-                        ผลการศึกษา ภาคทฤษฎี ปีการศึกษา {{ selected_academic_year |add:"543" }} ภาคเรียนที่ 1
-                    </div>
-                    <table class="w-full border-collapse border border-green-800 text-sm">
-                        {% for subject in semester_1_cat1 %}
-                        <tr class="text-center bg-white">
-                            <td class="border p-2 text-left px-4">{{ subject.name }}</td>
-                            <td class="border p-2">{{ subject.marks }}</td>
-                            <td class="border p-2">{{ subject.percentage|floatformat:0 }}%</td>
-                            <td class="border p-2 {% if subject.status == 'ไม่ผ่าน' %}bg-red-500 text-white{% else %}bg-green-500 text-white{% endif %}">
-                                {{ subject.status }}
-                            </td>
-                        </tr>
-                        {% endfor %}
-                    </table>
-                {% endif %}
-
-                {% if semester_1_cat2 %}
-                    <div class="bg-green-700 text-white text-lg md:text-2xl font-bold p-2 mt-6 px-4 rounded-t-md">
-                        ผลการศึกษา ภาคปฏิบัติ ปีการศึกษา {{ selected_academic_year |add:"543" }} ภาคเรียนที่ 1
-                    </div>
-                    <table class="w-full border-collapse border border-green-800 text-sm">
-                        {% for subject in semester_1_cat2 %}
-                        <tr class="text-center bg-white">
-                            <td class="border p-2 text-left px-4">{{ subject.name }}</td>
-                            <td class="border p-2">{{ subject.marks }}</td>
-                            <td class="border p-2">{{ subject.percentage|floatformat:0 }}%</td>
-                            <td class="border p-2 {% if subject.status == 'ไม่ผ่าน' %}bg-red-500 text-white{% else %}bg-green-500 text-white{% endif %}">
-                                {{ subject.status }}
-                            </td>
-                        </tr>
-                        {% endfor %}
-                    </table>
-                {% endif %}
-
-                {% if semester_2_cat1 %}
-                    <div class="bg-green-700 text-white text-lg md:text-2xl font-bold p-2 mt-6 px-4 rounded-t-md">
-                        ผลการศึกษา ภาคทฤษฎี ปีการศึกษา {{ selected_academic_year |add:"543" }} ภาคเรียนที่ 2
-                    </div>
-                    <table class="w-full border-collapse border border-green-800 text-sm">
-                        {% for subject in semester_2_cat1 %}
-                        <tr class="text-center bg-white">
-                            <td class="border p-2 text-left px-4">{{ subject.name }}</td>
-                            <td class="border p-2">{{ subject.marks }}</td>
-                            <td class="border p-2">{{ subject.percentage|floatformat:0 }}%</td>
-                            <td class="border p-2 {% if subject.status == 'ไม่ผ่าน' %}bg-red-500 text-white{% else %}bg-green-500 text-white{% endif %}">
-                                {{ subject.status }}
-                            </td>
-                        </tr>
-                        {% endfor %}
-                    </table>
-                {% endif %}
-
-                {% if semester_2_cat2 %}
-                    <div class="bg-green-700 text-white text-lg md:text-2xl font-bold p-2 mt-6 px-4 rounded-t-md">
-                        ผลการศึกษา ภาคปฏิบัติ ปีการศึกษา {{ selected_academic_year |add:"543" }} ภาคเรียนที่ 2
-                    </div>
-                    <table class="w-full border-collapse border border-green-800 text-sm">
-                        {% for subject in semester_2_cat2 %}
-                        <tr class="text-center bg-white">
-                            <td class="border p-2 text-left px-4">{{ subject.name }}</td>
-                            <td class="border p-2">{{ subject.marks }}</td>
-                            <td class="border p-2">{{ subject.percentage|floatformat:0 }}%</td>
-                            <td class="border p-2 {% if subject.status == 'ไม่ผ่าน' %}bg-red-500 text-white{% else %}bg-green-500 text-white{% endif %}">
-                                {{ subject.status }}
-                            </td>
-                        </tr>
-                        {% endfor %}
-                    </table>
-                {% endif %}
+            <div class="space-y-8">
+    {% if selected_category == "1" %}
+        <!-- ภาคทฤษฎี เท่านั้น -->
+        <div>
+            <div class="bg-green-700 text-white text-lg md:text-2xl font-bold p-2 px-4 rounded-t-md">
+                ผลการศึกษา ภาคทฤษฎี ปีการศึกษา {{ selected_academic_year|add:"543" }}
+            </div>
+            {% if subjects_cat1 %}
+            <table class="w-full border-collapse border border-green-800 text-sm">
+                {% for subject in subjects_cat1 %}
+                <tr class="text-center bg-white">
+                    <td class="border p-2 text-left px-4">{{ subject.name }}</td>
+                    <td class="border p-2">{{ subject.marks }}</td>
+                    <td class="border p-2">{{ subject.percentage|floatformat:0 }}%</td>
+                    <td class="border p-2 {% if subject.status == 'ไม่ผ่าน' %}bg-red-500 text-white{% else %}bg-green-500 text-white{% endif %}">
+                        {{ subject.status }}
+                    </td>
+                </tr>
+                {% endfor %}
+            </table>
             {% else %}
-                {% if subjects_cat1 %}
-                    <div class="bg-green-700 text-white text-lg md:text-2xl font-bold p-2 mt-6 px-4 rounded-t-md">
-                        ผลการศึกษา ภาคทฤษฎี ปีการศึกษา {{ selected_academic_year }} ภาคเรียนที่ {{ selected_semester }}
-                    </div>
-                    <table class="w-full border-collapse border border-green-800 text-sm">
-                        {% for subject in subjects_cat1 %}
-                        <tr class="text-center bg-white">
-                            <td class="border p-2 text-left px-4">{{ subject.name }}</td>
-                            <td class="border p-2">{{ subject.marks }}</td>
-                            <td class="border p-2">{{ subject.percentage|floatformat:0 }}%</td>
-                            <td class="border p-2 {% if subject.status == 'ไม่ผ่าน' %}bg-red-500 text-white{% else %}bg-green-500 text-white{% endif %}">
-                                {{ subject.status }}
-                            </td>
-                        </tr>
-                        {% endfor %}
-                    </table>
-                {% endif %}
-
-                {% if subjects_cat2 %}
-                    <div class="bg-green-700 text-white text-lg md:text-2xl font-bold p-2 mt-6 px-4 rounded-t-md">
-                        ผลการศึกษา ภาคปฏิบัติ ปีการศึกษา {{ selected_academic_year }} ภาคเรียนที่ {{ selected_semester }}
-                    </div>
-                    <table class="w-full border-collapse border border-green-800 text-sm">
-                        {% for subject in subjects_cat2 %}
-                        <tr class="text-center bg-white">
-                            <td class="border p-2 text-left px-4">{{ subject.name }}</td>
-                            <td class="border p-2">{{ subject.marks }}</td>
-                            <td class="border p-2">{{ subject.percentage|floatformat:0 }}%</td>
-                            <td class="border p-2 {% if subject.status == 'ไม่ผ่าน' %}bg-red-500 text-white{% else %}bg-green-500 text-white{% endif %}">
-                                {{ subject.status }}
-                            </td>
-                        </tr>
-                        {% endfor %}
-                    </table>
-                {% endif %}
+            <div class="bg-white text-center border border-green-800 p-4">
+                ยังไม่มีข้อมูลสำหรับภาคนี้
+            </div>
             {% endif %}
-
         </div>
+
+    {% elif selected_category == "2" %}
+        <!-- ภาคปฏิบัติ เท่านั้น -->
+        <div>
+            <div class="bg-green-700 text-white text-lg md:text-2xl font-bold p-2 px-4 rounded-t-md">
+                ผลการศึกษา ภาคปฏิบัติ ปีการศึกษา {{ selected_academic_year|add:"543" }}
+            </div>
+            {% if subjects_cat2 %}
+            <table class="w-full border-collapse border border-green-800 text-sm">
+                {% for subject in subjects_cat2 %}
+                <tr class="text-center bg-white">
+                    <td class="border p-2 text-left px-4">{{ subject.name }}</td>
+                    <td class="border p-2">{{ subject.marks }}</td>
+                    <td class="border p-2">{{ subject.percentage|floatformat:0 }}%</td>
+                    <td class="border p-2 {% if subject.status == 'ไม่ผ่าน' %}bg-red-500 text-white{% else %}bg-green-500 text-white{% endif %}">
+                        {{ subject.status }}
+                    </td>
+                </tr>
+                {% endfor %}
+            </table>
+            {% else %}
+            <div class="bg-white text-center border border-green-800 p-4">
+                ยังไม่มีข้อมูลสำหรับภาคนี้
+            </div>
+            {% endif %}
+        </div>
+
+        {% else %}
+            <!-- แสดงทั้งสองภาค (เมื่อไม่เลือก filter category) -->
+            <div>
+                <div class="bg-green-700 text-white text-lg md:text-2xl font-bold p-2 px-4 rounded-t-md">
+                    ผลการศึกษา ภาคทฤษฎี ปีการศึกษา {{ selected_academic_year|add:"543" }}
+                </div>
+                {% if subjects_cat1 %}
+                <table class="w-full border-collapse border border-green-800 text-sm">
+                    {% for subject in subjects_cat1 %}
+                    <tr class="text-center bg-white">
+                        <td class="border p-2 text-left px-4">{{ subject.name }}</td>
+                        <td class="border p-2">{{ subject.marks }}</td>
+                        <td class="border p-2">{{ subject.percentage|floatformat:0 }}%</td>
+                        <td class="border p-2 {% if subject.status == 'ไม่ผ่าน' %}bg-red-500 text-white{% else %}bg-green-500 text-white{% endif %}">
+                            {{ subject.status }}
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </table>
+                {% else %}
+                <div class="bg-white text-center border border-green-800 p-4">
+                    ยังไม่มีข้อมูลสำหรับภาคนี้
+                </div>
+                {% endif %}
+            </div>
+
+            <div>
+                <div class="bg-green-700 text-white text-lg md:text-2xl font-bold p-2 px-4 rounded-t-md mt-8">
+                    ผลการศึกษา ภาคปฏิบัติ ปีการศึกษา {{ selected_academic_year|add:"543" }}
+                </div>
+                {% if subjects_cat2 %}
+                <table class="w-full border-collapse border border-green-800 text-sm">
+                    {% for subject in subjects_cat2 %}
+                    <tr class="text-center bg-white">
+                        <td class="border p-2 text-left px-4">{{ subject.name }}</td>
+                        <td class="border p-2">{{ subject.marks }}</td>
+                        <td class="border p-2">{{ subject.percentage|floatformat:0 }}%</td>
+                        <td class="border p-2 {% if subject.status == 'ไม่ผ่าน' %}bg-red-500 text-white{% else %}bg-green-500 text-white{% endif %}">
+                            {{ subject.status }}
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </table>
+                {% else %}
+                <div class="bg-white text-center border border-green-800 p-4">
+                    ยังไม่มีข้อมูลสำหรับภาคนี้
+                </div>
+                {% endif %}
+            </div>
+        {% endif %}
+    </div>
     </div>
 </body>
 </html>

@@ -770,3 +770,144 @@ Traceback (most recent call last):
            ^^^^^^^^^^^^^^^^^^^^^
 TypeError: download_result_pdfs() got an unexpected keyword argument 'students'
 "GET /student_results/688010001/?academic_year=2025&semester=&download_pdf= HTTP/1.1" 500 91101
+Internal Server Error: /ingr_student
+Traceback (most recent call last):
+  File "C:\Users\Sulaiman\AppData\Local\Programs\Python\Python311\Lib\site-packages\django\core\handlers\exception.py", line 55, in inner
+    response = get_response(request)
+               ^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Sulaiman\AppData\Local\Programs\Python\Python311\Lib\site-packages\django\core\handlers\base.py", line 197, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Sulaiman\Desktop\New folder (2)\student-result\students\views.py", line 657, in student_marks_view
+    subjects = SubjectToStudy.objects.filter(
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Sulaiman\AppData\Local\Programs\Python\Python311\Lib\site-packages\django\db\models\manager.py", line 87, in manager_method
+    return getattr(self.get_queryset(), name)(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Sulaiman\AppData\Local\Programs\Python\Python311\Lib\site-packages\django\db\models\query.py", line 1476, in filter
+    return self._filter_or_exclude(False, args, kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Sulaiman\AppData\Local\Programs\Python\Python311\Lib\site-packages\django\db\models\query.py", line 1494, in _filter_or_exclude
+    clone._filter_or_exclude_inplace(negate, args, kwargs)
+  File "C:\Users\Sulaiman\AppData\Local\Programs\Python\Python311\Lib\site-packages\django\db\models\query.py", line 1501, in _filter_or_exclude_inplace
+    self._query.add_q(Q(*args, **kwargs))
+  File "C:\Users\Sulaiman\AppData\Local\Programs\Python\Python311\Lib\site-packages\django\db\models\sql\query.py", line 1609, in add_q
+    clause, _ = self._add_q(q_object, self.used_aliases)
+                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Sulaiman\AppData\Local\Programs\Python\Python311\Lib\site-packages\django\db\models\sql\query.py", line 1641, in _add_q
+    child_clause, needed_inner = self.build_filter(
+                                 ^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Sulaiman\AppData\Local\Programs\Python\Python311\Lib\site-packages\django\db\models\sql\query.py", line 1491, in build_filter
+    lookups, parts, reffed_expression = self.solve_lookup_type(arg, summarize)
+                                        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Sulaiman\AppData\Local\Programs\Python\Python311\Lib\site-packages\django\db\models\sql\query.py", line 1303, in solve_lookup_type
+    _, field, _, lookup_parts = self.names_to_path(lookup_splitted, self.get_meta())
+                                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Sulaiman\AppData\Local\Programs\Python\Python311\Lib\site-packages\django\db\models\sql\query.py", line 1768, in names_to_path
+    raise FieldError(
+django.core.exceptions.FieldError: Cannot resolve keyword 'category' into field. Choices are: id, level, level_id, semester, studentmarkforsubject, subject, subject_id
+"GET /ingr_student?school=%E0%B8%AD%E0%B8%B4%E0%B8%AA%E0%B8%A5%E0%B8%B2%E0%B8%A1%E0%B8%B5%E0%B8%A2%E0%B8%B0%E0%B8%AE%E0%B9%8C&level=%E0%B8%A3%E0%B8%B0%E0%B8%94%E0%B8%B1%E0%B8%9A%E0%B8%8A%E0%B8%B1%E0%B9%89%E0%B8%99%E0%B8%9B%E0%B8%B5+1&academic_year=2568&category=1 HTTP/1.1" 500 134046
+Internal Server Error: /gr_student
+Traceback (most recent call last):
+  File "C:\Users\Sulaiman\AppData\Local\Programs\Python\Python311\Lib\site-packages\django\core\handlers\exception.py", line 55, in inner
+    response = get_response(request)
+               ^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Sulaiman\AppData\Local\Programs\Python\Python311\Lib\site-packages\django\core\handlers\base.py", line 197, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Sulaiman\Desktop\New folder (2)\student-result\students\views.py", line 786, in GR_Student
+    default_semester = current_semester.semester
+                       ^^^^^^^^^^^^^^^^^^^^^^^^^
+AttributeError: 'CurrentSemester' object has no attribute 'semester'
+"GET /gr_student HTTP/1.1" 500 80636
+Internal Server Error: /download_student_results_pdf/
+Traceback (most recent call last):
+  File "C:\Users\Sulaiman\AppData\Local\Programs\Python\Python311\Lib\site-packages\django\core\handlers\exception.py", line 55, in inner
+    response = get_response(request)
+               ^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Sulaiman\AppData\Local\Programs\Python\Python311\Lib\site-packages\django\core\handlers\base.py", line 197, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Sulaiman\Desktop\New folder (2)\student-result\students\views.py", line 933, in download_student_results_pdf
+    logo_path = os.path.join('static', 'images', 'logo.ico')
+                ^^
+NameError: name 'os' is not defined
+"GET /download_student_results_pdf/?school=%E0%B8%AD%E0%B8%B4%E0%B8%AA%E0%B8%A5%E0%B8%B2%E0%B8%A1%E0%B8%B5%E0%B8%A2%E0%B8%B0%E0%B8%AE%E0%B9%8C&level=%E0%B8%A3%E0%B8%B0%E0%B8%94%E0%B8%B1%E0%B8%9A%E0%B8%8A%E0%B8%B1%E0%B9%89%E0%B8%99%E0%B8%9B%E0%B8%B5+1&academic_year=2568&semester= HTTP/1.1" 500 87076
+Internal Server Error: /download_student_results_pdf/
+Traceback (most recent call last):
+  File "C:\Users\Sulaiman\AppData\Local\Programs\Python\Python311\Lib\site-packages\django\core\handlers\exception.py", line 55, in inner
+    response = get_response(request)
+               ^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Sulaiman\AppData\Local\Programs\Python\Python311\Lib\site-packages\django\core\handlers\base.py", line 197, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Sulaiman\Desktop\New folder (2)\student-result\students\views.py", line 900, in download_student_results_pdf
+    filename = f"results_{academic_year_thai - 543 or 'all'}_{category_display}.pdf"
+                          ~~~~~~~~~~~~~~~~~~~^~~~~
+TypeError: unsupported operand type(s) for -: 'str' and 'int'
+"GET /download_student_results_pdf/?school=%E0%B8%AD%E0%B8%B4%E0%B8%AA%E0%B8%A5%E0%B8%B2%E0%B8%A1%E0%B8%B5%E0%B8%A2%E0%B8%B0%E0%B8%AE%E0%B9%8C&level=%E0%B8%A3%E0%B8%B0%E0%B8%94%E0%B8%B1%E0%B8%9A%E0%B8%8A%E0%B8%B1%E0%B9%89%E0%B8%99%E0%B8%9B%E0%B8%B5+1&academic_year=2568&category=1 HTTP/1.1" 500 84274
+Internal Server Error: /download_student_results_pdf/
+Traceback (most recent call last):
+  File "C:\Users\Sulaiman\AppData\Local\Programs\Python\Python311\Lib\site-packages\django\core\handlers\exception.py", line 55, in inner
+    response = get_response(request)
+               ^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Sulaiman\AppData\Local\Programs\Python\Python311\Lib\site-packages\django\core\handlers\base.py", line 197, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Sulaiman\Desktop\New folder (2)\student-result\students\views.py", line 900, in download_student_results_pdf
+    filename = f"results_{academic_year_thai - 543 or 'all'}_{category_display}.pdf"
+                          ~~~~~~~~~~~~~~~~~~~^~~~~
+TypeError: unsupported operand type(s) for -: 'str' and 'int'
+"GET /download_student_results_pdf/?school=%E0%B8%AD%E0%B8%B4%E0%B8%AA%E0%B8%A5%E0%B8%B2%E0%B8%A1%E0%B8%B5%E0%B8%A2%E0%B8%B0%E0%B8%AE%E0%B9%8C&level=%E0%B8%A3%E0%B8%B0%E0%B8%94%E0%B8%B1%E0%B8%9A%E0%B8%8A%E0%B8%B1%E0%B9%89%E0%B8%99%E0%B8%9B%E0%B8%B5+1&academic_year=2025&category=1 HTTP/1.1" 500 86476
+Internal Server Error: /download_student_results_pdf/
+Traceback (most recent call last):
+  File "C:\Users\Sulaiman\AppData\Local\Programs\Python\Python311\Lib\site-packages\django\core\handlers\exception.py", line 55, in inner
+    response = get_response(request)
+               ^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Sulaiman\AppData\Local\Programs\Python\Python311\Lib\site-packages\django\core\handlers\base.py", line 197, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Sulaiman\Desktop\New folder (2)\student-result\students\views.py", line 900, in download_student_results_pdf
+    filename = f"results_{academic_year_thai  or 'all'}_{category_display}.pdf"
+                          ^^^^^^^^^^^^^^^^^^^^^^^^
+TypeError: unsupported operand type(s) for -: 'str' and 'int'
+"GET /download_student_results_pdf/?school=%E0%B8%AD%E0%B8%B4%E0%B8%AA%E0%B8%A5%E0%B8%B2%E0%B8%A1%E0%B8%B5%E0%B8%A2%E0%B8%B0%E0%B8%AE%E0%B9%8C&level=%E0%B8%A3%E0%B8%B0%E0%B8%94%E0%B8%B1%E0%B8%9A%E0%B8%8A%E0%B8%B1%E0%B9%89%E0%B8%99%E0%B8%9B%E0%B8%B5+1&academic_year=2025&category=1 HTTP/1.1" 500 86603
+Internal Server Error: /gr_student
+Traceback (most recent call last):
+  File "C:\Users\Sulaiman\AppData\Local\Programs\Python\Python311\Lib\site-packages\django\core\handlers\exception.py", line 55, in inner
+    response = get_response(request)
+               ^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Sulaiman\AppData\Local\Programs\Python\Python311\Lib\site-packages\django\core\handlers\base.py", line 197, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Sulaiman\Desktop\New folder (2)\student-result\students\views.py", line 790, in GR_Student
+    academic_year_thai = convert_year_to_thai(academic_year)
+                         ^^^^^^^^^^^^^^^^^^^^
+NameError: name 'convert_year_to_thai' is not defined
+"GET /gr_student?school=%E0%B8%AD%E0%B8%B4%E0%B8%AA%E0%B8%A5%E0%B8%B2%E0%B8%A1%E0%B8%B5%E0%B8%A2%E0%B8%B0%E0%B8%AE%E0%B9%8C&level=%E0%B8%A3%E0%B8%B0%E0%B8%94%E0%B8%B1%E0%B8%9A%E0%B8%8A%E0%B8%B1%E0%B9%89%E0%B8%99%E0%B8%9B%E0%B8%B5+1&academic_year=2025&category=2 HTTP/1.1" 500 83797
+Internal Server Error: /student_results/688010001/
+Traceback (most recent call last):
+  File "C:\Users\Sulaiman\AppData\Local\Programs\Python\Python311\Lib\site-packages\django\core\handlers\exception.py", line 55, in inner
+    response = get_response(request)
+               ^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Sulaiman\AppData\Local\Programs\Python\Python311\Lib\site-packages\django\core\handlers\base.py", line 197, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Sulaiman\Desktop\New folder (2)\student-result\students\views.py", line 983, in student_Results
+    academic_year=convert_year_to_thai(selected_academic_year),
+                  ^^^^^^^^^^^^^^^^^^^^
+NameError: name 'convert_year_to_thai' is not defined
+"GET /student_results/688010001/?academic_year=2025&semester=&download_pdf= HTTP/1.1" 500 84520
+Internal Server Error: /student_results/688010001/
+Traceback (most recent call last):
+  File "C:\Users\Sulaiman\AppData\Local\Programs\Python\Python311\Lib\site-packages\django\core\handlers\exception.py", line 55, in inner
+    response = get_response(request)
+               ^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Sulaiman\AppData\Local\Programs\Python\Python311\Lib\site-packages\django\core\handlers\base.py", line 197, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Sulaiman\Desktop\New folder (2)\student-result\students\views.py", line 985, in student_Results
+    academic_year=convert_year_to_thai(str(selected_academic_year)),
+                  ^^^^^^^^^^^^^^^^^^^^
+NameError: name 'convert_year_to_thai' is not defined
+"GET /student_results/688010001/?academic_year=2025&category=&download_pdf= HTTP/1.1" 500 84571
