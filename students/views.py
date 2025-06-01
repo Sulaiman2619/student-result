@@ -457,7 +457,7 @@ def Student_Rp(request):
     filter_params = query_params.urlencode()  # สร้าง URL ของพารามิเตอร์ที่เหลือ
 
     context = {
-        'page_obj': page_obj,
+        'students': page_obj,
         'total_students': students.count(),
         'male_students': students.filter(gender='ชาย').count(),
         'female_students': students.filter(gender='หญิง').count(),
