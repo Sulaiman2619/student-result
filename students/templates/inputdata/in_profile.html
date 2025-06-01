@@ -18,9 +18,12 @@
     <title>กรอกประวัตินักเรียน</title>
     {% endblock %}
 </head>
-        {% block content %}
 
-        <div > 
+
+
+{% block content %}
+
+    <body class="bg-gradient-to-b from-green-100 to-green-900 font-prompt min-h-screen">
         <!-- Header -->
         <div class="bg-green-800">
             <h1 class="text-4xl md:text-6xl text-white d py-4 md:py-8 text-center shadow-md shadow-green-900">
@@ -362,7 +365,6 @@
                     </button>
                 </div>
             </form>
-        </div>
         </div>
 
         <script>
@@ -810,4 +812,5 @@
         
         {% endblock %}
 
+    </body>
     </html>

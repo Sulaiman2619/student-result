@@ -43,10 +43,9 @@
         }
     </style>
 </head>
+{% block content %}
 <body>
-    {% block content %}
-
-    <div>
+    <div class="min-h-screen bg-gradient-to-b from-green-100 to-green-900 font-prompt">
         <!-- Header -->
         <div class="bg-green-800">
             <h1 class="text-4xl md:text-7xl text-white d py-4 md:py-8 text-center drop-shadow-md shadow-md shadow-green-900">
@@ -153,7 +152,7 @@
                             </tr>
                             {% empty %}
                             <tr>
-                                <td colspan="{{ subjects|length|add:12 }}" class="text-center py-4 text-gray-500">
+                                <td colspan="{{ subjects|length|add:3 }}" class="text-center py-4 text-gray-500">
                                     ไม่มีข้อมูล
                                 </td>
                             </tr>
@@ -198,7 +197,7 @@
             });
         });
     </script>
-    {% endblock %}
-
+    
 </body>
+{% endblock %}
 </html>

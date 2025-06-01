@@ -14,15 +14,14 @@
     {% endblock %}
 </head>
 
-<body>
-    {% block content %}
-
-    <div>
+{% block content %}
+<body class="font-prompt">
+    <div class="bg-green-800">
         <h1 class="text-4xl md:text-6xl text-white d py-4 md:py-8 text-center shadow-md shadow-green-900">
             ประวัตินักเรียน
         </h1>
     </div>
-    <div class=" p-6">
+    <div class="bg-gradient-to-b from-green-100 to-green-900 font-prompt min-h-screen p-6">
         <!-- Header -->
         <div class="max-w-4xl mx-auto ">
 
@@ -311,7 +310,6 @@
             </div>
         </div>
     </div>
-    {% endblock %}
-
 </body>
+{% endblock %}
 </html>
