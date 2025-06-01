@@ -260,3 +260,5 @@ JAZZMIN_UI_TWEAKS = {
     "actions_sticky_top": False,
     
 }
+
+LOGOUT_REDIRECT_URL = '/'
