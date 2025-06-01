@@ -28,7 +28,14 @@ from django.template import loader
 from datetime import datetime
 
 
+
 pdfmetrics.registerFont(TTFont('THSarabunNew', 'static/fonts/THSarabunNew.ttf'))
+
+def convert_year_to_thai(year_str):
+    try:
+        return str(int(year_str) + 543)
+    except:
+        return year_str
 
 def convert_to_thai_year(academic_year):
     # Assuming academic year is in the format "2023-2024", convert to Thai year
@@ -522,13 +529,14 @@ def download_students_pdf(students):
     school_name = get_unique_text(unique_schools, "ทุกโรงเรียน")
     level_name = get_unique_text(unique_levels, "ทุกชั้น")
     academic_year_text = get_unique_text(unique_academic_years, "ทุกปี")
-
-    header_info = f"ชั้น: {level_name} | ปีการศึกษา: {academic_year_text} | เพศ: {gender_text} | สถานะพิเศษ: {status_text}"
+    academic_year_text_thai = convert_year_to_thai(academic_year_text)
+    header_info = f"ชั้น: {level_name} | ปีการศึกษา: {academic_year_text_thai} | เพศ: {gender_text} | สถานะพิเศษ: {status_text}"
     
 
     # Create PDF Response
     response = HttpResponse(content_type='application/pdf')
-    response['Content-Disposition'] = f'attachment; filename="students_report_{academic_year_text or "all"}.pdf"'
+    response['Content-Disposition'] = f'attachment; filename="students_report_{academic_year_text_thai or "all"}.pdf"'
+
 
     # Create PDF Document (A4 Landscape)
     doc = SimpleDocTemplate(
@@ -621,7 +629,7 @@ def student_marks_view(request):
     else:
         current_year = datetime.now().year + 543
 
-    years = [str(y) for y in range(current_year, current_year - 10, -1)]
+    years = [convert_year_to_thai(str(y)) for y in range(current_year, current_year - 10, -1)]
 
     # รับค่าจาก GET
     academic_year = request.GET.get('academic_year') or (current_semester.year if current_semester else str(datetime.now().year + 543))
@@ -793,6 +801,8 @@ def GR_Student(request):
     school_name = request.GET.get('school')
     level_name = request.GET.get('level')
     academic_year = request.GET.get('academic_year') or str(current_year)
+    academic_year_thai = convert_year_to_thai(academic_year)
+
     semester_selected = request.GET.get('semester') or str(default_semester)
 
     # 🔍 กรองข้อมูล StudentHistory
@@ -834,7 +844,7 @@ def GR_Student(request):
         'students': histories,
         'subjects': subjects,
         'subject_totals': subject_totals,
-        'academic_year': academic_year,
+        'academic_year': academic_year_thai,
         'semester_selected': semester_selected,
         'school_name': school_name,
         'level_name': level_name,
@@ -888,7 +898,7 @@ def download_student_results_pdf(request):
 
     # สร้าง PDF
     response = HttpResponse(content_type='application/pdf')
-    filename = f"results_{academic_year or 'all'}_sem{semester or 'all'}.pdf"
+    filename = f"results_{academic_year_thai or 'all'}_sem{semester or 'all'}.pdf"
     response['Content-Disposition'] = f'attachment; filename="{filename}"'
 
     doc = SimpleDocTemplate(
@@ -923,7 +933,9 @@ def download_student_results_pdf(request):
     )
 
     school_paragraph = Paragraph(f"<b>{school_name or 'ทุกโรงเรียน'}</b>", school_style)
-    info_text = f"{level_name or 'ทั้งหมด'} | ปีการศึกษา: {academic_year or 'ทุกปี'} | เทอม: {semester or 'ทั้งหมด'} "
+    academic_year_thai = convert_year_to_thai(academic_year)
+    info_text = f"{level_name or 'ทั้งหมด'} | ปีการศึกษา: {academic_year_thai or 'ทุกปี'} | เทอม: {semester or 'ทั้งหมด'}"
+
     filter_paragraph = Paragraph(info_text, filter_style)
 
     # 📷 Logo
@@ -1021,7 +1033,7 @@ def student_Results(request, student_id):
             student=student,
             semester_1_data=format_data(semester_1_cat1 + semester_1_cat2),
             semester_2_data=format_data(semester_2_cat1 + semester_2_cat2),
-            academic_year=int(selected_academic_year) + 543,
+            academic_year=convert_year_to_thai(selected_academic_year),
             student_name=f"{student.first_name}_{student.last_name}",
             school_name=current_study.school.name if current_study and current_study.school else "-",
             level_name=current_study.level.name if current_study and current_study.level else "-",
@@ -1106,7 +1118,7 @@ def download_result_pdfs(
     school_name_paragraph = Paragraph(f"โรงเรียน {school_name}", sub_title_style)
     prefix = 'เด็กชาย' if student.gender == 'ชาย' else 'เด็กหญิง' if student.gender == 'หญิง' else ''
     student_info = Paragraph(f"ผลการเรียนของ {prefix} {student_name} {level_name}", normal_style)
-    academic_year_text = Paragraph(f"ประจำปีการศึกษา {academic_year}", normal_style)
+    academic_year_text = Paragraph(f"ประจำปีการศึกษา {convert_year_to_thai(str(academic_year))}", normal_style)
 
     # Tables
     def generate_table(data):

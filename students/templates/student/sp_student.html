@@ -11,14 +11,7 @@
     <title>รายงานนักเรียน</title>
     {% endblock %}
     <style>
-        /* Custom Scrollbar Styles */
-        @font-face {
-            font-family: 'THSarabunNew';
-            src: url('{% static "fonts/THSarabunNew.ttf" %}') format('truetype');
-        }
-        body {
-            font-family: 'THSarabunNew', sans-serif;
-        }
+        
         ::-webkit-scrollbar {
             width: 12px;
             height: 12px;
@@ -99,7 +92,7 @@
     </script>
 </head>
 {% block content %}
-<body>
+<body> 
     <div class="min-h-screen bg-gradient-to-b from-green-200 to-green-900 font-prompt"> 
         <!-- Header -->
         <div class="bg-green-900">
@@ -165,7 +158,7 @@
                                 <option value="">ทุกปีการศึกษา</option>
                                 {% for year in academic_years %}
                                     <option value="{{ year }}" {% if request.GET.academic_year == year|stringformat:"s" %}selected{% endif %}>
-                                        {{ year }}
+                                        {{ year|add:"543" }}
                                     </option>
                                 {% endfor %}
                             </select>
@@ -243,25 +236,31 @@
                     </div>
 
                     <!-- Card Content -->
-                    <div class="pt-14 "> 
-                        <div class="flex justify-between items-center border-b pb-2">
+                    <div class="pt-14  text-lg"> 
+                        <div class="flex justify-between items-center border-b ">
                             <span class="">ลำดับ:</span>
                             <span>{{ forloop.counter }}</span>
                         </div>
-                        <div class="flex justify-between items-center border-b pb-2">
+                        <div class="flex justify-between items-center border-b ">
                             <span class="">รหัสนักเรียน:</span>
                             <span>{{ student.id }}</span>
                         </div>
-                        <div class="flex justify-between items-center border-b pb-2">
+                        <div class="flex justify-between items-center border-b">
                             <span class="">ชื่อ-สกุล:</span>
                             <span>{{ student.first_name }} {{ student.last_name }}</span>
                         </div>
                         
-                        <div class="flex justify-between items-center border-b pb-2">
+                        <div class="flex justify-between items-center border-b">
                             <span class="">โรงเรียน:</span>
                             <span>{{ student.current_study.school.name }}</span>
                         </div>
-                        <div class="flex justify-between items-center border-b pb-2">
+
+                        <div class="flex justify-between items-center border-b ">
+                            <span class="">ชั้นปี:</span>
+                            <span>{{ student.current_study.level.name }}</span>
+                        </div>
+
+                        <div class="flex justify-between items-center border-b ">
                             <span class="">สถานะ:</span>
                             <span>{{ student.status }}</span>
                         </div>
@@ -336,6 +335,7 @@
                                         <th class="px-2 py-3 text-center text-gray-600 border-b w-32">รหัสนักเรียน</th>
                                         <th class="px-2 py-3 text-left pl-12 text-gray-600 border-b w-48">ชื่อ-สกุล</th>
                                         <th class="px-2 py-3 text-center text-gray-600 border-b w-48">โรงเรียน</th>
+                                        <th class="px-2 py-3 text-center text-gray-600 border-b w-48">ชั้นปี</th>
                                         <th class="px-2 py-3 text-center text-gray-600 border-b w-32">สถานะ</th>
                                         <th class="px-2 py-3 text-center text-gray-600 border-b w-40">จัดการ</th>
                                         
@@ -365,6 +365,7 @@
                                            {{ student.first_name }} {{ student.last_name }}
                                         </td>
                                         <td class="px-2 py-2 text-center">{{ student.current_study.school.name }}</td>
+                                        <td class="px-2 py-2 text-center">{{ student.current_study.level.name }}</td>
                                         <td class="px-2 py-2 text-center">{{ student.status }}</td>
                                         <td class="px-2 py-2">
                                             <div class="flex gap-2 justify-center">

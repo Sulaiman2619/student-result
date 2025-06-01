@@ -45,7 +45,7 @@
 {% endblock %}
 
 {% block content %}
-<body>
+<body class="font-prompt">
     <div class="min-h-screen bg-gradient-to-b from-green-100 to-green-900 font-prompt">
         <!-- Header -->
         <div class="bg-green-800">
@@ -89,7 +89,7 @@
                             <!-- Loop through historical academic years -->
                             {% for year in academic_years %}
                             <option value="{{ year }}" {% if academic_year == year|stringformat:"s" %}selected{% endif %}>
-                                {{ year }}
+                                {{ year|add:"543" }}
                             </option>
                             {% endfor %}
                         </select>

@@ -16,7 +16,7 @@
 {% endblock %}
 
 {% block content %}
-<body>
+<body class="font-prompt">
     <div class="min-h-screen bg-gradient-to-b from-green-100 to-green-900 font-prompt">
 
         <!-- Header Section -->
@@ -88,7 +88,7 @@
                         <option value="">ปีการศึกษา</option>
                         {% for year in academic_years %}
                             <option value="{{ year }}" {% if year == selected_academic_year %}selected{% endif %}>
-                                {{ year }}
+                                {{ year|add:"543" }}
                             </option>
                         {% endfor %}
                     </select>
