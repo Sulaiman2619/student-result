@@ -26,7 +26,6 @@ from django.conf import settings
 from datetime import timedelta
 from django.template import loader
 
-
 pdfmetrics.registerFont(TTFont('THSarabunNew', 'static/fonts/THSarabunNew.ttf'))
 
 def convert_to_thai_year(academic_year):
@@ -139,26 +138,35 @@ def login_view(request):
         user = authenticate(request, username=user_id, password=password)
 
         if user is not None:
+            # Log the user in
             login(request, user)
 
-            # ✅ Set session data after login
-            if Student.objects.filter(id=user_id).exists():
+            # Set session expiration based on "Remember Me"
+            if remember_me:
+                request.session.set_expiry(1209600)  # 2 weeks
+            else:
+                request.session.set_expiry(0)  # Browser close to expire the session
+
+            # Set session data based on user type
+            if user.is_superuser:  # Check if the user is a superuser
+                request.session['user_type'] = 'superuser'
+                return redirect('home')  # Redirect superusers to the admin dashboard
+            elif Student.objects.filter(id=user_id, delete_status='not_deleted').exists():
                 request.session['user_type'] = 'student'
                 request.session['student_id'] = user_id
+                return redirect('home')  # Redirect students to the home page
             elif Teacher.objects.filter(id=user_id).exists():
                 request.session['user_type'] = 'teacher'
                 request.session['teacher_id'] = user_id
-            elif user.is_superuser:
-                request.session['user_type'] = 'superuser'
-
-            # ✅ Remember me session time
-            if remember_me:
-                request.session.set_expiry(1209600)  # 14 วัน
+                return redirect('home')  # Redirect teachers to the home page
             else:
-                request.session.set_expiry(0)  # ปิด browser แล้ว logout
-
-            return redirect('home')  # Redirect to home after successful login
+                # Log the user out if the category is unknown
+                logout(request)
+                return render(request, 'auth/login.html', {
+                    'error_message': 'ไม่สามารถเข้าสู่ระบบได้',  # "Unable to log in"
+                })
         else:
+            logout(request)
             error_message = 'ไอดีผู้ใช้หรือรหัสผ่านไม่ถูกต้อง'
 
     return render(request, 'auth/login.html', {
@@ -393,7 +401,6 @@ def Profile(request, student_id=None):
 
     return render(request, 'student/profile.html', context)
 
-from django.core.paginator import Paginator
 
 def Student_Rp(request):
     # Check if 'user_type' is in the session
@@ -531,7 +538,7 @@ def download_students_pdf(students):
     )
 
     # Logo
-    logo_path = "static/images/logopdf.png"
+    logo_path = "static/images/logo.png"
     logo = Image(logo_path, width=1 * inch, height=1 * inch)
 
     # School Title
@@ -910,7 +917,7 @@ def download_result_pdf(students, category_1_data, category_2_data, academic_yea
     sub_title_style = ParagraphStyle(name='SubTitle', fontName='THSarabunNew', fontSize=16, alignment=1)
     normal_style = ParagraphStyle(name='Normal', fontName='THSarabunNew', fontSize=16, alignment=0)
 
-    logo_path = "static/images/logopdf.png"
+    logo_path = "static/images/logo.png"
     logo = Image(logo_path, width=80, height=80)
     logo.hAlign = 'CENTER'
 
@@ -1093,7 +1100,7 @@ def download_result_pdfs(students, semester_1_data, semester_2_data, academic_ye
     )
 
     # Add logo
-    logo_path = "static/images/logopdf.png"
+    logo_path = "static/images/logo.png"
     logo = Image(logo_path, width=80, height=80)  # Adjust size as needed
     logo.hAlign = 'CENTER'
 
