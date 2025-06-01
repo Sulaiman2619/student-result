@@ -478,17 +478,18 @@ class StudentHistory(models.Model):
         from .models import Subject
 
         subject_data = []
+
         if self.subject_marks:
             for key, marks_obtained in self.subject_marks.items():
                 try:
-                    # ลองแปลง key เป็น id ก่อน
+                    # ลองดึงจาก id ก่อน (กรณี key เป็นตัวเลข)
                     try:
                         subject = Subject.objects.get(id=int(key))
-                    except ValueError:
-                        # ถ้าไม่ใช่ตัวเลข แสดงว่าเป็นชื่อวิชา
+                    except (ValueError, Subject.DoesNotExist):
+                        # ถ้าไม่ใช่ตัวเลขหรือหา id ไม่เจอ ลองใช้ชื่อวิชาแทน
                         subject = Subject.objects.get(name=key)
 
-                    # กรองตาม category
+                    # กรองตาม category ถ้าระบุ
                     if category and subject.category != category:
                         continue
 
@@ -505,7 +506,9 @@ class StudentHistory(models.Model):
                         "grade": grade,
                         "status": status,
                     })
+
                 except Subject.DoesNotExist:
+                    # ถ้าไม่พบวิชาเลย
                     subject_data.append({
                         "name": key,
                         "marks": marks_obtained,
@@ -514,6 +517,7 @@ class StudentHistory(models.Model):
                         "grade": "N/A",
                         "status": "N/A",
                     })
+
         return subject_data
 
 
