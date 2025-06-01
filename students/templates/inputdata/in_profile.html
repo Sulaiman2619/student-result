@@ -1,4 +1,5 @@
-{% extends 'base.html' %}
+{% extends 'navbar.html' %}
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -6,22 +7,22 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <!-- Flatpickr CSS -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
-
-    
+    <!-- Flatpickr JS -->
+    <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+    <!-- Flatpickr Thai Language Pack -->
+    <script src="https://cdn.jsdelivr.net/npm/flatpickr/dist/l10n/th.js"></script>
     {% load static %}
 
     <link rel="stylesheet" href="{% static 'css/font.css' %}">
     <link rel="icon" href="{% static 'images/logo.ico' %}" type="image/x-icon">
-    {% block title %}
     <title>กรอกประวัตินักเรียน</title>
-    {% endblock %}
 </head>
 
 
 
 {% block content %}
-
     <body class="bg-gradient-to-b from-green-100 to-green-900 font-prompt min-h-screen">
+
         <!-- Header -->
         <div class="bg-green-800">
             <h1 class="text-4xl md:text-6xl text-white d py-4 md:py-8 text-center shadow-md shadow-green-900">
@@ -228,7 +229,7 @@
                     <input type="text" id="mother-dob" name="mother-dob" value="{{ mother.date_of_birth|default:'' }}" class="w-full px-3 py-2 md:px-4 md:py-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-green-500" placeholder="วันเดือนปีเกิด"  required>
                     <input type="text" id="mother-house-number" name="mother-house-number" value="{{ mother.address.house_number|default:'' }}" class="w-full px-3 py-2 md:px-4 md:py-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-green-500" placeholder="บ้านเลขที่"  required>
 
-                    <input type="text" id="mother-street" name="mother-street" value="{{ mother.address.street|default:'' }}" class="w-full px-3 py-2 md:px-4 md:py-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-green-500" placeholder="ซอย/ถนน">
+                    <input type="text" id="mother-street" name="mother-street" value="{{ mother.address.street|default:'' }}" class="w-full px-3 py-2 md:px-4 md:py-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-green-500" placeholder="ซอย/ถนน"  >
                     <input type="number" id="mother-village" name="mother-village" value="{{ mother.address.moo|default:'' }}" class="w-full px-3 py-2 md:px-4 md:py-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-green-500" placeholder="หมู่ที่"  required>
 
                     <!-- Province Dropdown -->
@@ -312,7 +313,7 @@
                         <input type="text" id="guardian-dob" name="guardian-dob" value="{{ guardian.date_of_birth|default:'' }}" class="w-full px-3 py-2 md:px-4 md:py-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-green-500" placeholder="วันเดือนปีเกิด"  required>
                         <input type="text" id="guardian-house-number" name="guardian-house-number" value="{{ guardian.address.house_number|default:'' }}" class="w-full px-3 py-2 md:px-4 md:py-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-green-500" placeholder="บ้านเลขที่"  required>
                     
-                        <input type="text" id="guardian-street" name="guardian-street" value="{{ guardian.address.street|default:'' }}" class="w-full px-3 py-2 md:px-4 md:py-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-green-500" placeholder="ซอย/ถนน" >
+                        <input type="text" id="guardian-street" name="guardian-street" value="{{ guardian.address.street|default:'' }}" class="w-full px-3 py-2 md:px-4 md:py-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-green-500" placeholder="ซอย/ถนน">
                         <input type="number" id="guardian-village" name="guardian-village" value="{{ guardian.address.moo|default:'' }}" class="w-full px-3 py-2 md:px-4 md:py-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-green-500" placeholder="หมู่ที่"  required>
                     
                         <!-- Province Dropdown -->
@@ -365,9 +366,6 @@
             </form>
         </div>
 
-            <!-- JS -->
-    <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
-    <script src="https://cdn.jsdelivr.net/npm/flatpickr/dist/l10n/th.js"></script>
         <script>
             document.getElementById('imageUpload').addEventListener('change', function(event) {
                 const file = event.target.files[0];
@@ -809,35 +807,8 @@
             }
 
         </script>
-
-         <script>
-        document.addEventListener('DOMContentLoaded', function () {
-            flatpickr("#student-dob", {
-                locale: "th",
-                allowInput: true,
-                dateFormat: "d/m/Y",
-                onReady: function (selectedDates, dateStr, instance) {
-                    instance.formatDate = function (dateObj) {
-                        const y = dateObj.getFullYear() + 543;
-                        const m = ("0" + (dateObj.getMonth() + 1)).slice(-2);
-                        const d = ("0" + dateObj.getDate()).slice(-2);
-                        return `${d}/${m}/${y}`;
-                    };
-                    if (selectedDates[0]) {
-                        instance.input.value = instance.formatDate(selectedDates[0]);
-                    }
-                },
-                onChange: function (selectedDates, dateStr, instance) {
-                    if (selectedDates[0]) {
-                        instance.input.value = instance.formatDate(selectedDates[0]);
-                    }
-                }
-            });
-        });
-    </script>
-
+{% endblock %}
         
-        {% endblock %}
-
+        
     </body>
     </html>
