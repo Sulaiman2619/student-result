@@ -760,7 +760,6 @@ def student_marks_view(request):
 
     return render(request, 'inputdata/ingr_student.html', context)
 
-
 #grade output
 def GR_Student(request):
     # Check if 'user_type' is in the session
