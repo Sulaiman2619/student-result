@@ -613,7 +613,6 @@ def download_students_pdf(students):
 
 #grade input
 def student_marks_view(request):
-     # Check if 'user_type' is in the session
     user_type = request.session.get('user_type')
     current_semester = CurrentSemester.objects.first()
 
@@ -624,38 +623,26 @@ def student_marks_view(request):
 
     years = [str(y) for y in range(current_year, current_year - 10, -1)]
 
-    academic_year = request.GET.get('academic_year')
-    if not academic_year:
-        academic_year = current_semester.year if current_semester else str(datetime.now().year + 543)
-    # If no user_type is found, redirect to login
+    # รับค่าจาก GET
+    academic_year = request.GET.get('academic_year') or (current_semester.year if current_semester else str(datetime.now().year + 543))
+    semester_selected = request.GET.get('semester') or (current_semester.semester if current_semester else 1)
+
     if not user_type:
-        return redirect('login_view')  # Redirect to login if user_type is not in session
+        return redirect('login_view')
 
-    # If user is not a teacher, redirect to home
     if user_type == 'student':
-        return redirect('home')  # Redirect student back to home
+        return redirect('home')
 
-    current_semester = CurrentSemester.objects.first()
-
-    if not current_semester:
-        return render(request, 'inputdata/ingr_student.html', {'error': 'Current semester not set.'})
-
-    # Filters from GET request
     school_name = request.GET.get('school')
     level_name = request.GET.get('level')
-    semester_selected = request.GET.get('semester') or current_semester.semester  # ถ้าไม่ได้เลือกให้ใช้ของ current
-    academic_year = request.GET.get('academic_year') or current_semester.year
 
-    # Fetch filter options
     schools = School.objects.all()
     levels = Level.objects.all()
-
     students = []
     subjects = []
-    student_marks_data = []  # Holds marks for rendering in the template
+    student_marks_data = []
 
     if school_name and level_name:
-        # Query students and subjects based on filters
         students_query = CurrentStudy.objects.filter(
             current_semester=current_semester,
             school__name__iexact=school_name,
@@ -664,27 +651,27 @@ def student_marks_view(request):
 
         students = list(students_query)
 
-        # Filter SubjectToStudy
         subjects = SubjectToStudy.objects.filter(
             level__name__iexact=level_name,
-            semester=int(semester_selected),  # ✅ เปลี่ยนตรงนี้
+            semester=int(semester_selected),
         ).select_related('subject')
-        
 
-        # Fetch marks for students and prepare data structure
         for student in students:
             marks_row = {'student': student.student}
             for subject in subjects:
                 mark_obj = StudentMarkForSubject.objects.filter(
                     student=student.student,
                     subject_to_study=subject,
-                    semester=int(semester_selected)  # ✅ เปลี่ยนตรงนี้
+                    semester=int(semester_selected)
                 ).first()
                 marks_row[subject.subject.id] = mark_obj.marks_obtained if mark_obj else ''
             student_marks_data.append(marks_row)
 
     if request.method == 'POST':
-        # Handle form submission
+        # ✅ รับค่าจากฟอร์ม POST
+        academic_year = request.POST.get('academic_year') or academic_year
+        semester_selected = request.POST.get('semester') or semester_selected
+
         students_query = CurrentStudy.objects.filter(
             current_semester=current_semester,
             school__name__iexact=school_name,
@@ -694,7 +681,7 @@ def student_marks_view(request):
 
         subjects = SubjectToStudy.objects.filter(
             level__name__iexact=level_name,
-            semester=current_semester.semester,
+            semester=int(semester_selected),
         ).select_related('subject')
 
         for student in students_query:
@@ -713,11 +700,11 @@ def student_marks_view(request):
                         total_marks += subject.subject.total_marks
                         obtained_marks += marks
 
-                        # Save to StudentMarkForSubject
+                        # ✅ บันทึกด้วย semester ที่เลือก
                         StudentMarkForSubject.objects.update_or_create(
                             student=student.student,
                             subject_to_study=subject,
-                            semester=current_semester.semester,  # << เพิ่มตรงนี้
+                            semester=int(semester_selected),
                             defaults={'marks_obtained': marks},
                         )
                     except ValueError:
@@ -729,7 +716,6 @@ def student_marks_view(request):
                             'subjects': subjects,
                         })
 
-            # Save to StudentHistory
             if total_marks > 0:
                 grade_percentage = (obtained_marks / total_marks) * 100
             else:
@@ -741,7 +727,7 @@ def student_marks_view(request):
                 school_name=student.school.name,
                 level_name=student.level.name,
                 academic_year=academic_year,
-                semester=current_semester.semester,  # << เพิ่มตรงนี้
+                semester=int(semester_selected),
                 defaults={
                     'total_marks': total_marks,
                     'obtained_marks': obtained_marks,
@@ -750,26 +736,18 @@ def student_marks_view(request):
                     'pass_or_fail': "ผ่าน" if grade_percentage >= 50 else "ไม่ผ่าน"
                 }
             )
-        academic_year = current_semester.year
-        # Filter out None values
-        # Build query parameters for redirection
+
         query_params = {
             'school': school_name,
             'level': level_name,
             'semester': semester_selected,
             'academic_year': academic_year,
         }
+        query_params = {k: v for k, v in query_params.items() if v}
 
-        # Remove None values
-        query_params = {key: value for key, value in query_params.items() if value}
-
-        # Reverse the URL and append query parameters
-        base_url = reverse('gr_student')  # Ensure this matches urls.py name
-        redirect_url = f"{base_url}?{urlencode(query_params)}"
-
+        redirect_url = f"{reverse('gr_student')}?{urlencode(query_params)}"
         return HttpResponseRedirect(redirect_url)
-        # Build the redirection URL with query string
-       
+
     context = {
         'user_type': user_type,
         'schools': schools,
@@ -980,9 +958,11 @@ def download_student_results_pdf(request):
     doc.build([header_table, Spacer(1, 0.3 * inch), table])
     return response
 
+
+
+
 def student_Results(request, student_id):
     user_type = request.session.get('user_type')
-
     if not user_type:
         return redirect('login_view')
 
@@ -990,227 +970,99 @@ def student_Results(request, student_id):
     current_study = CurrentStudy.objects.filter(student=student).first()
     current_semester = CurrentSemester.objects.first()
 
-    academic_years = StudentHistory.objects.filter(student_id=student.id).values_list('academic_year', flat=True).distinct().order_by('-academic_year')
-    selected_academic_year = request.GET.get('academic_year') or (academic_years.first() if academic_years else (current_semester.year if current_semester else None))
+    academic_years = StudentHistory.objects.filter(student_id=student.id) \
+        .values_list('academic_year', flat=True).distinct().order_by('-academic_year')
 
-    student_history_instance = StudentHistory.objects.filter(
-    student_id=student.id, academic_year=selected_academic_year
+    selected_academic_year = request.GET.get('academic_year')
+    selected_semester = request.GET.get('semester')  # '' (ทุกเทอม), '1', '2'
+
+    if not selected_academic_year:
+        if academic_years:
+            selected_academic_year = academic_years.first()
+        elif current_semester:
+            selected_academic_year = current_semester.year
+
+    # ดึงข้อมูลเทอม 1 และ 2
+    semester_1 = StudentHistory.objects.filter(
+        student_id=student.id,
+        academic_year=selected_academic_year,
+        semester=1
     ).first()
 
-    subjects_cat1_data = student_history_instance.get_subject_data(category=1) if student_history_instance else []
-    subjects_cat2_data = student_history_instance.get_subject_data(category=2) if student_history_instance else []
+    semester_2 = StudentHistory.objects.filter(
+        student_id=student.id,
+        academic_year=selected_academic_year,
+        semester=2
+    ).first()
 
+    # ข้อมูลรายวิชาแยกตามประเภทและเทอม
+    semester_1_cat1 = semester_1.get_subject_data(category=1) if semester_1 else []
+    semester_1_cat2 = semester_1.get_subject_data(category=2) if semester_1 else []
+    semester_2_cat1 = semester_2.get_subject_data(category=1) if semester_2 else []
+    semester_2_cat2 = semester_2.get_subject_data(category=2) if semester_2 else []
+
+    # รวมไว้กรณีเลือกเทอมเดียว
+    if selected_semester == '1':
+        subjects_cat1 = semester_1_cat1
+        subjects_cat2 = semester_1_cat2
+    elif selected_semester == '2':
+        subjects_cat1 = semester_2_cat1
+        subjects_cat2 = semester_2_cat2
+    else:
+        subjects_cat1 = semester_1_cat1 + semester_2_cat1
+        subjects_cat2 = semester_1_cat2 + semester_2_cat2
+
+    # ถ้ากดปุ่มดาวน์โหลด PDF
     if 'download_pdf' in request.GET:
-        category_1_data = [
-            (s['name'], s['marks'], f"{round(s['percentage'])}%", s['status']) for s in subjects_cat1_data
-        ]
-        category_2_data = [
-            (s['name'], s['marks'], f"{round(s['percentage'])}%", s['status']) for s in subjects_cat2_data
-        ]
+        def format_data(data):
+            return [(s['name'], s['marks'], f"{round(s['percentage'])}%", s['status']) for s in data]
 
-        school_name = current_study.school.name if current_study and current_study.school else "-"
-        level_name = current_study.level.name if current_study and current_study.level else "-"
-        
-        return download_result_pdf(
-            students=[student],
-            category_1_data=category_1_data,
-            category_2_data=category_2_data,
+        return download_result_pdfs(
+            student=student,
+            semester_1_data=format_data(semester_1_cat1 + semester_1_cat2),
+            semester_2_data=format_data(semester_2_cat1 + semester_2_cat2),
             academic_year=int(selected_academic_year) + 543,
             student_name=f"{student.first_name}_{student.last_name}",
-            school_name=school_name,
-            level_name=level_name
+            school_name=current_study.school.name if current_study and current_study.school else "-",
+            level_name=current_study.level.name if current_study and current_study.level else "-",
+            selected_semester=selected_semester
         )
-
-    subject_totals = {}
-    if current_study and current_semester:
-        subject_to_studies = SubjectToStudy.objects.filter(
-            level=current_study.level,
-            semester=current_semester.semester
-        ).select_related('subject')
-        subject_totals = {subject.subject.name: subject.subject.total_marks for subject in subject_to_studies}
 
     context = {
         'student': student,
         'current_study': current_study,
         'current_semester': current_semester,
         'selected_academic_year': selected_academic_year,
+        'selected_semester': selected_semester,
         'academic_years': academic_years,
-        'subjects_cat1': subjects_cat1_data,
-        'subjects_cat2': subjects_cat2_data,
-        'subject_totals': subject_totals,
+
+        # ใช้เมื่อเลือกเทอมเฉพาะ
+        'subjects_cat1': subjects_cat1,
+        'subjects_cat2': subjects_cat2,
+
+        # ใช้เมื่อเลือกทุกเทอม
+        'semester_1_cat1': semester_1_cat1,
+        'semester_1_cat2': semester_1_cat2,
+        'semester_2_cat1': semester_2_cat1,
+        'semester_2_cat2': semester_2_cat2,
     }
 
     return render(request, 'student/student_results.html', context)
 
-def download_result_pdf(students, category_1_data, category_2_data, academic_year, student_name, school_name, level_name):
+
+def download_result_pdfs(
+    student,
+    semester_1_data,
+    semester_2_data,
+    academic_year,
+    student_name,
+    school_name,
+    level_name,
+    selected_semester=None,  # ✅ เพิ่มพารามิเตอร์
+):
     response = HttpResponse(content_type='application/pdf')
     response['Content-Disposition'] = f'attachment; filename="{student_name}_results_{academic_year}.pdf"'
 
-    doc = SimpleDocTemplate(
-        response,
-        pagesize=A4,
-        topMargin=0.5 * inch,
-        bottomMargin=0.5 * inch,
-        leftMargin=0.5 * inch,
-        rightMargin=0.5 * inch,
-    )
-
-    styles = getSampleStyleSheet()
-    styles['Normal'].fontName = 'THSarabunNew'
-    styles['Normal'].fontSize = 18
-
-    title_style_header = ParagraphStyle(name='Title', fontName='THSarabunNew', fontSize=16, alignment=1)
-    title_style_para = ParagraphStyle(name='Title', fontName='THSarabunNew', fontSize=16, alignment=0)
-    sub_title_style = ParagraphStyle(name='SubTitle', fontName='THSarabunNew', fontSize=16, alignment=1)
-    normal_style = ParagraphStyle(name='Normal', fontName='THSarabunNew', fontSize=16, alignment=0)
-
-    logo_path = "static/images/logo.ico"
-    logo = Image(logo_path, width=80, height=80)
-    logo.hAlign = 'CENTER'
-
-    header = Paragraph("สมาคมคุรุสัมพันธ์อิสลามแห่งประเทศไทย ประจำหน่วยสอบที่ 80", title_style_header)
-    school_name_paragraph = Paragraph(f"โรงเรียน {school_name}", sub_title_style)
-    student_info = Paragraph(f"บันทึกผลการเรียนของ {student_name} {level_name}", normal_style)
-    academic_year_text = Paragraph(f"ประจำปีการศึกษา {academic_year}", normal_style)
-
-    table_data_cat1 = [['วิชา', 'คะแนน', 'เกรด', 'ผ่าน/ไม่ผ่าน']] + category_1_data
-    table_data_cat2 = [['วิชา', 'คะแนน', 'เกรด', 'ผ่าน/ไม่ผ่าน']] + category_2_data
-
-    # Handle empty data for Category 1 (Theoretical)
-    if len(table_data_cat1) == 1:
-        table_cat1 = Paragraph("\u0e22\u0e31\u0e07\u0e44\u0e21\u0e48\u0e21\u0e35\u0e02\u0e49\u0e2d\u0e21\u0e39\u0e25\u0e2a\u0e33\u0e2b\u0e23\u0e31\u0e1a\u0e20\u0e32\u0e04\u0e17\u0e24\u0e28\u0e14\u0e35", sub_title_style)
-    else:
-        table_cat1 = Table(table_data_cat1, colWidths=[200, 100, 100, 100])
-        table_cat1.setStyle(TableStyle([
-            ('FONTNAME', (0, 0), (-1, -1), 'THSarabunNew'),
-            ('FONTSIZE', (0, 0), (-1, -1), 14),
-            ('BACKGROUND', (0, 0), (-1, 0), colors.lightgrey),
-            ('ALIGN', (0, 0), (-1, 0), 'CENTER'),
-            ('ALIGN', (0, 1), (0, -1), 'LEFT'),
-            ('ALIGN', (1, 1), (-1, -1), 'CENTER'),
-            ('GRID', (0, 0), (-1, -1), 0.5, colors.grey),
-            ('TOPPADDING', (0, 0), (-1, 0), 0),
-            ('BOTTOMPADDING', (0, 0), (-1, -1), 8),
-        ]))
-
-    # Handle empty data for Category 2 (Practical)
-    if len(table_data_cat2) == 1:
-        table_cat2 = Paragraph("\u0e22\u0e31\u0e07\u0e44\u0e21\u0e48\u0e21\u0e35\u0e02\u0e49\u0e2d\u0e21\u0e39\u0e25\u0e2a\u0e33\u0e2b\u0e23\u0e31\u0e1a\u0e20\u0e32\u0e04\u0e1b\u0e0f\u0e34\u0e1a\u0e31\u0e15\u0e34", sub_title_style)
-    else:
-        table_cat2 = Table(table_data_cat2, colWidths=[200, 100, 100, 100])
-        table_cat2.setStyle(TableStyle([
-            ('FONTNAME', (0, 0), (-1, -1), 'THSarabunNew'),
-            ('FONTSIZE', (0, 0), (-1, -1), 14),
-            ('BACKGROUND', (0, 0), (-1, 0), colors.lightgrey),
-            ('ALIGN', (0, 0), (-1, 0), 'CENTER'),
-            ('ALIGN', (0, 1), (0, -1), 'LEFT'),
-            ('ALIGN', (1, 1), (-1, -1), 'CENTER'),
-            ('GRID', (0, 0), (-1, -1), 0.5, colors.grey),
-            ('TOPPADDING', (0, 0), (-1, 0), 0),
-            ('BOTTOMPADDING', (0, 0), (-1, -1), 8),
-        ]))
-
-    elements = [
-        logo,
-        Spacer(1, 10),
-        header,
-        Spacer(1, 20),
-        school_name_paragraph,
-        Spacer(1, 20),
-        student_info,
-        Spacer(1, 10),
-        academic_year_text,
-        Spacer(1, 20),
-        Paragraph("ผลการศึกษาภาคทฤษฎี", title_style_para),
-        Spacer(1, 20),
-        table_cat1,
-        Spacer(1, 15),
-        Paragraph("ผลการศึกษาภาคปฏิบัติ", title_style_para),
-        Spacer(1, 20),
-        table_cat2
-    ]
-
-    doc.build(elements)
-
-    return response
-
-def student_Resultss(request, student_id):
-     # Check if 'user_type' is in the session
-    user_type = request.session.get('user_type')
-    
-    # If no user_type is found, redirect to login
-    if not user_type:
-        return redirect('login_view')  # Redirect to login if user_type is not in session
-    
-    # Get the student object
-    student = get_object_or_404(Student, id=student_id)
-
-    # Current study and semester
-    current_study = CurrentStudy.objects.filter(student=student).first()
-    current_semester = CurrentSemester.objects.first()
-
-    # Fetch academic years and subjects
-    academic_years = StudentHistory.objects.filter(student_id=student.id).values_list('academic_year', flat=True).distinct().order_by('-academic_year')
-    # Determine the selected academic year
-    selected_academic_year = request.GET.get('academic_year') or (academic_years.first() if academic_years else (current_semester.year if current_semester else None))
-    # Fetch the relevant records
-    subjects_sem1_instance = StudentHistory.objects.filter(student_id=student.id, semester=1, academic_year=selected_academic_year).first()
-    subjects_sem2_instance = StudentHistory.objects.filter(student_id=student.id, semester=2, academic_year=selected_academic_year).first()
-
-    # Call get_subject_data on single instances
-    subjects_sem1_data = subjects_sem1_instance.get_subject_data() if subjects_sem1_instance else []
-    subjects_sem2_data = subjects_sem2_instance.get_subject_data() if subjects_sem2_instance else []
-    
-    if 'download_pdf' in request.GET:
-        # Prepare data for PDF
-        semester_1_data = [
-            (s['name'], s['marks'], s['grade'], s['status']) for s in subjects_sem1_data
-        ]
-        semester_2_data = [
-            (s['name'], s['marks'], s['grade'], s['status']) for s in subjects_sem2_data
-        ]
-        
-        # Pass the school name as well
-        school_name = current_study.school.name if current_study and current_study.school else "-"
-        level_name = current_study.level.name if current_study and current_study.level else "-"  # Assuming the level name is stored in current_study
-        return download_result_pdf(
-            students=[student],
-            semester_1_data=semester_1_data,
-            semester_2_data=semester_2_data,
-            academic_year=int(selected_academic_year)+543,
-            student_name=f"{student.first_name}_{student.last_name}",
-            school_name=school_name,
-            level_name=level_name
-        )
-
-    # Fetch subject totals (optional)
-    subject_totals = {}
-    if current_study and current_semester:
-        subject_to_studies = SubjectToStudy.objects.filter(
-            level=current_study.level,
-            semester=current_semester.semester
-        ).select_related('subject')
-        subject_totals = {subject.subject.name: subject.subject.total_marks for subject in subject_to_studies}
-
-    context = {
-        'student': student,
-        'current_study': current_study,
-        'current_semester': current_semester,
-        'selected_academic_year':selected_academic_year,
-        'academic_years': academic_years,
-        'subjects_sem1': subjects_sem1_data,
-        'subjects_sem2': subjects_sem2_data,
-        'subject_totals': subject_totals,
-    }
-
-    return render(request, 'student/student_results.html', context)
-
-def download_result_pdfs(students, semester_1_data, semester_2_data, academic_year, student_name, school_name, level_name):
-    # Create PDF response
-    response = HttpResponse(content_type='application/pdf')
-    response['Content-Disposition'] = f'attachment; filename="{student_name}_results_{academic_year}.pdf"'
-
-# Document setup: Landscape A4 with margins
     doc = SimpleDocTemplate(
         response,
         pagesize=A4,
@@ -1229,80 +1081,56 @@ def download_result_pdfs(students, semester_1_data, semester_2_data, academic_ye
         name='Title',
         fontName='THSarabunNew',
         fontSize=16,
-        alignment=1  # Center alignment
+        alignment=1
     )
-
     sub_title_style = ParagraphStyle(
         name='SubTitle',
         fontName='THSarabunNew',
         fontSize=16,
-        alignment=1  # Center alignment
+        alignment=1
     )
-
     normal_style = ParagraphStyle(
         name='Normal',
         fontName='THSarabunNew',
         fontSize=16,
-        alignment=0  # Left alignment
+        alignment=0
     )
 
-    # Add logo
+    # Logo
     logo_path = "static/images/logo.ico"
-    logo = Image(logo_path, width=80, height=80)  # Adjust size as needed
+    logo = Image(logo_path, width=80, height=80)
     logo.hAlign = 'CENTER'
 
-    # Headings
+    # Header
     header = Paragraph("สมาคมคุรุสัมพันธ์อิสลามแห่งประเทศไทย ประจำหน่วยสอบที่ 80", title_style)
     school_name_paragraph = Paragraph(f"โรงเรียน {school_name}", sub_title_style)
-    student_info = Paragraph(f"บันทึกผลการเรียนของ {student_name} {level_name}", normal_style)
+    prefix = 'เด็กชาย' if student.gender == 'ชาย' else 'เด็กหญิง' if student.gender == 'หญิง' else ''
+    student_info = Paragraph(f"ผลการเรียนของ {prefix} {student_name} {level_name}", normal_style)
     academic_year_text = Paragraph(f"ประจำปีการศึกษา {academic_year}", normal_style)
 
-    # Table data for Semester 1 and Semester 2
-    table_data_sem1 = [
-        ['วิชา', 'คะแนน', 'เกรด', 'ผ่าน/ไม่ผ่าน']
-    ] + semester_1_data
-
-    table_data_sem2 = [
-        ['วิชา', 'คะแนน', 'เกรด', 'ผ่าน/ไม่ผ่าน']
-    ] + semester_2_data
-
-    # Handle empty data for Semester 1
-    if len(table_data_sem1) == 1:
-        table_sem1 = Paragraph("ยังไม่มีข้อมูลสำหรับภาคการศึกษานี้", sub_title_style)
-    else:
-        table_sem1 = Table(table_data_sem1, colWidths=[200, 100, 100, 100])
-        table_sem1.setStyle(TableStyle([
-            ('FONTNAME', (0, 0), (-1, -1), 'THSarabunNew'),  # Custom font
-            ('FONTSIZE', (0, 0), (-1, -1), 14),  # Set font size to 16
-            ('BACKGROUND', (0, 0), (-1, 0), colors.lightgrey),  # Header row color
-            ('ALIGN', (0, 0), (-1, 0), 'CENTER'),  # Center align for the header row
-            ('ALIGN', (0, 1), (0, -1), 'LEFT'),  # Align first column (Subject) to the left
-            ('ALIGN', (1, 1), (-1, -1), 'CENTER'),  # Align other columns to the center
-            ('GRID', (0, 0), (-1, -1), 0.5, colors.grey),  # Table grid
+    # Tables
+    def generate_table(data):
+        if not data:
+            return Paragraph("ยังไม่มีข้อมูลสำหรับภาคการศึกษานี้", sub_title_style)
+        table_data = [['วิชา', 'คะแนน', 'เกรด', 'ผ่าน/ไม่ผ่าน']] + data
+        table = Table(table_data, colWidths=[200, 100, 100, 100])
+        table.setStyle(TableStyle([
+            ('FONTNAME', (0, 0), (-1, -1), 'THSarabunNew'),
+            ('FONTSIZE', (0, 0), (-1, -1), 14),
+            ('BACKGROUND', (0, 0), (-1, 0), colors.lightgrey),
+            ('ALIGN', (0, 0), (-1, 0), 'CENTER'),
+            ('ALIGN', (0, 1), (0, -1), 'LEFT'),
+            ('ALIGN', (1, 1), (-1, -1), 'CENTER'),
+            ('GRID', (0, 0), (-1, -1), 0.5, colors.grey),
             ('TOPPADDING', (0, 0), (-1, 0), 0),
             ('BOTTOMPADDING', (0, 0), (-1, -1), 8),
         ]))
+        return table
 
-    # Handle empty data for Semester 2
-    if len(table_data_sem2) == 1:
-        table_sem2 = Paragraph("ยังไม่มีข้อมูลสำหรับภาคการศึกษานี้", sub_title_style)
-    else:
-        table_sem2 = Table(table_data_sem2, colWidths=[200, 100, 100, 100])
-        table_sem2.setStyle(TableStyle([
-            ('FONTNAME', (0, 0), (-1, -1), 'THSarabunNew'),  # Custom font
-            ('FONTSIZE', (0, 0), (-1, -1), 14),  # Set font size to 16
-            ('BACKGROUND', (0, 0), (-1, 0), colors.lightgrey),  # Header row color
-            ('ALIGN', (0, 0), (-1, 0), 'CENTER'),  # Center align for the header row
-            ('ALIGN', (0, 1), (0, -1), 'LEFT'),  # Align first column (Subject) to the left
-            ('ALIGN', (1, 1), (-1, -1), 'CENTER'),  # Align other columns to the center
-            ('GRID', (0, 0), (-1, -1), 0.5, colors.grey),  # Table grid
-            ('TOPPADDING', (0, 0), (-1, 0), 0),
-            ('BOTTOMPADDING', (0, 0), (-1, -1), 8),
-        ]))
-    # Build the PDF with elements
+    # Elements
     elements = [
         logo,
-        Spacer(1, 10),  # Space below logo
+        Spacer(1, 10),
         header,
         Spacer(1, 20),
         school_name_paragraph,
@@ -1310,19 +1138,40 @@ def download_result_pdfs(students, semester_1_data, semester_2_data, academic_ye
         student_info,
         Spacer(1, 10),
         academic_year_text,
-        Spacer(1, 20),  # Space below academic year
-        Paragraph(f"ผลการศึกษาภาคการศึกษาที่ 1", title_style),
         Spacer(1, 20),
-        table_sem1,
-        Spacer(1, 15),  # Space between tables
-        Paragraph(f"ผลการศึกษาภาคการศึกษาที่ 2", title_style),
-        Spacer(1, 20),
-        table_sem2
     ]
 
-    # Generate the document
-    doc.build(elements)
+    if selected_semester == '1':
+        if semester_1_data:
+            elements += [
+                Paragraph("ผลการศึกษาภาคการศึกษาที่ 1", title_style),
+                Spacer(1, 20),
+                generate_table(semester_1_data)
+            ]
+    elif selected_semester == '2':
+        if semester_2_data:
+            elements += [
+                Paragraph("ผลการศึกษาภาคการศึกษาที่ 2", title_style),
+                Spacer(1, 20),
+                generate_table(semester_2_data)
+            ]
+    else:
+        if semester_1_data:
+            elements += [
+                Paragraph("ผลการศึกษาภาคการศึกษาที่ 1", title_style),
+                Spacer(1, 20),
+                generate_table(semester_1_data),
+                Spacer(1, 15),
+            ]
+        if semester_2_data:
+            elements += [
+                Paragraph("ผลการศึกษาภาคการศึกษาที่ 2", title_style),
+                Spacer(1, 20),
+                generate_table(semester_2_data),
+            ]
 
+    # สร้าง PDF
+    doc.build(elements)
     return response
 
 

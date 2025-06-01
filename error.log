@@ -413,3 +413,360 @@ Traceback (most recent call last):
                                                                                  ^^^^^^^^^^^^^^^^
 UnboundLocalError: cannot access local variable 'current_semester' where it is not associated with a value
 "GET /gr_student HTTP/1.1" 500 79901
+Internal Server Error: /student_results/688010001/
+Traceback (most recent call last):
+  File "C:\Users\Sulaiman\AppData\Local\Programs\Python\Python311\Lib\site-packages\django\core\handlers\exception.py", line 55, in inner
+    response = get_response(request)
+               ^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Sulaiman\AppData\Local\Programs\Python\Python311\Lib\site-packages\django\core\handlers\base.py", line 197, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Sulaiman\Desktop\New folder (2)\student-result\students\views.py", line 985, in student_Results
+    semester = request.GET.get('semester') or (current_semester.semester if current_semester else 1)
+                                                                            ^^^^^^^^^^^^^^^^
+UnboundLocalError: cannot access local variable 'current_semester' where it is not associated with a value
+"GET /student_results/688010001/ HTTP/1.1" 500 79951
+Internal Server Error: /student_results/688010001/
+Traceback (most recent call last):
+  File "C:\Users\Sulaiman\AppData\Local\Programs\Python\Python311\Lib\site-packages\django\core\handlers\exception.py", line 55, in inner
+    response = get_response(request)
+               ^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Sulaiman\AppData\Local\Programs\Python\Python311\Lib\site-packages\django\core\handlers\base.py", line 197, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Sulaiman\Desktop\New folder (2)\student-result\students\views.py", line 985, in student_Results
+    semester = request.GET.get('semester') or (current_semester.semester if current_semester else 1)
+                                                                            ^^^^^^^^^^^^^^^^
+UnboundLocalError: cannot access local variable 'current_semester' where it is not associated with a value
+"GET /student_results/688010001/ HTTP/1.1" 500 79951
+Internal Server Error: /student_results/688010001/
+Traceback (most recent call last):
+  File "C:\Users\Sulaiman\AppData\Local\Programs\Python\Python311\Lib\site-packages\django\core\handlers\exception.py", line 55, in inner
+    response = get_response(request)
+               ^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Sulaiman\AppData\Local\Programs\Python\Python311\Lib\site-packages\django\core\handlers\base.py", line 197, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Sulaiman\Desktop\New folder (2)\student-result\students\views.py", line 985, in student_Results
+    semester = request.GET.get('semester') or (current_semester.semester if current_semester else 1)
+                                                                            ^^^^^^^^^^^^^^^^
+UnboundLocalError: cannot access local variable 'current_semester' where it is not associated with a value
+"GET /student_results/688010001/ HTTP/1.1" 500 79951
+Internal Server Error: /student_results/688010001/
+Traceback (most recent call last):
+  File "C:\Users\Sulaiman\AppData\Local\Programs\Python\Python311\Lib\site-packages\django\core\handlers\exception.py", line 55, in inner
+    response = get_response(request)
+               ^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Sulaiman\AppData\Local\Programs\Python\Python311\Lib\site-packages\django\core\handlers\base.py", line 197, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Sulaiman\Desktop\New folder (2)\student-result\students\views.py", line 985, in student_Results
+    semester = request.GET.get('semester') or (current_semester.semester if current_semester else 1)
+                                                                            ^^^^^^^^^^^^^^^^
+UnboundLocalError: cannot access local variable 'current_semester' where it is not associated with a value
+"GET /student_results/688010001/ HTTP/1.1" 500 79951
+Internal Server Error: /student_results/688010001/
+Traceback (most recent call last):
+  File "C:\Users\Sulaiman\AppData\Local\Programs\Python\Python311\Lib\site-packages\django\core\handlers\exception.py", line 55, in inner
+    response = get_response(request)
+               ^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Sulaiman\AppData\Local\Programs\Python\Python311\Lib\site-packages\django\core\handlers\base.py", line 197, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Sulaiman\Desktop\New folder (2)\student-result\students\views.py", line 985, in student_Results
+    semester = request.GET.get('semester') or (current_semester.semester if current_semester else 1)
+                                                                            ^^^^^^^^^^^^^^^^
+UnboundLocalError: cannot access local variable 'current_semester' where it is not associated with a value
+"GET /student_results/688010001/ HTTP/1.1" 500 79645
+Internal Server Error: /student_results/688010001/
+Traceback (most recent call last):
+  File "C:\Users\Sulaiman\AppData\Local\Programs\Python\Python311\Lib\site-packages\django\core\handlers\exception.py", line 55, in inner
+    response = get_response(request)
+               ^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Sulaiman\AppData\Local\Programs\Python\Python311\Lib\site-packages\django\core\handlers\base.py", line 197, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Sulaiman\Desktop\New folder (2)\student-result\students\views.py", line 1193, in student_Results
+    return download_result_pdf(
+           ^^^^^^^^^^^^^^^^^^^^
+TypeError: download_result_pdf() got an unexpected keyword argument 'semester_display'
+"GET /student_results/688010001/?academic_year=2025&download_pdf= HTTP/1.1" 500 85546
+Internal Server Error: /student_results/688010001/
+Traceback (most recent call last):
+  File "C:\Users\Sulaiman\AppData\Local\Programs\Python\Python311\Lib\site-packages\django\core\handlers\exception.py", line 55, in inner
+    response = get_response(request)
+               ^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Sulaiman\AppData\Local\Programs\Python\Python311\Lib\site-packages\django\core\handlers\base.py", line 197, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Sulaiman\Desktop\New folder (2)\student-result\students\views.py", line 1193, in student_Results
+    return download_result_pdf(
+           ^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Sulaiman\Desktop\New folder (2)\student-result\students\views.py", line 1052, in download_result_pdf
+    semester = request.GET.get('semester')
+               ^^^^^^^
+NameError: name 'request' is not defined
+"GET /student_results/688010001/?academic_year=2025&download_pdf= HTTP/1.1" 500 91180
+Internal Server Error: /student_results/688010001/
+Traceback (most recent call last):
+  File "C:\Users\Sulaiman\AppData\Local\Programs\Python\Python311\Lib\site-packages\django\core\handlers\exception.py", line 55, in inner
+    response = get_response(request)
+               ^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Sulaiman\AppData\Local\Programs\Python\Python311\Lib\site-packages\django\core\handlers\base.py", line 197, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Sulaiman\Desktop\New folder (2)\student-result\students\views.py", line 1193, in student_Results
+    return download_result_pdf(
+           ^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Sulaiman\Desktop\New folder (2)\student-result\students\views.py", line 1052, in download_result_pdf
+    semester = request.GET.get('semester')
+               ^^^^^^^
+NameError: name 'request' is not defined
+"GET /student_results/688010001/?academic_year=2025&download_pdf= HTTP/1.1" 500 91180
+Internal Server Error: /student_results/688010001/
+Traceback (most recent call last):
+  File "C:\Users\Sulaiman\AppData\Local\Programs\Python\Python311\Lib\site-packages\django\core\handlers\exception.py", line 55, in inner
+    response = get_response(request)
+               ^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Sulaiman\AppData\Local\Programs\Python\Python311\Lib\site-packages\django\core\handlers\base.py", line 197, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Sulaiman\Desktop\New folder (2)\student-result\students\views.py", line 1193, in student_Results
+    return download_result_pdf(
+           ^^^^^^^^^^^^^^^^^^^^
+TypeError: download_result_pdf() missing 1 required positional argument: 'semester_display'
+"GET /student_results/688010001/?academic_year=2025&download_pdf= HTTP/1.1" 500 85703
+Internal Server Error: /student_results/688010001/
+Traceback (most recent call last):
+  File "C:\Users\Sulaiman\AppData\Local\Programs\Python\Python311\Lib\site-packages\django\core\handlers\exception.py", line 55, in inner
+    response = get_response(request)
+               ^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Sulaiman\AppData\Local\Programs\Python\Python311\Lib\site-packages\django\core\handlers\base.py", line 197, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Sulaiman\Desktop\New folder (2)\student-result\students\views.py", line 1193, in student_Results
+    return download_result_pdf(
+           ^^^^^^^^^^^^^^^^^^^^
+TypeError: download_result_pdf() missing 1 required positional argument: 'semester_display'
+"GET /student_results/688010001/?academic_year=2025&download_pdf= HTTP/1.1" 500 85356
+Internal Server Error: /student_results/688010001/
+Traceback (most recent call last):
+  File "C:\Users\Sulaiman\AppData\Local\Programs\Python\Python311\Lib\site-packages\django\core\handlers\exception.py", line 55, in inner
+    response = get_response(request)
+               ^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Sulaiman\AppData\Local\Programs\Python\Python311\Lib\site-packages\django\core\handlers\base.py", line 197, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Sulaiman\Desktop\New folder (2)\student-result\students\views.py", line 1186, in student_Results
+    return download_result_pdf(
+           ^^^^^^^^^^^^^^^^^^^^
+TypeError: download_result_pdf() missing 1 required positional argument: 'subject_totals'
+"GET /student_results/688010001/?academic_year=2025&download_pdf= HTTP/1.1" 500 85766
+"GET /student_results/688010001/?academic_year=2025&download_pdf= HTTP/1.1" 500 85918
+"GET /student_results/688010001/?academic_year=2025&download_pdf= HTTP/1.1" 500 85918
+"GET /student_results/688010001/?academic_year=2025&download_pdf= HTTP/1.1" 500 85952
+"GET /student_results/688010001/?academic_year=2025&download_pdf= HTTP/1.1" 500 107477
+"GET /student_results/688010001/?academic_year=2025&download_pdf= HTTP/1.1" 500 85816
+"GET /student_results/688010001/?academic_year=2025&download_pdf= HTTP/1.1" 500 85935
+"GET /student_results/688010001/?academic_year=2025&download_pdf= HTTP/1.1" 500 85935
+"GET /student_results/688010001/?academic_year=2025&download_pdf= HTTP/1.1" 500 85587
+Internal Server Error: /student_results/688010001/
+Traceback (most recent call last):
+  File "C:\Users\Sulaiman\AppData\Local\Programs\Python\Python311\Lib\site-packages\django\core\handlers\exception.py", line 55, in inner
+    response = get_response(request)
+               ^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Sulaiman\AppData\Local\Programs\Python\Python311\Lib\site-packages\django\core\handlers\base.py", line 197, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Sulaiman\Desktop\New folder (2)\student-result\students\views.py", line 1195, in student_Results
+    )
+      
+UnboundLocalError: cannot access local variable 'subject_totals' where it is not associated with a value
+"GET /student_results/688010001/?academic_year=2025&download_pdf= HTTP/1.1" 500 85676
+Internal Server Error: /student_results/688010001/
+Traceback (most recent call last):
+  File "C:\Users\Sulaiman\AppData\Local\Programs\Python\Python311\Lib\site-packages\django\core\handlers\exception.py", line 55, in inner
+    response = get_response(request)
+               ^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Sulaiman\AppData\Local\Programs\Python\Python311\Lib\site-packages\django\core\handlers\base.py", line 197, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Sulaiman\Desktop\New folder (2)\student-result\students\views.py", line 1182, in student_Results
+    return download_result_pdf(
+           ^^^^^^^^^^^^^^^^^^^^
+TypeError: download_result_pdf() missing 1 required positional argument: 'subject_totals'
+"GET /student_results/688010001/?academic_year=2025&download_pdf= HTTP/1.1" 500 85904
+Internal Server Error: /student_results/688010001/
+Traceback (most recent call last):
+  File "C:\Users\Sulaiman\AppData\Local\Programs\Python\Python311\Lib\site-packages\django\core\handlers\exception.py", line 55, in inner
+    response = get_response(request)
+               ^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Sulaiman\AppData\Local\Programs\Python\Python311\Lib\site-packages\django\core\handlers\base.py", line 197, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Sulaiman\Desktop\New folder (2)\student-result\students\views.py", line 1176, in student_Results
+    subjects_cat1_data = get_subject_data(student, selected_academic_year, category=1, semester="1")
+                         ^^^^^^^^^^^^^^^^
+NameError: name 'get_subject_data' is not defined
+"GET /student_results/688010001/?academic_year=2025&semester=2 HTTP/1.1" 500 83210
+Internal Server Error: /student_results/688010001/
+Traceback (most recent call last):
+  File "C:\Users\Sulaiman\AppData\Local\Programs\Python\Python311\Lib\site-packages\django\core\handlers\exception.py", line 55, in inner
+    response = get_response(request)
+               ^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Sulaiman\AppData\Local\Programs\Python\Python311\Lib\site-packages\django\core\handlers\base.py", line 197, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Sulaiman\Desktop\New folder (2)\student-result\students\views.py", line 1176, in student_Results
+    subjects_cat1_data = get_subject_data(student, selected_academic_year, category=1, semester="1")
+                         ^^^^^^^^^^^^^^^^
+NameError: name 'get_subject_data' is not defined
+"GET /student_results/688010001/?academic_year=2025&semester=2 HTTP/1.1" 500 83210
+Internal Server Error: /student_results/688010001/
+Traceback (most recent call last):
+  File "C:\Users\Sulaiman\AppData\Local\Programs\Python\Python311\Lib\site-packages\django\core\handlers\exception.py", line 55, in inner
+    response = get_response(request)
+               ^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Sulaiman\AppData\Local\Programs\Python\Python311\Lib\site-packages\django\core\handlers\base.py", line 197, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Sulaiman\Desktop\New folder (2)\student-result\students\views.py", line 1162, in student_Results
+    history_records_1 = StudentHistory.objects.filter(
+                        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Sulaiman\AppData\Local\Programs\Python\Python311\Lib\site-packages\django\db\models\manager.py", line 87, in manager_method
+    return getattr(self.get_queryset(), name)(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Sulaiman\AppData\Local\Programs\Python\Python311\Lib\site-packages\django\db\models\query.py", line 1476, in filter
+    return self._filter_or_exclude(False, args, kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Sulaiman\AppData\Local\Programs\Python\Python311\Lib\site-packages\django\db\models\query.py", line 1494, in _filter_or_exclude
+    clone._filter_or_exclude_inplace(negate, args, kwargs)
+  File "C:\Users\Sulaiman\AppData\Local\Programs\Python\Python311\Lib\site-packages\django\db\models\query.py", line 1501, in _filter_or_exclude_inplace
+    self._query.add_q(Q(*args, **kwargs))
+  File "C:\Users\Sulaiman\AppData\Local\Programs\Python\Python311\Lib\site-packages\django\db\models\sql\query.py", line 1609, in add_q
+    clause, _ = self._add_q(q_object, self.used_aliases)
+                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Sulaiman\AppData\Local\Programs\Python\Python311\Lib\site-packages\django\db\models\sql\query.py", line 1641, in _add_q
+    child_clause, needed_inner = self.build_filter(
+                                 ^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Sulaiman\AppData\Local\Programs\Python\Python311\Lib\site-packages\django\db\models\sql\query.py", line 1491, in build_filter
+    lookups, parts, reffed_expression = self.solve_lookup_type(arg, summarize)
+                                        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Sulaiman\AppData\Local\Programs\Python\Python311\Lib\site-packages\django\db\models\sql\query.py", line 1303, in solve_lookup_type
+    _, field, _, lookup_parts = self.names_to_path(lookup_splitted, self.get_meta())
+                                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Sulaiman\AppData\Local\Programs\Python\Python311\Lib\site-packages\django\db\models\sql\query.py", line 1768, in names_to_path
+    raise FieldError(
+django.core.exceptions.FieldError: Cannot resolve keyword 'student' into field. Choices are: academic_year, grade_percentage, id, level_name, obtained_marks, pass_or_fail, school_name, semester, student_id, student_name, subject_marks, total_marks
+"GET /student_results/688010001/?academic_year=2025&semester=2 HTTP/1.1" 500 128514
+Internal Server Error: /student_results/688010001/
+Traceback (most recent call last):
+  File "C:\Users\Sulaiman\AppData\Local\Programs\Python\Python311\Lib\site-packages\django\core\handlers\exception.py", line 55, in inner
+    response = get_response(request)
+               ^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Sulaiman\AppData\Local\Programs\Python\Python311\Lib\site-packages\django\core\handlers\base.py", line 197, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Sulaiman\Desktop\New folder (2)\student-result\students\views.py", line 1207, in student_Results
+    school_name=student.school_name,
+                ^^^^^^^^^^^^^^^^^^^
+AttributeError: 'Student' object has no attribute 'school_name'
+"GET /student_results/688010001/?academic_year=2025&download_pdf= HTTP/1.1" 500 84863
+Internal Server Error: /student_results/688010001/
+Traceback (most recent call last):
+  File "C:\Users\Sulaiman\AppData\Local\Programs\Python\Python311\Lib\site-packages\django\core\handlers\exception.py", line 55, in inner
+    response = get_response(request)
+               ^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Sulaiman\AppData\Local\Programs\Python\Python311\Lib\site-packages\django\core\handlers\base.py", line 197, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Sulaiman\Desktop\New folder (2)\student-result\students\views.py", line 1193, in student_Results
+    return download_result_pdf(
+           ^^^^^^^^^^^^^^^^^^^^
+TypeError: download_result_pdf() got an unexpected keyword argument 'semester_display'
+"GET /student_results/688010001/?academic_year=2025&download_pdf= HTTP/1.1" 500 85547
+"GET /student_results/688010001/?academic_year=2025&semester=1&download_pdf= HTTP/1.1" 500 210331
+"GET /student_results/688010001/?academic_year=2025&semester=1&download_pdf= HTTP/1.1" 500 99180
+"GET /student_results/688010001/?academic_year=2025&semester=1&download_pdf= HTTP/1.1" 500 99445
+"GET /student_results/688010001/?academic_year=2025&semester=1&download_pdf= HTTP/1.1" 500 99317
+"GET /student_results/688010001/?academic_year=2025&semester=1&download_pdf= HTTP/1.1" 500 99317
+"GET /student_results/688010001/?academic_year=2025&semester=1&download_pdf= HTTP/1.1" 500 99317
+"GET /student_results/688010001/?academic_year=2025&semester=1&download_pdf= HTTP/1.1" 500 99317
+Internal Server Error: /student_results/688010001/
+Traceback (most recent call last):
+  File "C:\Users\Sulaiman\AppData\Local\Programs\Python\Python311\Lib\site-packages\django\core\handlers\exception.py", line 55, in inner
+    response = get_response(request)
+               ^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Sulaiman\AppData\Local\Programs\Python\Python311\Lib\site-packages\django\core\handlers\base.py", line 197, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Sulaiman\Desktop\New folder (2)\student-result\students\views.py", line 1020, in student_Results
+    return download_result_pdfs(
+           ^^^^^^^^^^^^^^^^^^^^^
+TypeError: download_result_pdfs() got an unexpected keyword argument 'students'
+"GET /student_results/688010001/?academic_year=2025&semester=1&download_pdf= HTTP/1.1" 500 89233
+Internal Server Error: /student_results/688010001/
+Traceback (most recent call last):
+  File "C:\Users\Sulaiman\AppData\Local\Programs\Python\Python311\Lib\site-packages\django\core\handlers\exception.py", line 55, in inner
+    response = get_response(request)
+               ^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Sulaiman\AppData\Local\Programs\Python\Python311\Lib\site-packages\django\core\handlers\base.py", line 197, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Sulaiman\Desktop\New folder (2)\student-result\students\views.py", line 1020, in student_Results
+    return download_result_pdfs(
+           ^^^^^^^^^^^^^^^^^^^^^
+TypeError: download_result_pdfs() got an unexpected keyword argument 'students'
+"GET /student_results/688010001/?academic_year=2025&semester=&download_pdf= HTTP/1.1" 500 91101
+Internal Server Error: /student_results/688010001/
+Traceback (most recent call last):
+  File "C:\Users\Sulaiman\AppData\Local\Programs\Python\Python311\Lib\site-packages\django\core\handlers\exception.py", line 55, in inner
+    response = get_response(request)
+               ^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Sulaiman\AppData\Local\Programs\Python\Python311\Lib\site-packages\django\core\handlers\base.py", line 197, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Sulaiman\Desktop\New folder (2)\student-result\students\views.py", line 1020, in student_Results
+    return download_result_pdf(
+           ^^^^^^^^^^^^^^^^^^^
+NameError: name 'download_result_pdf' is not defined
+"GET /student_results/688010001/?academic_year=2025&semester=&download_pdf= HTTP/1.1" 500 91166
+Internal Server Error: /student_results/688010001/
+Traceback (most recent call last):
+  File "C:\Users\Sulaiman\AppData\Local\Programs\Python\Python311\Lib\site-packages\django\core\handlers\exception.py", line 55, in inner
+    response = get_response(request)
+               ^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Sulaiman\AppData\Local\Programs\Python\Python311\Lib\site-packages\django\core\handlers\base.py", line 197, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Sulaiman\Desktop\New folder (2)\student-result\students\views.py", line 1020, in student_Results
+    return download_result_pdf(
+           ^^^^^^^^^^^^^^^^^^^
+NameError: name 'download_result_pdf' is not defined
+"GET /student_results/688010001/?academic_year=2025&semester=&download_pdf= HTTP/1.1" 500 91166
+Internal Server Error: /student_results/688010001/
+Traceback (most recent call last):
+  File "C:\Users\Sulaiman\AppData\Local\Programs\Python\Python311\Lib\site-packages\django\core\handlers\exception.py", line 55, in inner
+    response = get_response(request)
+               ^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Sulaiman\AppData\Local\Programs\Python\Python311\Lib\site-packages\django\core\handlers\base.py", line 197, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Sulaiman\Desktop\New folder (2)\student-result\students\views.py", line 1020, in student_Results
+    return download_result_pdfs(
+           ^^^^^^^^^^^^^^^^^^^^^
+TypeError: download_result_pdfs() got an unexpected keyword argument 'students'
+"GET /student_results/688010001/?academic_year=2025&semester=&download_pdf= HTTP/1.1" 500 91238
+Internal Server Error: /student_results/688010001/
+Traceback (most recent call last):
+  File "C:\Users\Sulaiman\AppData\Local\Programs\Python\Python311\Lib\site-packages\django\core\handlers\exception.py", line 55, in inner
+    response = get_response(request)
+               ^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Sulaiman\AppData\Local\Programs\Python\Python311\Lib\site-packages\django\core\handlers\base.py", line 197, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Sulaiman\Desktop\New folder (2)\student-result\students\views.py", line 1020, in student_Results
+    return download_result_pdfs(
+           ^^^^^^^^^^^^^^^^^^^^^
+TypeError: download_result_pdfs() got an unexpected keyword argument 'students'
+"GET /student_results/688010001/?academic_year=2025&semester=&download_pdf= HTTP/1.1" 500 91101
