@@ -37,6 +37,7 @@ urlpatterns = [
     path('get-provinces/', get_provinces, name='get_provinces'),
     path('get-subdistricts/', get_subdistricts, name='get_subdistricts'),
     path('get-zipcode/', get_zipcode, name='get_zipcode'),
+    path('download_student_results_pdf/', download_student_results_pdf, name='download_student_results_pdf'),
 
 
     path('error/403/', test_403_view, name='test_403'),

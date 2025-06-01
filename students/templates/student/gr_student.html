@@ -53,7 +53,7 @@
                 ดูผลการเรียน
             </h1>
         </div>
-
+        
         <div class="max-w-7xl mx-auto p-4 my-2 md:my-12">
             <!-- Filters -->
             <form method="get" action="">
@@ -83,7 +83,7 @@
                     </div>
  
                     <!-- Academic Year Filter -->
-                    <div class="lg:col-span-3">
+                    <div class="lg:col-span-2">
                         <select name="academic_year" class="w-full bg-white px-4 py-3 rounded-lg border border-gray-300 focus:outline-none duration-300 focus:border-green-500 focus:ring-2 focus:ring-green-200 appearance-none cursor-pointer hover:shadow-md">
                             <option value="" disabled {% if not academic_year %}selected{% endif %}>ปีการศึกษา</option>
                             <!-- Loop through historical academic years -->
@@ -95,8 +95,17 @@
                         </select>
                     </div>
 
+                    <!-- Semester Filter -->
+                    <div class="lg:col-span-2">
+                        <select name="semester" class="w-full bg-white px-4 py-3 rounded-lg border border-gray-300 focus:outline-none duration-300 focus:border-green-500 focus:ring-2 focus:ring-green-200 appearance-none cursor-pointer hover:shadow-md">
+                            <option value="" disabled {% if not request.GET.semester %}selected{% endif %}>ภาคการศึกษา</option>
+                            <option value="1" {% if request.GET.semester == '1' %}selected{% endif %}>เทอม 1</option>
+                            <option value="2" {% if request.GET.semester == '2' %}selected{% endif %}>เทอม 2</option>
+                        </select>
+                    </div>
+
                     <!-- Submit Button -->
-                    <div class="lg:col-span-3">
+                    <div class="lg:col-span-2">
                         <button type="submit" class="w-full bg-green-800 text-white px-4 py-3 rounded-lg hover:bg-green-700 transition-colors duration-300 text-xl">
                             ยืนยัน
                         </button>
@@ -110,7 +119,15 @@
                 {{ error }}
             </div>
             {% endif %}
-
+            <form method="get" class="mb-4 flex justify-end" action="{% url 'download_student_results_pdf' %}">
+                <input type="hidden" name="school" value="{{ school_name }}">
+                <input type="hidden" name="level" value="{{ level_name }}">
+                <input type="hidden" name="academic_year" value="{{ academic_year }}">
+                <input type="hidden" name="semester" value="{{ semester_selected }}">
+                <button type="submit" class="bg-green-800 text-white px-4 py-2 rounded-lg hover:bg-green-700">
+                    ดาวน์โหลด PDF
+                </button>
+            </form>
             <!-- Table -->
             {% if school_name and level_name and academic_year and students and subjects %}
             <div class="overflow-x-auto bg-white rounded-lg shadow custom-scrollbar">
@@ -119,7 +136,8 @@
                         <thead class="bg-gray-50 text-base whitespace-nowrap">
                             <tr>
                                 <th class="px-4 py-3 border-b w-16">ลำดับ</th>
-                                <th class="px-4 py-3 border-b w-72 text-center">ชื่อ-สกุล</th>
+                                <th class="px-4 py-3 border-b w-16">รหัสนักเรียน</th>
+                                <th class="px-4 py-3 border-b w-72 text-left pl-8">ชื่อ-สกุล</th>
                                 {% for subject in subjects %}
                                 <th class="px-4 py-3 border-b">
                                     {{ subject }} 
@@ -137,7 +155,8 @@
                             {% for student in students %}
                             <tr class="hover:bg-gray-50">
                                 <td class="px-4 py-3 border-b text-center">{{ forloop.counter }}</td>
-                                <td class="px-4 py-3 border-b truncate text-center">{{ student.student_name }}</td>
+                                <td class="px-4 py-3 border-b truncate text-center">{{ student.student_id }}</td>
+                                <td class="px-4 py-3 border-b truncate text-left pl-8">{{ student.student_name }}</td>
                                 {% for subject in subjects %}
                                 <td class="px-4 py-3 border-b text-center">
                                     {{ student.subject_marks|get_item:subject|default:"-" }}

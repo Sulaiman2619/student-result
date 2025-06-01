@@ -296,3 +296,120 @@ Traceback (most recent call last):
            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 django.db.utils.IntegrityError: UNIQUE constraint failed: students_student.id_number
 "POST /in_profile/ HTTP/1.1" 500 199288
+Internal Server Error: /ingr_student
+Traceback (most recent call last):
+  File "C:\Users\Sulaiman\AppData\Local\Programs\Python\Python311\Lib\site-packages\django\core\handlers\exception.py", line 55, in inner
+    response = get_response(request)
+               ^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Sulaiman\AppData\Local\Programs\Python\Python311\Lib\site-packages\django\core\handlers\base.py", line 197, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Sulaiman\Desktop\New folder (2)\student-result\students\views.py", line 618, in student_marks_view
+    current_year = int(current_semester.year)
+                       ^^^^^^^^^^^^^^^^
+UnboundLocalError: cannot access local variable 'current_semester' where it is not associated with a value
+"GET /ingr_student?school=%E0%B8%AD%E0%B8%B4%E0%B8%AA%E0%B8%A5%E0%B8%B2%E0%B8%A1%E0%B8%B5%E0%B8%A2%E0%B8%B0%E0%B8%AE%E0%B9%8C&level=%E0%B8%A3%E0%B8%B0%E0%B8%94%E0%B8%B1%E0%B8%9A%E0%B8%8A%E0%B8%B1%E0%B9%89%E0%B8%99%E0%B8%9B%E0%B8%B5+1&semester=2 HTTP/1.1" 500 81208
+Internal Server Error: /ingr_student
+Traceback (most recent call last):
+  File "C:\Users\Sulaiman\AppData\Local\Programs\Python\Python311\Lib\site-packages\django\core\handlers\exception.py", line 55, in inner
+    response = get_response(request)
+               ^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Sulaiman\AppData\Local\Programs\Python\Python311\Lib\site-packages\django\core\handlers\base.py", line 197, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Sulaiman\Desktop\New folder (2)\student-result\students\views.py", line 618, in student_marks_view
+    if current_semester:
+       ^^^^^^^^^^^^^^^^
+UnboundLocalError: cannot access local variable 'current_semester' where it is not associated with a value
+"GET /ingr_student?school=%E0%B8%AD%E0%B8%B4%E0%B8%AA%E0%B8%A5%E0%B8%B2%E0%B8%A1%E0%B8%B5%E0%B8%A2%E0%B8%B0%E0%B8%AE%E0%B9%8C&level=%E0%B8%A3%E0%B8%B0%E0%B8%94%E0%B8%B1%E0%B8%9A%E0%B8%8A%E0%B8%B1%E0%B9%89%E0%B8%99%E0%B8%9B%E0%B8%B5+1&semester=2 HTTP/1.1" 500 81319
+Internal Server Error: /ingr_student
+Traceback (most recent call last):
+  File "C:\Users\Sulaiman\AppData\Local\Programs\Python\Python311\Lib\site-packages\django\core\handlers\exception.py", line 55, in inner
+    response = get_response(request)
+               ^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Sulaiman\AppData\Local\Programs\Python\Python311\Lib\site-packages\django\core\handlers\base.py", line 197, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Sulaiman\Desktop\New folder (2)\student-result\students\views.py", line 618, in student_marks_view
+    if current_semester:
+       ^^^^^^^^^^^^^^^^
+UnboundLocalError: cannot access local variable 'current_semester' where it is not associated with a value
+"GET /ingr_student?school=%E0%B8%AD%E0%B8%B4%E0%B8%AA%E0%B8%A5%E0%B8%B2%E0%B8%A1%E0%B8%B5%E0%B8%A2%E0%B8%B0%E0%B8%AE%E0%B9%8C&level=%E0%B8%A3%E0%B8%B0%E0%B8%94%E0%B8%B1%E0%B8%9A%E0%B8%8A%E0%B8%B1%E0%B9%89%E0%B8%99%E0%B8%9B%E0%B8%B5+1&semester=2 HTTP/1.1" 500 81319
+Internal Server Error: /ingr_student
+Traceback (most recent call last):
+  File "C:\Users\Sulaiman\AppData\Local\Programs\Python\Python311\Lib\site-packages\django\core\handlers\exception.py", line 55, in inner
+    response = get_response(request)
+               ^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Sulaiman\AppData\Local\Programs\Python\Python311\Lib\site-packages\django\core\handlers\base.py", line 197, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Sulaiman\Desktop\New folder (2)\student-result\students\views.py", line 618, in student_marks_view
+    if current_semester:
+       ^^^^^^^^^^^^^^^^
+UnboundLocalError: cannot access local variable 'current_semester' where it is not associated with a value
+"GET /ingr_student?school=%E0%B8%AD%E0%B8%B4%E0%B8%AA%E0%B8%A5%E0%B8%B2%E0%B8%A1%E0%B8%B5%E0%B8%A2%E0%B8%B0%E0%B8%AE%E0%B9%8C&level=%E0%B8%A3%E0%B8%B0%E0%B8%94%E0%B8%B1%E0%B8%9A%E0%B8%8A%E0%B8%B1%E0%B9%89%E0%B8%99%E0%B8%9B%E0%B8%B5+1&semester=2 HTTP/1.1" 500 81319
+Internal Server Error: /ingr_student
+Traceback (most recent call last):
+  File "C:\Users\Sulaiman\AppData\Local\Programs\Python\Python311\Lib\site-packages\django\core\handlers\exception.py", line 55, in inner
+    response = get_response(request)
+               ^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Sulaiman\AppData\Local\Programs\Python\Python311\Lib\site-packages\django\core\handlers\base.py", line 197, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Sulaiman\Desktop\New folder (2)\student-result\students\views.py", line 618, in student_marks_view
+    if current_semester:
+       ^^^^^^^^^^^^^^^^
+UnboundLocalError: cannot access local variable 'current_semester' where it is not associated with a value
+"GET /ingr_student?school=%E0%B8%AD%E0%B8%B4%E0%B8%AA%E0%B8%A5%E0%B8%B2%E0%B8%A1%E0%B8%B5%E0%B8%A2%E0%B8%B0%E0%B8%AE%E0%B9%8C&level=%E0%B8%A3%E0%B8%B0%E0%B8%94%E0%B8%B1%E0%B8%9A%E0%B8%8A%E0%B8%B1%E0%B9%89%E0%B8%99%E0%B8%9B%E0%B8%B5+1&semester=2 HTTP/1.1" 500 81319
+Internal Server Error: /ingr_student
+Traceback (most recent call last):
+  File "C:\Users\Sulaiman\AppData\Local\Programs\Python\Python311\Lib\site-packages\django\core\handlers\exception.py", line 55, in inner
+    response = get_response(request)
+               ^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Sulaiman\AppData\Local\Programs\Python\Python311\Lib\site-packages\django\core\handlers\base.py", line 197, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Sulaiman\Desktop\New folder (2)\student-result\students\views.py", line 618, in student_marks_view
+    if current_semester:
+       ^^^^^^^^^^^^^^^^
+UnboundLocalError: cannot access local variable 'current_semester' where it is not associated with a value
+"GET /ingr_student?school=%E0%B8%AD%E0%B8%B4%E0%B8%AA%E0%B8%A5%E0%B8%B2%E0%B8%A1%E0%B8%B5%E0%B8%A2%E0%B8%B0%E0%B8%AE%E0%B9%8C&level=%E0%B8%A3%E0%B8%B0%E0%B8%94%E0%B8%B1%E0%B8%9A%E0%B8%8A%E0%B8%B1%E0%B9%89%E0%B8%99%E0%B8%9B%E0%B8%B5+1&semester=2 HTTP/1.1" 500 81182
+Internal Server Error: /ingr_student
+Traceback (most recent call last):
+  File "C:\Users\Sulaiman\AppData\Local\Programs\Python\Python311\Lib\site-packages\django\core\handlers\exception.py", line 55, in inner
+    response = get_response(request)
+               ^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Sulaiman\AppData\Local\Programs\Python\Python311\Lib\site-packages\django\core\handlers\base.py", line 197, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Sulaiman\Desktop\New folder (2)\student-result\students\views.py", line 618, in student_marks_view
+    if current_semester:
+       ^^^^^^^^^^^^^^^^
+UnboundLocalError: cannot access local variable 'current_semester' where it is not associated with a value
+"GET /ingr_student HTTP/1.1" 500 79146
+Internal Server Error: /ingr_student
+Traceback (most recent call last):
+  File "C:\Users\Sulaiman\AppData\Local\Programs\Python\Python311\Lib\site-packages\django\core\handlers\exception.py", line 55, in inner
+    response = get_response(request)
+               ^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Sulaiman\AppData\Local\Programs\Python\Python311\Lib\site-packages\django\core\handlers\base.py", line 197, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Sulaiman\Desktop\New folder (2)\student-result\students\views.py", line 618, in student_marks_view
+    if current_semester:
+       ^^^^^^^^^^^^^^^^
+UnboundLocalError: cannot access local variable 'current_semester' where it is not associated with a value
+"GET /ingr_student HTTP/1.1" 500 79146
+Internal Server Error: /gr_student
+Traceback (most recent call last):
+  File "C:\Users\Sulaiman\AppData\Local\Programs\Python\Python311\Lib\site-packages\django\core\handlers\exception.py", line 55, in inner
+    response = get_response(request)
+               ^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Sulaiman\AppData\Local\Programs\Python\Python311\Lib\site-packages\django\core\handlers\base.py", line 197, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Sulaiman\Desktop\New folder (2)\student-result\students\views.py", line 793, in GR_Student
+    semester_selected = request.GET.get('semester', current_semester.semester if current_semester else None)
+                                                                                 ^^^^^^^^^^^^^^^^
+UnboundLocalError: cannot access local variable 'current_semester' where it is not associated with a value
+"GET /gr_student HTTP/1.1" 500 79901

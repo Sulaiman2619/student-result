@@ -67,7 +67,7 @@
             <form method="get" action="">
                 <div class="grid grid-cols-1 sm:grid-cols-3  lg:grid-cols-12 gap-4 mb-6">
                     <!-- School Filter -->
-                    <div class="lg:col-span-5">
+                    <div class="lg:col-span-3">
                         <select name="school" class="w-full bg-white px-4 py-3 rounded-lg border border-gray-300 focus:outline-none focus:border-green-500 focus:ring-2 focus:ring-green-200 appearance-none cursor-pointer hover:shadow-md">
                             <option value="" disabled {% if not request.GET.school %}selected{% endif %}>โรงเรียน</option>
                             {% for school in schools %}
@@ -79,7 +79,7 @@
                     </div>
 
                     <!-- Level Filter -->
-                    <div class="lg:col-span-5">
+                    <div class="lg:col-span-3">
                         <select name="level" class="w-full bg-white px-4 py-3 rounded-lg border border-gray-300 focus:outline-none focus:border-green-500 focus:ring-2 focus:ring-green-200 appearance-none cursor-pointer hover:shadow-md">
                             <option value="" disabled {% if not request.GET.level %}selected{% endif %}>ชั้นเรียน</option>
                             {% for level in levels %}
@@ -87,6 +87,23 @@
                                 {{ level.name }}
                             </option>
                             {% endfor %}
+                        </select>
+                    </div>
+                    <!-- Academic Year Filter -->
+                    <div class="lg:col-span-2">
+                        <select name="academic_year" class="w-full bg-white px-4 py-3 rounded-lg border border-gray-300 focus:outline-none focus:border-green-500 focus:ring-2 focus:ring-green-200 appearance-none cursor-pointer hover:shadow-md">
+                            <option value="" disabled {% if not request.GET.academic_year %}selected{% endif %}>ปีการศึกษา</option>
+                            {% for year in years %}
+                            <option value="{{ year }}" {% if request.GET.academic_year == year|stringformat:"s" %}selected{% endif %}>{{ year }}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                    <!-- Semester Filter -->
+                    <div class="lg:col-span-2">
+                        <select name="semester" class="w-full bg-white px-4 py-3 rounded-lg border border-gray-300 focus:outline-none focus:border-green-500 focus:ring-2 focus:ring-green-200 appearance-none cursor-pointer hover:shadow-md">
+                            <option value="" disabled {% if not request.GET.semester %}selected{% endif %}>ภาคการศึกษา</option>
+                            <option value="1" {% if request.GET.semester == '1' %}selected{% endif %}>เทอม 1</option>
+                            <option value="2" {% if request.GET.semester == '2' %}selected{% endif %}>เทอม 2</option>
                         </select>
                     </div>
                     <button type="submit" class="lg:col-span-2 w-full bg-green-800 text-white px-4 py-2 rounded-lg hover:bg-green-700 transition-colors duration-300 text-xl">
@@ -102,7 +119,9 @@
                 {% csrf_token %}
                 <input type="hidden" name="level" value="{{ request.GET.level }}">
                 <input type="hidden" name="school" value="{{ request.GET.school }}">
-
+                <input type="hidden" name="academic_year" value="{{ request.GET.academic_year }}">
+                <input type="hidden" name="semester" value="{{ request.GET.semester }}">
+                
                 <div class="overflow-x-auto bg-white rounded-lg shadow custom-scrollbar mt-4">
                     <div class="min-w-max">
                         <table class="w-full text-sm text-left text-gray-800">

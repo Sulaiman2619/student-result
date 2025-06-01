@@ -405,6 +405,11 @@ class StudentMarkForSubject(models.Model):
     student = models.ForeignKey(Student, on_delete=models.CASCADE, verbose_name=_("นักเรียน"))
     subject_to_study = models.ForeignKey(SubjectToStudy, on_delete=models.CASCADE, verbose_name=_("วิชาที่เรียน"))
     marks_obtained = models.IntegerField(blank=True, null=True, default=0, verbose_name=_("คะแนนที่ได้"))
+    semester = models.IntegerField(
+        choices=[(1, 'เทอม 1'), (2, 'เทอม 2')],
+        default=1,
+        verbose_name=_("ภาคการศึกษา")
+    )
     class Meta:
         verbose_name = _("คะแนนนักเรียนสำหรับวิชา")
         verbose_name_plural = _("คะแนนนักเรียนสำหรับวิชา")
@@ -414,7 +419,11 @@ class StudentHistory(models.Model):
     student_name = models.CharField(blank=True, null=True,max_length=255, verbose_name=_("ชื่อนักเรียน"))
     school_name = models.CharField(blank=True, null=True,max_length=255, verbose_name=_("ชื่อโรงเรียน"))
     level_name = models.CharField(blank=True, null=True,max_length=50, verbose_name=_("ระดับชั้น"))
-    semester = models.CharField(blank=True, null=True,max_length=50, verbose_name=_("ภาคการศึกษา"))
+    semester = models.IntegerField(
+        choices=[(1, 'เทอม 1'), (2, 'เทอม 2')],
+        default=1,
+        verbose_name=_("ภาคการศึกษา")
+    )
     academic_year = models.CharField(blank=True, null=True,max_length=4, verbose_name=_("ปีการศึกษา"))
     total_marks = models.IntegerField(blank=True, null=True, default=0, verbose_name=_("คะแนนเต็ม"))
     obtained_marks = models.IntegerField(blank=True, null=True, default=0, verbose_name=_("คะแนนที่ได้"))

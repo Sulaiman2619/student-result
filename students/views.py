@@ -25,6 +25,7 @@ from axes.models import AccessAttempt
 from django.conf import settings
 from datetime import timedelta
 from django.template import loader
+from datetime import datetime
 
 
 pdfmetrics.registerFont(TTFont('THSarabunNew', 'static/fonts/THSarabunNew.ttf'))
@@ -614,7 +615,18 @@ def download_students_pdf(students):
 def student_marks_view(request):
      # Check if 'user_type' is in the session
     user_type = request.session.get('user_type')
-    
+    current_semester = CurrentSemester.objects.first()
+
+    if current_semester:
+        current_year = int(current_semester.year)
+    else:
+        current_year = datetime.now().year + 543
+
+    years = [str(y) for y in range(current_year, current_year - 10, -1)]
+
+    academic_year = request.GET.get('academic_year')
+    if not academic_year:
+        academic_year = current_semester.year if current_semester else str(datetime.now().year + 543)
     # If no user_type is found, redirect to login
     if not user_type:
         return redirect('login_view')  # Redirect to login if user_type is not in session
@@ -631,6 +643,8 @@ def student_marks_view(request):
     # Filters from GET request
     school_name = request.GET.get('school')
     level_name = request.GET.get('level')
+    semester_selected = request.GET.get('semester') or current_semester.semester  # ถ้าไม่ได้เลือกให้ใช้ของ current
+    academic_year = request.GET.get('academic_year') or current_semester.year
 
     # Fetch filter options
     schools = School.objects.all()
@@ -650,10 +664,12 @@ def student_marks_view(request):
 
         students = list(students_query)
 
+        # Filter SubjectToStudy
         subjects = SubjectToStudy.objects.filter(
             level__name__iexact=level_name,
-            semester=current_semester.semester,
+            semester=int(semester_selected),  # ✅ เปลี่ยนตรงนี้
         ).select_related('subject')
+        
 
         # Fetch marks for students and prepare data structure
         for student in students:
@@ -661,7 +677,8 @@ def student_marks_view(request):
             for subject in subjects:
                 mark_obj = StudentMarkForSubject.objects.filter(
                     student=student.student,
-                    subject_to_study=subject
+                    subject_to_study=subject,
+                    semester=int(semester_selected)  # ✅ เปลี่ยนตรงนี้
                 ).first()
                 marks_row[subject.subject.id] = mark_obj.marks_obtained if mark_obj else ''
             student_marks_data.append(marks_row)
@@ -700,6 +717,7 @@ def student_marks_view(request):
                         StudentMarkForSubject.objects.update_or_create(
                             student=student.student,
                             subject_to_study=subject,
+                            semester=current_semester.semester,  # << เพิ่มตรงนี้
                             defaults={'marks_obtained': marks},
                         )
                     except ValueError:
@@ -722,8 +740,8 @@ def student_marks_view(request):
                 student_name=f"{student.student.first_name} {student.student.last_name}",
                 school_name=student.school.name,
                 level_name=student.level.name,
-                semester=current_semester.semester,
-                academic_year=current_semester.year,
+                academic_year=academic_year,
+                semester=current_semester.semester,  # << เพิ่มตรงนี้
                 defaults={
                     'total_marks': total_marks,
                     'obtained_marks': obtained_marks,
@@ -738,8 +756,10 @@ def student_marks_view(request):
         query_params = {
             'school': school_name,
             'level': level_name,
-            'academic_year': academic_year
+            'semester': semester_selected,
+            'academic_year': academic_year,
         }
+
         # Remove None values
         query_params = {key: value for key, value in query_params.items() if value}
 
@@ -758,6 +778,9 @@ def student_marks_view(request):
         'subjects': subjects,
         'current_semester': current_semester,
         'student_marks_data': student_marks_data,
+        'academic_year': academic_year,
+        'years': years,
+        'semester_selected': semester_selected,
     }
 
     return render(request, 'inputdata/ingr_student.html', context)
@@ -765,58 +788,65 @@ def student_marks_view(request):
 
 #grade output
 def GR_Student(request):
-    # Check if 'user_type' is in the session
     user_type = request.session.get('user_type')
-    
-    # If no user_type is found, redirect to login
+
+    # 🔒 ตรวจสอบ session
     if not user_type:
-        return redirect('login_view')  # Redirect to login if user_type is not in session
-
-    # If user is not a teacher, redirect to home
+        return redirect('login_view')
     if user_type == 'student':
-        return redirect('home')  # Redirect student back to home
+        return redirect('home')
 
-    # Continue with the view if user_type is 'teacher'
-    # Fetch filter options
+    # 📚 โหลดข้อมูลทั่วไป
     schools = School.objects.all()
     levels = Level.objects.all()
     current_semester = CurrentSemester.objects.first()
 
-    # Fetch unique academic years from StudentHistory
+    # 🎓 สร้างปีการศึกษาแบบย้อนหลัง
+    if current_semester:
+        current_year = int(current_semester.year)
+        default_semester = current_semester.semester
+    else:
+        current_year = datetime.now().year + 543
+        default_semester = 1
+
     academic_years = StudentHistory.objects.values_list('academic_year', flat=True).distinct().order_by('-academic_year')
 
-    # Get filters from the GET request
+    # 🧠 รับค่าจาก query string
     school_name = request.GET.get('school')
     level_name = request.GET.get('level')
-    academic_year = request.GET.get('academic_year', current_semester.year if current_semester else None)
+    academic_year = request.GET.get('academic_year') or str(current_year)
+    semester_selected = request.GET.get('semester') or str(default_semester)
 
-    # Filtered query
+    # 🔍 กรองข้อมูล StudentHistory
     histories = StudentHistory.objects.all()
 
     if school_name:
         histories = histories.filter(school_name=school_name)
-
     if level_name:
         histories = histories.filter(level_name=level_name)
-
     if academic_year:
         histories = histories.filter(academic_year=academic_year)
+    if semester_selected:
+        histories = histories.filter(semester=int(semester_selected))
 
-    # Extract subjects dynamically (assuming subject marks are stored in JSON format)
+    # 📘 ดึงรายวิชาที่มีการให้คะแนน
     subjects = []
     if histories.exists():
         first_entry = histories.first()
-        subjects = first_entry.subject_marks.keys() if first_entry.subject_marks else []
-    
-    # Fetch total marks for each subject (assuming SubjectToStudy holds subject and total marks)
+        if first_entry.subject_marks:
+            subjects = list(first_entry.subject_marks.keys())
+
+    # 📊 ดึงคะแนนเต็มจาก SubjectToStudy
     subject_totals = {}
-    if level_name and current_semester:
+    if level_name:
         subject_to_studies = SubjectToStudy.objects.filter(
             level__name__iexact=level_name,
-            semester=current_semester.semester
+            semester=int(semester_selected)
         ).select_related('subject')
 
-        subject_totals = {subject.subject.name: subject.subject.total_marks for subject in subject_to_studies}
+        subject_totals = {
+            item.subject.name: item.subject.total_marks for item in subject_to_studies
+        }
 
     context = {
         'user_type': user_type,
@@ -827,13 +857,128 @@ def GR_Student(request):
         'subjects': subjects,
         'subject_totals': subject_totals,
         'academic_year': academic_year,
-        'current_semester': current_semester,
+        'semester_selected': semester_selected,
         'school_name': school_name,
         'level_name': level_name,
-        'academic_year': academic_year,
     }
 
     return render(request, 'student/gr_student.html', context)
+
+def download_student_results_pdf(request):
+    # รับค่ากรอง
+    school_name = request.GET.get('school')
+    level_name = request.GET.get('level')
+    academic_year = request.GET.get('academic_year')
+    semester = request.GET.get('semester')
+
+    # กรอง StudentHistory
+    histories = StudentHistory.objects.all()
+    if school_name:
+        histories = histories.filter(school_name=school_name)
+    if level_name:
+        histories = histories.filter(level_name=level_name)
+    if academic_year:
+        histories = histories.filter(academic_year=academic_year)
+    if semester:
+        histories = histories.filter(semester=int(semester))
+
+    # ดึงรายวิชา
+    subjects = []
+    if histories.exists() and histories.first().subject_marks:
+        subjects = list(histories.first().subject_marks.keys())
+
+    # สร้างหัวตาราง
+    header = ['ลำดับ', 'รหัสนักเรียน', 'ชื่อ-สกุล'] + subjects + ['รวม', 'เปอร์เซ็นต์', 'ผล']
+
+    # เตรียมข้อมูลนักเรียน
+    student_data = [header]
+    for i, student in enumerate(histories, start=1):
+        row = [
+            i,
+            student.student_id,
+            student.student_name,
+        ]
+        for subject in subjects:
+            row.append(student.subject_marks.get(subject, '-'))
+        row.append(student.obtained_marks)
+        row.append(f"{student.grade_percentage:.2f}")
+        row.append(student.pass_or_fail)
+        student_data.append(row)
+
+    if not histories.exists():
+        student_data = [['ไม่มีข้อมูล']]
+
+    # สร้าง PDF
+    response = HttpResponse(content_type='application/pdf')
+    filename = f"results_{academic_year or 'all'}_sem{semester or 'all'}.pdf"
+    response['Content-Disposition'] = f'attachment; filename="{filename}"'
+
+    doc = SimpleDocTemplate(
+        response,
+        pagesize=landscape(A4),
+        leftMargin=0.5 * inch,
+        rightMargin=0.5 * inch,
+        topMargin=0.5 * inch,
+        bottomMargin=0.5 * inch
+    )
+
+    # 🔤 สไตล์
+    styles = getSampleStyleSheet()
+    styles['Normal'].fontName = 'THSarabunNew'
+    styles['Normal'].fontSize = 18
+    styles['Normal'].leading = 22
+
+    # 🎓 School Title และ Filter Info ใช้ Paragraph แบบ Custom
+    school_style = ParagraphStyle(
+        name='SchoolStyle',
+        fontName='THSarabunNew',
+        fontSize=20,
+        alignment=1,  # center
+        leading=22,
+    )
+    filter_style = ParagraphStyle(
+        name='FilterStyle',
+        fontName='THSarabunNew',
+        fontSize=18,
+        alignment=1,  # center
+        leading=20,
+    )
+
+    school_paragraph = Paragraph(f"<b>{school_name or 'ทุกโรงเรียน'}</b>", school_style)
+    info_text = f"{level_name or 'ทั้งหมด'} | ปีการศึกษา: {academic_year or 'ทุกปี'} | เทอม: {semester or 'ทั้งหมด'} "
+    filter_paragraph = Paragraph(info_text, filter_style)
+
+    # 📷 Logo
+    logo_path = 'static/images/logo.ico'
+    logo = Image(logo_path, width=1 * inch, height=1 * inch)
+
+    # 🧾 Header Table
+    header_table_data = [[logo, school_paragraph, filter_paragraph]]
+    header_table = Table(header_table_data, colWidths=[1.2 * inch, 5.6 * inch, 2.5 * inch])
+    header_table.setStyle(TableStyle([
+        ('ALIGN', (0, 0), (-1, -1), 'CENTER'),
+        ('VALIGN', (0, 0), (-1, -1), 'MIDDLE'),
+        ('BOTTOMPADDING', (0, 0), (-1, -1), 12),
+        ('BOX', (0, 0), (-1, -1), 0.8, colors.grey),
+        ('GRID', (0, 0), (-1, -1), 0.5, colors.grey),
+    ]))
+
+    # 📊 ตารางข้อมูลนักเรียน
+    table = Table(student_data, repeatRows=1)
+    table.setStyle(TableStyle([
+        ('FONTNAME', (0, 0), (-1, -1), 'THSarabunNew'),
+        ('FONTSIZE', (0, 0), (-1, 0), 16),  # หัวตาราง
+        ('FONTSIZE', (0, 1), (-1, -1), 14),  # รายการ
+        ('BACKGROUND', (0, 0), (-1, 0), colors.lightgrey),
+        ('GRID', (0, 0), (-1, -1), 0.5, colors.grey),
+        ('ALIGN', (0, 0), (-1, -1), 'CENTER'),
+        ('VALIGN', (0, 0), (-1, -1), 'MIDDLE'),
+        ('TOPPADDING', (0, 0), (-1, -1), 4),
+        ('BOTTOMPADDING', (0, 0), (-1, -1), 6),
+    ]))
+
+    doc.build([header_table, Spacer(1, 0.3 * inch), table])
+    return response
 
 def student_Results(request, student_id):
     user_type = request.session.get('user_type')
