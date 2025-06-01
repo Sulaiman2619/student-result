@@ -1,4 +1,4 @@
-{% extends 'navbar.html' %}
+{% include 'navbar.html' %}
 
 <!DOCTYPE html>
 <html lang="en">
@@ -20,8 +20,8 @@
 
 
 
+
     <body class="bg-gradient-to-b from-green-100 to-green-900 font-prompt min-h-screen">
-    {% block content %}
 
         <!-- Header -->
         <div class="bg-green-800">
@@ -176,7 +176,7 @@
                     <input type="text" id="father-dob" name="father-dob" value="{{ father.date_of_birth|default:'' }}" class="w-full px-3 py-2 md:px-4 md:py-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-green-500" placeholder="วันเดือนปีเกิด" required>
                     <input type="text" id="father-house-number" name="father-house-number" value="{{ father.address.house_number|default:'' }}" class="w-full px-3 py-2 md:px-4 md:py-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-green-500" placeholder="บ้านเลขที่" required>
                 
-                    <input type="text" id="father-street" name="father-street" value="{{ father.address.street|default:'' }}" class="w-full px-3 py-2 md:px-4 md:py-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-green-500" placeholder="ซอย/ถนน">
+                    <input type="text" id="father-street" name="father-street" value="{{ father.address.street|default:'' }}" class="w-full px-3 py-2 md:px-4 md:py-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-green-500" placeholder="ซอย/ถนน" required>
                     <input type="number" id="father-village" name="father-village" value="{{ father.address.moo|default:'' }}" class="w-full px-3 py-2 md:px-4 md:py-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-green-500" placeholder="หมู่ที่" required>
                 
                     <!-- Province Dropdown -->
@@ -229,7 +229,7 @@
                     <input type="text" id="mother-dob" name="mother-dob" value="{{ mother.date_of_birth|default:'' }}" class="w-full px-3 py-2 md:px-4 md:py-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-green-500" placeholder="วันเดือนปีเกิด"  required>
                     <input type="text" id="mother-house-number" name="mother-house-number" value="{{ mother.address.house_number|default:'' }}" class="w-full px-3 py-2 md:px-4 md:py-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-green-500" placeholder="บ้านเลขที่"  required>
 
-                    <input type="text" id="mother-street" name="mother-street" value="{{ mother.address.street|default:'' }}" class="w-full px-3 py-2 md:px-4 md:py-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-green-500" placeholder="ซอย/ถนน"  >
+                    <input type="text" id="mother-street" name="mother-street" value="{{ mother.address.street|default:'' }}" class="w-full px-3 py-2 md:px-4 md:py-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-green-500" placeholder="ซอย/ถนน"  required>
                     <input type="number" id="mother-village" name="mother-village" value="{{ mother.address.moo|default:'' }}" class="w-full px-3 py-2 md:px-4 md:py-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-green-500" placeholder="หมู่ที่"  required>
 
                     <!-- Province Dropdown -->
@@ -313,7 +313,7 @@
                         <input type="text" id="guardian-dob" name="guardian-dob" value="{{ guardian.date_of_birth|default:'' }}" class="w-full px-3 py-2 md:px-4 md:py-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-green-500" placeholder="วันเดือนปีเกิด"  required>
                         <input type="text" id="guardian-house-number" name="guardian-house-number" value="{{ guardian.address.house_number|default:'' }}" class="w-full px-3 py-2 md:px-4 md:py-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-green-500" placeholder="บ้านเลขที่"  required>
                     
-                        <input type="text" id="guardian-street" name="guardian-street" value="{{ guardian.address.street|default:'' }}" class="w-full px-3 py-2 md:px-4 md:py-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-green-500" placeholder="ซอย/ถนน">
+                        <input type="text" id="guardian-street" name="guardian-street" value="{{ guardian.address.street|default:'' }}" class="w-full px-3 py-2 md:px-4 md:py-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-green-500" placeholder="ซอย/ถนน"  required>
                         <input type="number" id="guardian-village" name="guardian-village" value="{{ guardian.address.moo|default:'' }}" class="w-full px-3 py-2 md:px-4 md:py-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-green-500" placeholder="หมู่ที่"  required>
                     
                         <!-- Province Dropdown -->
@@ -807,7 +807,7 @@
             }
 
         </script>
-{% endblock %}
+
         
         
     </body>
