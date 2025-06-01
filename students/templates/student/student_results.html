@@ -30,7 +30,7 @@
                         onchange="this.form.submit()"
                         class="w-36 bg-white py-1 rounded-lg border border-green-800 focus:outline-none duration-300 focus:border-green-500 focus:ring-2 focus:ring-green-200 appearance-none cursor-pointer hover:shadow-md">
                         {% for year in academic_years %}
-                            <option value="{{ year }}" {% if year == selected_academic_year %}selected{% endif %}>{{ year }}</option>
+                            <option value="{{ year }}" {% if year == selected_academic_year %}selected{% endif %}> {{ year|add:"543" }}</option>
                         {% endfor %}
                     </select>
 
