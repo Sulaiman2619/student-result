@@ -490,7 +490,7 @@ class StudentHistory(models.Model):
         if self.subject_marks:
             for subject_id, marks_obtained in self.subject_marks.items():
                 try:
-                    subject = Subject.objects.get(id=subject_id)
+                    subject = Subject.objects.get(id=int(subject_id))  # ใช้ id แทนชื่อ
                     
                     # If a category is provided, filter subjects by category
                     if category and subject.category != category:
@@ -501,7 +501,7 @@ class StudentHistory(models.Model):
                     grade = self.calculate_grade(percentage)
                     status = "ผ่าน" if percentage >= 50 else "ไม่ผ่าน"
                     subject_data.append({
-                        "name": subject_name,
+                        "name": subject_id,
                         "marks": marks_obtained,
                         "total_marks": total_marks,
                         "percentage": percentage,
