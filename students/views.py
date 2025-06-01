@@ -626,8 +626,8 @@ def student_marks_view(request):
     user_type = request.session.get('user_type')
     current_semester = CurrentSemester.objects.first()
 
-    current_year = int(current_semester.year) if current_semester else datetime.now().year + 543
-    years = [convert_year_to_thai(str(y)) for y in range(current_year, current_year - 10, -1)]
+    thai_years = StudentHistory.objects.values_list('academic_year', flat=True).distinct().order_by('-academic_year')
+    years = [convert_to_thai_year(str(y)) for y in thai_years if str(y).isdigit()]
 
     academic_year = request.GET.get('academic_year') or (current_semester.year if current_semester else str(datetime.now().year + 543))
     category_selected = request.GET.get('category') or '1'  # 1 = ทฤษฎี

@@ -911,3 +911,131 @@ Traceback (most recent call last):
                   ^^^^^^^^^^^^^^^^^^^^
 NameError: name 'convert_year_to_thai' is not defined
 "GET /student_results/688010001/?academic_year=2025&category=&download_pdf= HTTP/1.1" 500 84571
+Internal Server Error: /ingr_student
+Traceback (most recent call last):
+  File "C:\Users\Sulaiman\AppData\Local\Programs\Python\Python311\Lib\site-packages\django\core\handlers\exception.py", line 55, in inner
+    response = get_response(request)
+               ^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Sulaiman\AppData\Local\Programs\Python\Python311\Lib\site-packages\django\core\handlers\base.py", line 197, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Sulaiman\Desktop\New folder (2)\student-result\students\views.py", line 630, in student_marks_view
+    years = [convert_year_to_thai(str(y)) for y in range(current_year, current_year - 10, -1)]
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Sulaiman\Desktop\New folder (2)\student-result\students\views.py", line 630, in <listcomp>
+    years = [convert_year_to_thai(str(y)) for y in range(current_year, current_year - 10, -1)]
+             ^^^^^^^^^^^^^^^^^^^^
+NameError: name 'convert_year_to_thai' is not defined
+"GET /ingr_student HTTP/1.1" 500 84007
+Internal Server Error: /ingr_student
+Traceback (most recent call last):
+  File "C:\Users\Sulaiman\AppData\Local\Programs\Python\Python311\Lib\site-packages\django\core\handlers\exception.py", line 55, in inner
+    response = get_response(request)
+               ^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Sulaiman\AppData\Local\Programs\Python\Python311\Lib\site-packages\django\core\handlers\base.py", line 197, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Sulaiman\Desktop\New folder (2)\student-result\students\views.py", line 630, in student_marks_view
+    years = [convert_year_to_thai(str(y)) for y in range(current_year, current_year - 10, -1)]
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Sulaiman\Desktop\New folder (2)\student-result\students\views.py", line 630, in <listcomp>
+    years = [convert_year_to_thai(str(y)) for y in range(current_year, current_year - 10, -1)]
+             ^^^^^^^^^^^^^^^^^^^^
+NameError: name 'convert_year_to_thai' is not defined
+"GET /ingr_student HTTP/1.1" 500 84007
+Internal Server Error: /ingr_student
+Traceback (most recent call last):
+  File "C:\Users\Sulaiman\AppData\Local\Programs\Python\Python311\Lib\site-packages\django\core\handlers\exception.py", line 55, in inner
+    response = get_response(request)
+               ^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Sulaiman\AppData\Local\Programs\Python\Python311\Lib\site-packages\django\core\handlers\base.py", line 197, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Sulaiman\Desktop\New folder (2)\student-result\students\views.py", line 630, in student_marks_view
+    years = [convert_year_to_thai(str(y)) for y in range(current_year, current_year - 10, -1)]
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Sulaiman\Desktop\New folder (2)\student-result\students\views.py", line 630, in <listcomp>
+    years = [convert_year_to_thai(str(y)) for y in range(current_year, current_year - 10, -1)]
+             ^^^^^^^^^^^^^^^^^^^^
+NameError: name 'convert_year_to_thai' is not defined
+"GET /ingr_student HTTP/1.1" 500 84007
+Internal Server Error: /ingr_student
+Traceback (most recent call last):
+  File "C:\Users\Sulaiman\AppData\Local\Programs\Python\Python311\Lib\site-packages\django\core\handlers\exception.py", line 55, in inner
+    response = get_response(request)
+               ^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Sulaiman\AppData\Local\Programs\Python\Python311\Lib\site-packages\django\core\handlers\base.py", line 197, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Sulaiman\Desktop\New folder (2)\student-result\students\views.py", line 630, in student_marks_view
+    years = [convert_year_to_thai(str(y)) for y in range(current_year, current_year - 10, -1)]
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Sulaiman\Desktop\New folder (2)\student-result\students\views.py", line 630, in <listcomp>
+    years = [convert_year_to_thai(str(y)) for y in range(current_year, current_year - 10, -1)]
+             ^^^^^^^^^^^^^^^^^^^^
+NameError: name 'convert_year_to_thai' is not defined
+"GET /ingr_student HTTP/1.1" 500 84007
+Internal Server Error: /ingr_student
+Traceback (most recent call last):
+  File "C:\Users\Sulaiman\AppData\Local\Programs\Python\Python311\Lib\site-packages\django\core\handlers\exception.py", line 55, in inner
+    response = get_response(request)
+               ^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Sulaiman\AppData\Local\Programs\Python\Python311\Lib\site-packages\django\core\handlers\base.py", line 197, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Sulaiman\Desktop\New folder (2)\student-result\students\views.py", line 630, in student_marks_view
+    years = [convert_year_to_thai(str(y)) for y in range(current_year, current_year - 10, -1)]
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Sulaiman\Desktop\New folder (2)\student-result\students\views.py", line 630, in <listcomp>
+    years = [convert_year_to_thai(str(y)) for y in range(current_year, current_year - 10, -1)]
+             ^^^^^^^^^^^^^^^^^^^^
+NameError: name 'convert_year_to_thai' is not defined
+"GET /ingr_student HTTP/1.1" 500 84007
+Internal Server Error: /ingr_student
+Traceback (most recent call last):
+  File "C:\Users\Sulaiman\AppData\Local\Programs\Python\Python311\Lib\site-packages\django\core\handlers\exception.py", line 55, in inner
+    response = get_response(request)
+               ^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Sulaiman\AppData\Local\Programs\Python\Python311\Lib\site-packages\django\core\handlers\base.py", line 197, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Sulaiman\Desktop\New folder (2)\student-result\students\views.py", line 630, in student_marks_view
+    years = [convert_year_to_thai(str(y)) for y in range(current_year, current_year - 10, -1)]
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Sulaiman\Desktop\New folder (2)\student-result\students\views.py", line 630, in <listcomp>
+    years = [convert_year_to_thai(str(y)) for y in range(current_year, current_year - 10, -1)]
+             ^^^^^^^^^^^^^^^^^^^^
+NameError: name 'convert_year_to_thai' is not defined
+"GET /ingr_student HTTP/1.1" 500 84007
+Internal Server Error: /ingr_student
+Traceback (most recent call last):
+  File "C:\Users\Sulaiman\AppData\Local\Programs\Python\Python311\Lib\site-packages\django\core\handlers\exception.py", line 55, in inner
+    response = get_response(request)
+               ^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Sulaiman\AppData\Local\Programs\Python\Python311\Lib\site-packages\django\core\handlers\base.py", line 197, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Sulaiman\Desktop\New folder (2)\student-result\students\views.py", line 630, in student_marks_view
+    years = [convert_year_to_thai(str(y)) for y in range(current_year, current_year - 10, -1)]
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Sulaiman\Desktop\New folder (2)\student-result\students\views.py", line 630, in <listcomp>
+    years = [convert_year_to_thai(str(y)) for y in range(current_year, current_year - 10, -1)]
+             ^^^^^^^^^^^^^^^^^^^^
+NameError: name 'convert_year_to_thai' is not defined
+"GET /ingr_student HTTP/1.1" 500 84007
+Internal Server Error: /ingr_student
+Traceback (most recent call last):
+  File "C:\Users\Sulaiman\AppData\Local\Programs\Python\Python311\Lib\site-packages\django\core\handlers\exception.py", line 55, in inner
+    response = get_response(request)
+               ^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Sulaiman\AppData\Local\Programs\Python\Python311\Lib\site-packages\django\core\handlers\base.py", line 197, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Sulaiman\Desktop\New folder (2)\student-result\students\views.py", line 630, in student_marks_view
+    years = [convert_year_to_thai(str(y)) for y in range(current_year, current_year - 10, -1)]
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Sulaiman\Desktop\New folder (2)\student-result\students\views.py", line 630, in <listcomp>
+    years = [convert_year_to_thai(str(y)) for y in range(current_year, current_year - 10, -1)]
+             ^^^^^^^^^^^^^^^^^^^^
+NameError: name 'convert_year_to_thai' is not defined
+"GET /ingr_student HTTP/1.1" 500 83660
