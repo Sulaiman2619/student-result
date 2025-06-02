@@ -57,8 +57,7 @@ def create_default_subject_to_study(sender, **kwargs):
             for category in categories:
                 SubjectToStudy.objects.get_or_create(
                     subject=subject,
-                    level=level,
-                    category=category
+                    level=level
                 )
 
     print("Default SubjectToStudy records created.")

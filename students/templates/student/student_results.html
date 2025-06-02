@@ -16,8 +16,8 @@
 {% endblock %}
 
 {% block content %}
-<body class="font-prompt">
-    <div class="min-h-screen bg-gradient-to-b from-green-100 to-green-900 font-prompt">
+<body>
+    <div class="min-h-screen bg-gradient-to-b from-green-100 to-green-900 font-prompt pb-12">
 
         <!-- Header Section -->
         <div class="max-w-4xl mx-auto mb-4 pt-12">
@@ -79,23 +79,34 @@
                 </div>
             </div>
 
-            <div class="flex flex-cols-2 justify-center md:hidden space-x-2 -mb-2 -mt-2">
+            <div class="block md:hidden px-4 space-y-2 mb-3">
+                <form method="get" class="flex gap-2 items-center justify-center">
                     <select
-                        class="w-36 bg-white py-1 rounded-lg border border-green-800 focus:outline-none duration-300 focus:border-green-500 focus:ring-2 focus:ring-green-200 appearance-none cursor-pointer hover:shadow-md"
-                        name="academic_year"
-                        onchange="this.form.submit()"
-                    >
-                        <option value="">ปีการศึกษา</option>
-                        {% for year in academic_years %}
-                            <option value="{{ year }}" {% if year == selected_academic_year %}selected{% endif %}>
-                                {{ year}}
-                            </option>
-                        {% endfor %}
+                    name="academic_year"
+                    onchange="this.form.submit()"
+                    class="w-1/2 px-3 py-2 rounded-lg border border-green-800 text-sm focus:outline-none focus:ring-2 focus:ring-green-300">
+                    {% for year in academic_years %}
+                        <option value="{{ year }}" {% if year == selected_academic_year %}selected{% endif %}>ปี {{ year|add:"543" }}</option>
+                    {% endfor %}
                     </select>
-                    <form method="get">
-                        <input type="hidden" name="academic_year" value="{{ selected_academic_year }}">
-                        <button name="download_pdf" class="bg-green-800 text-white px-4 md:px-8 py-1 rounded-lg">บันทึกเป็น PDF</button>
-                    </form>
+
+                    <select
+                    name="category"
+                    onchange="this.form.submit()"
+                    class="w-1/2 px-3 py-2 rounded-lg border border-green-800 text-sm focus:outline-none focus:ring-2 focus:ring-green-300">
+                    <option value="" {% if not selected_category %}selected{% endif %}>รวมทุกภาค</option>
+                    <option value="1" {% if selected_category == '1' %}selected{% endif %}>ภาคทฤษฎี</option>
+                    <option value="2" {% if selected_category == '2' %}selected{% endif %}>ภาคปฏิบัติ</option>
+                    </select>
+                </form>
+
+                <form method="get" class="text-center">
+                    <input type="hidden" name="academic_year" value="{{ selected_academic_year }}">
+                    <input type="hidden" name="category" value="{{ selected_category }}">
+                    <button name="download_pdf" class="bg-green-800 w-full text-white py-2 rounded-lg text-sm mt-1">
+                    ดาวน์โหลด PDF
+                    </button>
+                </form>
             </div>
 
              <!-- Table Section -->

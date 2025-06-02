@@ -24,13 +24,23 @@ from axes.handlers.proxy import AxesProxyHandler
 from axes.models import AccessAttempt
 from django.conf import settings
 from datetime import timedelta
-from django.template import loader
 import os
-
+from reportlab.graphics.shapes import Drawing, String
+from reportlab.lib.colors import black
+import openpyxl
+from openpyxl.styles import Alignment, Font, Border, Side
+from openpyxl.utils import get_column_letter  # เพิ่มตรงนี้
+from openpyxl.drawing.image import Image as XLImage
+from urllib.parse import quote
 
 pdfmetrics.registerFont(TTFont('THSarabunNew', 'static/fonts/THSarabunNew.ttf'))
 
 
+def rotated_paragraph(text, width=40, height=100):
+    """สร้างข้อความแนวตั้งด้วย Drawing"""
+    d = Drawing(width, height)
+    d.add(String(0, 0, text, fontName='THSarabunNew', fontSize=12, fillColor=black, textAnchor='start', angle=90))
+    return d
 
 def convert_to_thai_year(academic_year):
     try:
@@ -282,11 +292,16 @@ def Input_Profile(request, student_id=None):
         mother = Mother.objects.filter(student=student).first()
         guardian = Guardian.objects.filter(student=student).first()
         current_study = CurrentStudy.objects.filter(student=student).first()
+        
 
     if request.method == 'POST':
+        
         def parse_date(date_str):
             try:
-                return datetime.strptime(date_str, "%d/%m/%Y").date()
+                day, month, year = map(int, date_str.split('/'))
+                if year > 2500:
+                    year -= 543  # แปลง พ.ศ. → ค.ศ.
+                return datetime(year, month, day).date()
             except (ValueError, TypeError):
                 return None
 
@@ -626,11 +641,20 @@ def student_marks_view(request):
     user_type = request.session.get('user_type')
     current_semester = CurrentSemester.objects.first()
 
-    thai_years = StudentHistory.objects.values_list('academic_year', flat=True).distinct().order_by('-academic_year')
-    years = [convert_to_thai_year(str(y)) for y in thai_years if str(y).isdigit()]
+    current_thai_year = datetime.now().year + 543
+    thai_years_from_db = StudentHistory.objects.values_list('academic_year', flat=True).distinct()
+    clean_years = {str(int(y)) for y in thai_years_from_db if str(y).isdigit()}
+    extra_years = {str(current_thai_year + offset) for offset in range(-3, 1)}
+    years = sorted(clean_years.union(extra_years), reverse=True)
 
-    academic_year = request.GET.get('academic_year') or (current_semester.year if current_semester else str(datetime.now().year + 543))
-    category_selected = request.GET.get('category') or '1'  # 1 = ทฤษฎี
+    academic_year = request.GET.get('academic_year')
+    if not academic_year:
+        academic_year = str(current_semester.year + 543) if current_semester else str(current_thai_year)
+
+    try:
+        academic_year_int = int(academic_year) - 543
+    except:
+        academic_year_int = datetime.now().year
 
     if not user_type:
         return redirect('login_view')
@@ -655,10 +679,8 @@ def student_marks_view(request):
 
         students = list(students_query)
 
-        # ✅ แก้ตรงนี้ให้ filter ด้วย subject__category
         subjects = SubjectToStudy.objects.filter(
-            level__name__iexact=level_name,
-            subject__category=int(category_selected),
+            level__name__iexact=level_name
         ).select_related('subject')
 
         for student in students:
@@ -667,14 +689,17 @@ def student_marks_view(request):
                 mark_obj = StudentMarkForSubject.objects.filter(
                     student=student.student,
                     subject_to_study=subject,
-                    category=int(category_selected)
+                    academic_year=academic_year_int
                 ).first()
                 marks_row[subject.subject.id] = mark_obj.marks_obtained if mark_obj else ''
             student_marks_data.append(marks_row)
 
     if request.method == 'POST':
         academic_year = request.POST.get('academic_year') or academic_year
-        category_selected = request.POST.get('category') or category_selected
+        try:
+            academic_year_int = int(academic_year) - 543
+        except:
+            academic_year_int = datetime.now().year
 
         students_query = CurrentStudy.objects.filter(
             current_semester=current_semester,
@@ -684,8 +709,7 @@ def student_marks_view(request):
         ).select_related('student', 'level', 'school')
 
         subjects = SubjectToStudy.objects.filter(
-            level__name__iexact=level_name,
-            subject__category=int(category_selected),  # ✅ ใช้ subject__category เช่นกัน
+            level__name__iexact=level_name
         ).select_related('subject')
 
         for student in students_query:
@@ -707,7 +731,8 @@ def student_marks_view(request):
                         StudentMarkForSubject.objects.update_or_create(
                             student=student.student,
                             subject_to_study=subject,
-                            category=int(category_selected),
+                            category=subject.subject.category,
+                            academic_year=academic_year_int,
                             defaults={'marks_obtained': marks},
                         )
                     except ValueError:
@@ -719,18 +744,14 @@ def student_marks_view(request):
                             'subjects': subjects,
                         })
 
-            if total_marks > 0:
-                grade_percentage = (obtained_marks / total_marks) * 100
-            else:
-                grade_percentage = 0
+            grade_percentage = (obtained_marks / total_marks) * 100 if total_marks > 0 else 0
 
             StudentHistory.objects.update_or_create(
                 student_id=student.student.id,
                 student_name=f"{student.student.first_name} {student.student.last_name}",
                 school_name=student.school.name,
                 level_name=student.level.name,
-                academic_year=academic_year,
-                category=int(category_selected),
+                academic_year=academic_year_int,
                 defaults={
                     'total_marks': total_marks,
                     'obtained_marks': obtained_marks,
@@ -743,7 +764,6 @@ def student_marks_view(request):
         query_params = {
             'school': school_name,
             'level': level_name,
-            'category': category_selected,
             'academic_year': academic_year,
         }
         query_params = {k: v for k, v in query_params.items() if v}
@@ -760,11 +780,9 @@ def student_marks_view(request):
         'student_marks_data': student_marks_data,
         'academic_year': academic_year,
         'years': years,
-        'category_selected': category_selected,
     }
 
     return render(request, 'inputdata/ingr_student.html', context)
-
 
 #grade output
 def GR_Student(request):
@@ -784,7 +802,6 @@ def GR_Student(request):
     school_name = request.GET.get('school')
     level_name = request.GET.get('level')
     academic_year = request.GET.get('academic_year') or str(current_year)
-    category_selected = request.GET.get('category')
 
     histories = StudentHistory.objects.all()
     if school_name:
@@ -793,25 +810,18 @@ def GR_Student(request):
         histories = histories.filter(level_name=level_name)
     if academic_year:
         histories = histories.filter(academic_year=academic_year)
-    if category_selected and category_selected != 'all':
-        histories = histories.filter(category=int(category_selected))
 
-    subjects = set()
+    # เก็บชื่อวิชาที่นักเรียนมีใน subject_marks
+    used_subject_names = set()
     for history in histories:
         if history.subject_marks:
-            subjects.update(history.subject_marks.keys())
-    subjects = sorted(subjects)
+            used_subject_names.update(history.subject_marks.keys())
 
-    subject_totals = {}
-    if level_name and category_selected and category_selected != 'all':
-        subject_to_studies = SubjectToStudy.objects.filter(
-            level__name__iexact=level_name,
-            subject__category=int(category_selected)
-        ).select_related('subject')
-
-        subject_totals = {
-            item.subject.name: item.subject.total_marks for item in subject_to_studies
-        }
+    # ดึงวิชา และแยกตามประเภท (category)
+    subject_study_qs = SubjectToStudy.objects.filter(level__name=level_name)
+    practical_subjects = [s.subject.name for s in subject_study_qs if s.subject.category == 2]
+    theory_subjects = [s.subject.name for s in subject_study_qs if s.subject.category == 1]
+    subject_totals = {s.subject.name: s.subject.total_marks for s in subject_study_qs}
 
     context = {
         'user_type': user_type,
@@ -819,21 +829,19 @@ def GR_Student(request):
         'levels': levels,
         'academic_years': academic_years,
         'students': histories,
-        'subjects': subjects,
-        'subject_totals': subject_totals,
         'academic_year': academic_year,
-        'category_selected': category_selected,
         'school_name': school_name,
         'level_name': level_name,
+        'practical_subjects': practical_subjects,
+        'theory_subjects': theory_subjects,
+        'subject_totals': subject_totals,
     }
     return render(request, 'student/gr_student.html', context)
 
-
-def download_student_results_pdf(request):
+def download_student_results_excel(request):
     school_name = request.GET.get('school')
     level_name = request.GET.get('level')
     academic_year = request.GET.get('academic_year')
-    category = request.GET.get('category')
 
     histories = StudentHistory.objects.all()
     if school_name:
@@ -843,91 +851,136 @@ def download_student_results_pdf(request):
     if academic_year:
         histories = histories.filter(academic_year=academic_year)
 
-    if category and category != 'all':
-        try:
-            category_int = int(category)
-            histories = histories.filter(category=category_int)
-        except ValueError:
-            category_int = None
-    else:
-        category_int = None
+    theory_subjects = list(Subject.objects.filter(category=1).values_list('name', flat=True))
+    practical_subjects = list(Subject.objects.filter(category=2).values_list('name', flat=True))
 
-    subjects = set()
-    for history in histories:
-        if history.subject_marks:
-            subjects.update(history.subject_marks.keys())
-    subjects = sorted(subjects)
+    wb = openpyxl.Workbook()
+    ws = wb.active
+    ws.title = "ผลการเรียน"
 
-    header = ['ลำดับ', 'รหัสนักเรียน', 'ชื่อ-สกุล'] + subjects + ['รวม', 'เปอร์เซ็นต์', 'ผล']
-    student_data = [header]
-    for i, student in enumerate(histories, start=1):
-        row = [i, student.student_id, student.student_name]
-        for subject in subjects:
-            row.append(student.subject_marks.get(subject, '-'))
-        row.append(student.obtained_marks)
-        row.append(f"{student.grade_percentage:.2f}")
-        row.append(student.pass_or_fail)
-        student_data.append(row)
+    # --- โลโก้ตรงกลาง (แถว 1–2) ---
+    logo_path = 'static/images/logo.png'
+    if os.path.exists(logo_path):
+        logo = XLImage(logo_path)
+        logo.width = 80
+        logo.height = 80
+        ws.add_image(logo, 'F1')  # ประมาณกลางหน้า
 
-    if not histories.exists():
-        student_data = [['ไม่มีข้อมูล']]
+    academic_year_thai = str(int(academic_year) + 543) if academic_year and academic_year.isdigit() else "ทุกปี"
+    level_display = level_name or "ทุกระดับชั้น"
+    school_display = school_name or "ทุกโรงเรียน"
+    province = "จังหวัดกระบี่"
 
-    academic_year_thai = str(int(academic_year) + 543) if academic_year and academic_year.isdigit() else ''
-    category_display = {1: "ทฤษฎี", 2: "ปฏิบัติ"}.get(category_int, "ทั้งหมด")
-    filename = f"results_{academic_year_thai or 'all'}_{category_display}.pdf"
+    # --- คำนวณจำนวนคอลัมน์ทั้งหมด ---
+    last_col = 2 + len(theory_subjects) + len(practical_subjects) + 3
+    last_col_letter = get_column_letter(last_col)
 
-    response = HttpResponse(content_type='application/pdf')
-    response['Content-Disposition'] = f'attachment; filename="{filename}"'
+    # --- แถว 5: ชื่อสมาคมฯ ---
+    ws.merge_cells(f'A5:{last_col_letter}5')
+    ws['A5'] = f'สมาคมวิชาการศาสนาอิสลามภาคฟัรฎูกิฟายะห์ ปีการศึกษา {academic_year_thai} ระดับชั้นปี {level_display}'
+    ws['A5'].font = Font(size=14, bold=True)
+    ws['A5'].alignment = Alignment(horizontal='center', vertical='center')
 
-    doc = SimpleDocTemplate(response, pagesize=landscape(A4),
-                            leftMargin=0.5 * inch, rightMargin=0.5 * inch,
-                            topMargin=0.5 * inch, bottomMargin=0.5 * inch)
+    # --- แถว 6: โรงเรียน จังหวัด ---
+    ws.merge_cells(f'A6:{last_col_letter}6')
+    ws['A6'] = f'{school_display} {province}'
+    ws['A6'].font = Font(size=12)
+    ws['A6'].alignment = Alignment(horizontal='center', vertical='center')
 
-    styles = getSampleStyleSheet()
-    styles['Normal'].fontName = 'THSarabunNew'
-    styles['Normal'].fontSize = 18
-    styles['Normal'].leading = 22
+    start_row = 8
 
-    school_style = ParagraphStyle(name='SchoolStyle', fontName='THSarabunNew', fontSize=20, alignment=1, leading=22)
-    filter_style = ParagraphStyle(name='FilterStyle', fontName='THSarabunNew', fontSize=18, alignment=1, leading=20)
+    # --- หัวตารางหลัก ---
+    ws.merge_cells(start_row=start_row, start_column=1, end_row=start_row+1, end_column=1)
+    ws.cell(row=start_row, column=1).value = 'ลำดับ'
+    ws.merge_cells(start_row=start_row, start_column=2, end_row=start_row+1, end_column=2)
+    ws.cell(row=start_row, column=2).value = 'ชื่อ-สกุล'
 
-    school_paragraph = Paragraph(f"<b>{school_name or 'ทุกโรงเรียน'}</b>", school_style)
-    info_text = f"{level_name or 'ทั้งหมด'} | ปีการศึกษา: {academic_year_thai or 'ทุกปี'} | ภาค: {category_display}"
-    filter_paragraph = Paragraph(info_text, filter_style)
+    col_index = 3
+    if theory_subjects:
+        end_col = col_index + len(theory_subjects) - 1
+        ws.merge_cells(start_row=start_row, start_column=col_index, end_row=start_row, end_column=end_col)
+        ws.cell(row=start_row, column=col_index).value = 'ภาคทฤษฎี'
+        col_index = end_col + 1
 
-    logo_path = os.path.join('static', 'images', 'logo.ico')
-    logo = Image(logo_path, width=1 * inch, height=1 * inch)
+    if practical_subjects:
+        end_col = col_index + len(practical_subjects) - 1
+        ws.merge_cells(start_row=start_row, start_column=col_index, end_row=start_row, end_column=end_col)
+        ws.cell(row=start_row, column=col_index).value = 'ภาคปฏิบัติ'
+        col_index = end_col + 1
 
-    header_table_data = [[logo, school_paragraph, filter_paragraph]]
-    header_table = Table(header_table_data, colWidths=[1.2 * inch, 5.6 * inch, 2.5 * inch])
-    header_table.setStyle(TableStyle([
-        ('ALIGN', (0, 0), (-1, -1), 'CENTER'),
-        ('VALIGN', (0, 0), (-1, -1), 'MIDDLE'),
-        ('BOTTOMPADDING', (0, 0), (-1, -1), 12),
-        ('BOX', (0, 0), (-1, -1), 0.8, colors.grey),
-        ('GRID', (0, 0), (-1, -1), 0.5, colors.grey),
-    ]))
+    ws.merge_cells(start_row=start_row, start_column=col_index, end_row=start_row, end_column=col_index + 2)
+    ws.cell(row=start_row, column=col_index).value = 'สรุปผล'
 
-    table = Table(student_data, repeatRows=1)
-    table.setStyle(TableStyle([
-        ('FONTNAME', (0, 0), (-1, -1), 'THSarabunNew'),
-        ('FONTSIZE', (0, 0), (-1, 0), 16),
-        ('FONTSIZE', (0, 1), (-1, -1), 14),
-        ('BACKGROUND', (0, 0), (-1, 0), colors.lightgrey),
-        ('GRID', (0, 0), (-1, -1), 0.5, colors.grey),
-        ('ALIGN', (0, 0), (-1, -1), 'CENTER'),
-        ('VALIGN', (0, 0), (-1, -1), 'MIDDLE'),
-        ('TOPPADDING', (0, 0), (-1, -1), 4),
-        ('BOTTOMPADDING', (0, 0), (-1, -1), 6),
-    ]))
+    # --- Subheader: วิชา + สรุป ---
+    col = 3
+    for subject in theory_subjects:
+        ws.cell(row=start_row+1, column=col).value = subject
+        ws.cell(row=start_row+1, column=col).alignment = Alignment(horizontal='center', vertical='center', textRotation=90)
+        col += 1
+    for subject in practical_subjects:
+        ws.cell(row=start_row+1, column=col).value = subject
+        ws.cell(row=start_row+1, column=col).alignment = Alignment(horizontal='center', vertical='center', textRotation=90)
+        col += 1
+    for i, title in enumerate(['คะแนนรวม', 'คิดเป็นร้อยละ', 'ผลตัดสิน']):
+        ws.cell(row=start_row+1, column=col+i).value = title
+        ws.cell(row=start_row+1, column=col+i).alignment = Alignment(horizontal='center', vertical='center')
 
-    doc.build([header_table, Spacer(1, 0.3 * inch), table])
+    # --- หัวตาราง font + alignment ---
+    for cell in ws[start_row]:
+        cell.font = Font(bold=True)
+        cell.alignment = Alignment(horizontal='center', vertical='center')
+    for cell in ws[start_row+1]:
+        cell.font = Font(bold=True)
+
+    # --- ข้อมูลนักเรียน ---
+    for idx, student in enumerate(histories, start=1):
+        row = start_row + 1 + idx
+        ws.cell(row=row, column=1).value = idx
+        ws.cell(row=row, column=2).value = student.student_name
+        col = 3
+        for subject in theory_subjects:
+            ws.cell(row=row, column=col).value = student.subject_marks.get(subject, '-') if student.subject_marks else '-'
+            col += 1
+        for subject in practical_subjects:
+            ws.cell(row=row, column=col).value = student.subject_marks.get(subject, '-') if student.subject_marks else '-'
+            col += 1
+        ws.cell(row=row, column=col).value = student.obtained_marks or 0
+        ws.cell(row=row, column=col+1).value = round(student.grade_percentage, 1) if student.grade_percentage is not None else '-'
+        ws.cell(row=row, column=col+2).value = student.pass_or_fail or '-'
+
+        for c in range(1, col + 3):
+            ws.cell(row=row, column=c).alignment = Alignment(horizontal='center', vertical='center')
+
+    # --- ใส่ border ให้ทุก cell ที่ใช้ ---
+    thin = Side(border_style="thin", color="000000")
+    border = Border(top=thin, left=thin, right=thin, bottom=thin)
+
+    for row in ws.iter_rows(min_row=start_row, max_row=ws.max_row, min_col=1, max_col=last_col):
+        for cell in row:
+            cell.border = border
+
+
+    for idx in range(1, last_col + 1):
+        col_letter = get_column_letter(idx)
+        if idx == 1:
+            ws.column_dimensions[col_letter].width = 7   # ลำดับ
+        elif idx == 2:
+            ws.column_dimensions[col_letter].width = 22  # ชื่อ
+        elif 3 <= idx < 3 + len(theory_subjects) + len(practical_subjects):
+            ws.column_dimensions[col_letter].width = 5   # วิชา
+        else:
+            ws.column_dimensions[col_letter].width = 13  # คะแนนรวม ฯลฯ
+
+
+    # --- ชื่อไฟล์ ---
+    filename = f"ผลการเรียน_{school_display}_{academic_year_thai}.xlsx"
+    response = HttpResponse(content_type='application/vnd.openxmlformats-officedocument.spreadsheetml.sheet')
+    encoded_filename = quote(filename)
+    response['Content-Disposition'] = f"attachment; filename*=UTF-8''{encoded_filename}"    
+    wb.save(response)
     return response
 
-
-
 #grade output
-
 def student_Results(request, student_id):
     user_type = request.session.get('user_type')
     if not user_type:

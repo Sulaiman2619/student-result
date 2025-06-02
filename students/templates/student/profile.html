@@ -16,6 +16,8 @@
 
 {% block content %}
 <body class="font-prompt">
+    {% load thai_date %}
+
     <div class="bg-green-800">
         <h1 class="text-4xl md:text-6xl text-white d py-4 md:py-8 text-center shadow-md shadow-green-900">
             ประวัตินักเรียน
@@ -65,7 +67,7 @@
                 <div class="md:col-span-2 py-4">
                     <h3 class="flex text-black p-2"><span class="block md:hidden"><img class="w-6 mx-[4px]" src="{% static 'images/name.png' %}"></span>{{ student.english_first_name }} {{ student.english_last_name }}</h3>
                     <h3 class=" text-black p-2 ml-8 md:ml-0">{{ student.arabic_first_name }} {{ student.arabic_last_name }}</h3>
-                    <h3 class="flex text-black p-2"><span class="block md:hidden"><img class="w-6 mx-[4px]" src="{% static 'images/birthday.png' %}" alt=""></span>{{ student.date_of_birth|date:"d/m/Y" }}</h3>
+                    <h3 class="flex text-black p-2"><span class="block md:hidden"><img class="w-6 mx-[4px]" src="{% static 'images/birthday.png' %}" alt=""></span>{{ student.date_of_birth|buddhist_date }}</h3>
                     
                     <h3 class="flex text-black p-2"><span class="block md:hidden"><img class="w-7 mx-[3px] -mt-[2px]" src="{% static 'images/phone.png' %}" alt=""></span>{{ student.phone_number|default:"-" }}</h3>
                     <h3 class="flex text-black p-2"><span class="block md:hidden"><img class="w-7 mx-[3px] -mt-[5px]" src="{% static 'images/school.png' %}" alt=""></span>{{ current_study.school.name|default:"-" }}</h3>
@@ -105,7 +107,7 @@
                     <!-- วันเดือนปีเกิด -->
                     <h3 class="flex text-black p-2">
                         <span class="block md:hidden"><img class="w-6 mx-[4px]" src="{% static 'images/birthday.png' %}" alt=""></span>
-                        {{ father.date_of_birth|date:"d/m/Y"|default:"-" }}
+                        {{ father.date_of_birth|buddhist_date|default:"-" }}
                     </h3>
             
                     <!-- ที่อยู่ปัจจุบัน -->
@@ -187,7 +189,7 @@
                     <!-- วันเดือนปีเกิด -->
                     <h3 class="flex text-black p-2">
                         <span class="block md:hidden"><img class="w-6 mx-[4px]" src="{% static 'images/birthday.png' %}" alt=""></span>
-                        {{ mother.date_of_birth|date:"d/m/Y"|default:"-" }}
+                        {{ mother.date_of_birth|buddhist_date|default:"-" }}
                     </h3>
             
                     <!-- ที่อยู่ปัจจุบัน -->
@@ -268,7 +270,7 @@
                     <!-- วันเดือนปีเกิด -->
                     <h3 class="flex text-black p-2">
                         <span class="block md:hidden"><img class="w-6 mx-[4px]" src="{% static 'images/birthday.png' %}" alt=""></span>
-                        {{ guardian.date_of_birth|date:"d/m/Y"|default:"-" }}
+                        {{ guardian.date_of_birth|buddhist_date|default:"-" }}
                     </h3>
             
                     <!-- ที่อยู่ปัจจุบัน -->

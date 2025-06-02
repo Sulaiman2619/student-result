@@ -16,3 +16,4 @@ psycopg2-binary
 gunicorn
 django-axes
 django-import-export
+openpyxl

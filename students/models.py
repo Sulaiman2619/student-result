@@ -390,11 +390,6 @@ class Subject(models.Model):
 class SubjectToStudy(models.Model):
     subject = models.ForeignKey(Subject, on_delete=models.CASCADE, verbose_name=_("วิชา"))
     level = models.ForeignKey('Level', on_delete=models.CASCADE, verbose_name=_("ระดับชั้น"))
-    category = models.IntegerField(
-        choices=[(1, 'ภาคทฤษฎี'), (2, 'ภาคปฏิบัติ')],
-        default=1,
-        verbose_name=_("ประเภทวิชา")
-    )
 
     class Meta:
         verbose_name = _("วิชาที่เรียน")
@@ -410,6 +405,7 @@ class StudentMarkForSubject(models.Model):
         default=1,
         verbose_name=_("ประเภทวิชา")
     )
+    academic_year = models.IntegerField()  # ✅ เพิ่มบรรทัดนี้
     class Meta:
         verbose_name = _("คะแนนนักเรียนสำหรับวิชา")
         verbose_name_plural = _("คะแนนนักเรียนสำหรับวิชา")

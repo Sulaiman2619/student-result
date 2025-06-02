@@ -199,8 +199,8 @@ class SubjectAdmin(admin.ModelAdmin):
 
 @admin.register(SubjectToStudy)
 class SubjectToStudyAdmin(admin.ModelAdmin):
-    list_display = ('subject', 'level', 'category')
-    list_filter = ('category', 'level')
+    list_display = ('subject', 'level')
+    list_filter = ('subject', 'level')
 
 @admin.register(StudentHistory)
 class StudentHistoryAdmin(admin.ModelAdmin):
